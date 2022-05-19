@@ -84,7 +84,10 @@ public class JagActivity {
         this.children = children;
     }
 
-    @OneToOne
+    @OneToOne(mappedBy = "jagActivity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    //@JoinColumn(name = "connector_id", referencedColumnName = "id")
     public Connector getConnector() {
         return connector;
     }

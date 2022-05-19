@@ -9,6 +9,7 @@ public class Connector {
     private String execution;
     private String operator;
     private Long id;
+    private JagActivity jagActivity;
 
     public Connector(String execution, String operator) {
         this.execution = execution;
@@ -40,9 +41,17 @@ public class Connector {
     public String getOperator() {
         return operator;
     }
-
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    //@OneToOne(mappedBy = "connector")
+    @OneToOne(fetch = FetchType.LAZY)
+    public JagActivity getJagActivity() {
+        return jagActivity;
+    }
+    public void setJagActivity(JagActivity jagActivity) {
+        this.jagActivity = jagActivity;
     }
 
     @Override

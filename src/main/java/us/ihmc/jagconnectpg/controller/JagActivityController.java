@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8888")
 @RestController
 @RequestMapping("/api/v1")
 public class JagActivityController {
@@ -30,12 +30,12 @@ public class JagActivityController {
                 .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
         return ResponseEntity.ok().body(jagActivity);
     }
-
+    @CrossOrigin(origins = "http://localhost:8888")
     @PostMapping("/jagActivities")
     public JagActivity createJagActivity(@Valid @RequestBody JagActivity jagActivity) {
         return jagActivityRepository.save(jagActivity);
     }
-
+    @CrossOrigin(origins = "http://localhost:8888")
     @PutMapping("/jagActivities/{id}")
     public ResponseEntity<JagActivity> updateJagActivity(@PathVariable(value = "id") String jagActivityId,
                                                    @Valid @RequestBody JagActivity jagActivityDetails) throws ResourceNotFoundException {
