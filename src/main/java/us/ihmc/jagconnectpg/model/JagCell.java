@@ -3,19 +3,34 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "Nodes")
-@Table(name = "nodes")
+@Table(name = "NODE")
 public class JagCell {
-
+    @Id
+    @Column(name = "node_id", nullable = false)
     private String id;
+    @Column(name = "node_jag", nullable = false)
     private String jagUrn;
+    @Column(name = "node_link_status", nullable = false)
     private String linkStatus;
+    @Column(name = "node_color", nullable = false)
     private String color;
+    @Column(name = "node_collapsed", nullable = false)
     private Boolean collapsed;
+    @Column(name = "node_length", nullable = false)
     private Integer length;
+    @Column(name = "node_children", nullable = false)
+    @OneToMany(
+        //    mappedBy = "jagCell",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<JagCell> children = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
     private JagCell jagCell;
 
     public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {
@@ -32,7 +47,7 @@ public class JagCell {
     public JagCell() {
     }
 
-    @Id
+
     public String getId() {
         return id;
     }
@@ -40,7 +55,7 @@ public class JagCell {
         this.id = id;
     }
 
-    @Column(name = "jag", nullable = false)
+
     public String getJagUrn() {
         return jagUrn;
     }
@@ -48,7 +63,7 @@ public class JagCell {
         this.jagUrn = jagUrn;
     }
 
-    @Column(name = "link_status", nullable = false)
+
     public String getLinkStatus() {
         return linkStatus;
     }
@@ -56,7 +71,7 @@ public class JagCell {
         this.linkStatus = linkStatus;
     }
 
-    @Column(name = "color", nullable = false)
+
     public String getColor() {
         return color;
     }
@@ -64,7 +79,7 @@ public class JagCell {
         this.color = color;
     }
 
-    @Column(name = "collapsed", nullable = false)
+
     public Boolean getCollapsed() {
         return collapsed;
     }
@@ -72,7 +87,7 @@ public class JagCell {
         this.collapsed = collapsed;
     }
 
-    @Column(name = "length", nullable = false)
+
     public Integer getLength() {
         return length;
     }
@@ -80,12 +95,7 @@ public class JagCell {
         this.length = length;
     }
 
-    @Column(name = "children", nullable = false)
-    @OneToMany(
-            mappedBy = "jagCell",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+
     public List<JagCell> getChildren() {
         return children;
     }
@@ -93,7 +103,7 @@ public class JagCell {
         this.children = children;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
     public JagCell getJagCell() {
         return jagCell;
     }

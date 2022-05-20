@@ -2,14 +2,13 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 
-@Entity(name = "Connector")
-@Table(name = "connector")
+@Embeddable
+@Table(name = "CONNECTOR")
 public class Connector {
-
+    @Column(name = "connector_exec", nullable = false)
     private String execution;
+    @Column(name = "connector_oper", nullable = false)
     private String operator;
-    private Long id;
-    private JagActivity jagActivity;
 
     public Connector(String execution, String operator) {
         this.execution = execution;
@@ -19,39 +18,18 @@ public class Connector {
     public Connector() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "execution", nullable = false)
     public String getExecution() {
         return execution;
     }
-
     public void setExecution(String execution) {
         this.execution = execution;
     }
 
-    @Column(name = "operator", nullable = false)
     public String getOperator() {
         return operator;
     }
     public void setOperator(String operator) {
         this.operator = operator;
-    }
-
-    //@OneToOne(mappedBy = "connector")
-    @OneToOne(fetch = FetchType.LAZY)
-    public JagActivity getJagActivity() {
-        return jagActivity;
-    }
-    public void setJagActivity(JagActivity jagActivity) {
-        this.jagActivity = jagActivity;
     }
 
     @Override
@@ -61,5 +39,4 @@ public class Connector {
                 ", operator='" + operator + '\'' +
                 '}';
     }
-
 }

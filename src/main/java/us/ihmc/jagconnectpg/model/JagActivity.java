@@ -2,21 +2,47 @@ package us.ihmc.jagconnectpg.model;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity(name = "JagActivity")
-@Table(name = "joint_activity_graph")
+@Table(name = "ACTIVITY")
 public class JagActivity {
-
+    @Id
+    @Column(name = "activity_urn")
     private String urn;
+    @Column(name = "activity_description", nullable = true)
     private String description;
+    @Column(name = "activity_name", nullable = false)
     private String name;
+    @Column(name = "activity_type", nullable = true)
     private String type;
+    @OneToMany(
+            mappedBy = "jagActivity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<JagActivityChild> children = new ArrayList<>();
-    private Connector connector;
+
+    @Embedded
+    private Connector connector = new Connector();
+    @OneToMany(
+            mappedBy = "jagActivity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Input> inputs = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "jagActivity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Output> outputs = new ArrayList<>();
+    //@Column(name = "bindings", nullable = true)
+    @OneToMany(
+            mappedBy = "jagActivity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Binding> bindings = new ArrayList<>();
 
 
@@ -36,10 +62,6 @@ public class JagActivity {
 
     public JagActivity() { }
 
-
-
-    @Id
-    @Column(name = "activity_urn")
     public String getUrn() {
         return urn;
     }
@@ -47,7 +69,7 @@ public class JagActivity {
         this.urn = urn;
     }
 
-    @Column(name = "activity_description", nullable = true)
+
     public String getDescription() {
         return description;
     }
@@ -55,7 +77,7 @@ public class JagActivity {
         this.description = description;
     }
 
-    @Column(name = "activity_name", nullable = false)
+
     public String getName() {
         return name;
     }
@@ -63,7 +85,7 @@ public class JagActivity {
         this.name = name;
     }
 
-    @Column(name = "activity_type", nullable = true)
+
     public String getType() {
         return type;
     }
@@ -71,67 +93,52 @@ public class JagActivity {
         this.type = type;
     }
 
-    @Column(name = "activity_children", nullable = true)
-    @OneToMany(
-            mappedBy = "jagActivity",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+//    @Column(name = "activity_children", nullable = true)
+
     public List<JagActivityChild> getChildren() {
         return children;
     }
     public void setChildren(List<JagActivityChild> children) {
-        this.children = children;
+        this.children.clear();
+        this.children.addAll(children);
     }
 
-    @OneToOne(mappedBy = "jagActivity",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    //@JoinColumn(name = "connector_id", referencedColumnName = "id")
+
     public Connector getConnector() {
         return connector;
     }
     public void setConnector(Connector connector) {
-        this.connector = connector;
+        this.connector.setExecution(connector.getExecution());
+        this.connector.setOperator(connector.getOperator());
     }
 
-    @Column(name = "activity_inputs", nullable = true)
-    @OneToMany(
-            mappedBy = "jagActivity",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    //@Column(name = "activity_inputs", nullable = true)
+
     public List<Input> getInputs() {
         return inputs;
     }
     public void setInputs(List<Input> inputs) {
-        this.inputs = inputs;
+        this.inputs.clear();
+        this.inputs.addAll(inputs);
     }
 
-    @Column(name = "activity_outputs", nullable = true)
-    @OneToMany(
-            mappedBy = "jagActivity",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    //@Column(name = "activity_outputs", nullable = true)
+
     public List<Output> getOutputs() {
         return outputs;
     }
     public void setOutputs(List<Output> outputs) {
-        this.outputs = outputs;
+        this.outputs.clear();
+        this.outputs.addAll(outputs);
     }
 
-    @Column(name = "bindings", nullable = true)
-    @OneToMany(
-            mappedBy = "jagActivity",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+
     public List<Binding> getBindings() {
         return bindings;
     }
     public void setBindings(List<Binding> bindings) {
-        this.bindings = bindings;
+        this.bindings.clear();
+        this.bindings.addAll(bindings);
     }
 
     @Override

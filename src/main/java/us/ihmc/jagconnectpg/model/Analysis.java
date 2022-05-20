@@ -4,14 +4,19 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Entity(name = "Analysis")
-@Table(name = "analysis")
+@Table(name = "ANALYSIS")
 public class Analysis {
-
+    @Id
     private String id;
+    @Column(name = "analysis_desc", nullable = true)
     private String description;
+    @Column(name = "analysis_name", nullable = false)
     private String name;
+    @Column(name = "analysis_root", nullable = false)
     private String rootJagNodeId;
+    @Column(name = "analysis_rootUrn", nullable = false)
     private String rootJagActivityUrn;
+    @Column(name = "analysis_team", nullable = false)
     private String teamId;
 
     public Analysis(String id, String description, String name, String rootJagNodeId, String rootJagActivityUrn, String teamId) {
@@ -25,7 +30,7 @@ public class Analysis {
 
     public Analysis() {    }
 
-    @Id
+
     public String getId() {
         return id;
     }
@@ -33,7 +38,7 @@ public class Analysis {
         this.id = id;
     }
 
-    @Column(name = "description", nullable = true)
+
     public String getDescription() {
         return description;
     }
@@ -41,7 +46,7 @@ public class Analysis {
         this.description = description;
     }
 
-    @Column(name = "name", nullable = false)
+
     public String getName() {
         return name;
     }
@@ -49,17 +54,17 @@ public class Analysis {
         this.name = name;
     }
 
-    @Column(name = "root", nullable = false)
+
     public String getRootJagNodeId() { return rootJagNodeId; }
     public void setRootJagNodeId(String rootJagNodeId) { this.rootJagNodeId = rootJagNodeId; }
 
-    @Column(name = "rootUrn", nullable = false)
+
     public String getRootJagActivityUrn() { return rootJagActivityUrn; }
     public void setRootJagActivityUrn(String rootJagActivityUrn) {
         this.rootJagActivityUrn = rootJagActivityUrn;
     }
 
-    @Column(name = "team", nullable = false)
+
     public String getTeamId() { return teamId; }
     public void setTeamId(String teamId) { this.teamId = teamId; }
 

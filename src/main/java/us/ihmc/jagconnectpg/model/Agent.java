@@ -1,16 +1,27 @@
 package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Entity(name = "Agent")
-@Table(name = "agent")
-public class Agent {
-
+@Table(name = "AGENT")
+public class Agent implements Serializable {
+    @Id
+    @Column(name = "agent_id")
     private String id;
+    @Column(name = "agent_name", nullable = false)
     private String name;
+    @Column(name = "assessment", nullable = true)
+    @OneToMany(
+     //       mappedBy = "agent",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true )
     private List<Assessment> assessments = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
     private Team team;
 
     public Agent(String id, String name, List<Assessment> assessments, Team team) {
@@ -23,8 +34,7 @@ public class Agent {
     public Agent() {
     }
 
-    @Id
-    @Column(name = "id")
+
     public String getId() {
         return id;
     }
@@ -32,7 +42,7 @@ public class Agent {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false)
+
     public String getName() {
         return name;
     }
@@ -40,12 +50,7 @@ public class Agent {
         this.name = name;
     }
 
-    @Column(name = "assessments", nullable = true)
-    @OneToMany(
-            mappedBy = "agent",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+
     public List<Assessment> getAssessments() {
         return assessments;
     }
@@ -53,7 +58,7 @@ public class Agent {
         this.assessments = assessments;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
     public Team getTeam() {
         return team;
     }

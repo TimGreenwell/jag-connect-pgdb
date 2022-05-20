@@ -1,20 +1,21 @@
 package us.ihmc.jagconnectpg.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 
 @Entity(name = "Assessment")
-@Table(name = "assessment")
+@Table(name = "ASSESSMENT")
 public class Assessment {
-
-    private String urn;
+    @Id
+    @Column(name = "assessment_id", nullable = false)
+    private String id;
+    @Column(name = "assessment_score", nullable = false)
     private Integer assessmentScore;
+    @ManyToOne(fetch = FetchType.LAZY)
     private Agent agent;
 
 
-    public Assessment(String urn, Integer assessmentScore, Agent agent) {
-        this.urn = urn;
+    public Assessment(String id, Integer assessmentScore, Agent agent) {
+        this.id = id;
         this.assessmentScore = assessmentScore;
         this.agent = agent;
     }
@@ -22,18 +23,14 @@ public class Assessment {
     public Assessment() {
     }
 
-    @Id
+
     public String getUrn() {
-        return urn;
+        return id;
     }
-    public void setUrn(String urn) {
-        this.urn = urn;
+    public void setUrn(String id) {
+        this.id = id;
     }
 
-
-
-
-    @Column(name = "score", nullable = false)
     public Integer getAssessmentScore() {
         return assessmentScore;
     }
@@ -41,7 +38,7 @@ public class Assessment {
         this.assessmentScore = assessmentScore;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
     public Agent getAgent() {
         return agent;
     }
@@ -53,7 +50,7 @@ public class Assessment {
     @Override
     public String toString() {
         return "Assessment{" +
-                "urn='" + urn + '\'' +
+                "id='" + id + '\'' +
                 ", assessmentScore=" + assessmentScore +
                 '}';
     }

@@ -3,34 +3,38 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Entity(name = "Binding")
-@Table(name = "binding")
+@Table(name = "BINDING")
 public class Binding {
+    @Id
+    @GeneratedValue
+    @Column(name = "binding_id")
+    private String id;
+    @Column(name = "binding_in", nullable = false)
     private String in;
+    @Column(name = "binding_out", nullable = false)
     private String out;
-    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    //    @JoinColumn(name = "activity_urn", nullable = false)
     private JagActivity jagActivity;
 
-    public Binding(String in, String out, Long id, JagActivity jagActivity) {
+
+    public Binding(String id, String in, String out) {
+        this.id = id;
         this.in = in;
         this.out = out;
-        this.id = id;
-        this.jagActivity = jagActivity;
     }
 
     public Binding() {
     }
 
-    @Id
-    @GeneratedValue
-    @Column(name = "binding_id")
-    public Long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    @Column(name = "binding_in", nullable = false)
     public String getIn() {
         return in;
     }
@@ -38,7 +42,6 @@ public class Binding {
         this.in = in;
     }
 
-    @Column(name = "binding_out", nullable = false)
     public String getOut() {
         return out;
     }
@@ -46,7 +49,6 @@ public class Binding {
         this.out = out;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
     public JagActivity getJagActivity() {
         return jagActivity;
     }
@@ -57,14 +59,12 @@ public class Binding {
     @Override
     public String toString() {
         return "Binding{" +
-                "in='" + in + '\'' +
+                "id='" + id + '\'' +
+                ", in='" + in + '\'' +
                 ", out='" + out + '\'' +
+                ", jagActivity=" + jagActivity +
                 '}';
     }
-
-
-
-
 }
 
 

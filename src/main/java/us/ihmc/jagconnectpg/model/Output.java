@@ -3,39 +3,46 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Entity(name = "Output")
-@Table(name = "output")
+@Table(name = "OUTPUT_DATA")
 public class Output {
-
+    @Id
+    @Column(name = "output_id", nullable = false)
     private String name;
+    @Column(name = "output_type", nullable = false)
     private String type;
+
+
+//    @JoinColumn(name = "activity_urn", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private JagActivity jagActivity;
 
-    public Output(String name, String type, JagActivity jagActivity) {
+
+    public Output(String name, String type) {
         this.name = name;
         this.type = type;
-        this.jagActivity = jagActivity;
     }
 
     public Output() {
     }
 
-    @Id
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    @Column(name = "type", nullable = false)
+
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
     public JagActivity getJagActivity() {
         return jagActivity;
     }
@@ -48,6 +55,7 @@ public class Output {
         return "Output{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", jagActivity=" + jagActivity +
                 '}';
     }
 }

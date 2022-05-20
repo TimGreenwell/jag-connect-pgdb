@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Performer")
-@Table(name = "performers")
+@Table(name = "PERFORMER")
 public class Performer {
-
+    @Id
+    @Column(name = "performer_id", nullable = false)
     private String id;
+    @Column(name = "performer_name", nullable = false)
     private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
     private Team team;
 
 
@@ -22,7 +25,7 @@ public class Performer {
     public Performer() {
     }
 
-    @Id
+
     public String getId() {
         return id;
     }
@@ -30,7 +33,7 @@ public class Performer {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false)
+
     public String getName() {
         return name;
     }
@@ -38,7 +41,7 @@ public class Performer {
         this.name = name;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
     public Team getTeam() {
         return team;
     }

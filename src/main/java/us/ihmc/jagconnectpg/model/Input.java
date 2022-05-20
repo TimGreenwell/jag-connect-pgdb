@@ -3,23 +3,27 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Entity(name = "Input")
-@Table(name = "input")
+@Table(name = "INPUT_DATA")
 public class Input {
-
+    @Id
+    @Column(name = "input_id", nullable = false)
     private String name;
+    @Column(name = "input_type", nullable = false)
     private String type;
+
+//    @JoinColumn(name = "activity_urn", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private JagActivity jagActivity;
 
-    public Input(String name, String type, JagActivity jagActivity) {
+
+    public Input(String name, String type) {
         this.name = name;
         this.type = type;
-        this.jagActivity = jagActivity;
     }
 
     public Input() {
     }
 
-    @Id
     public String getName() {
         return name;
     }
@@ -27,7 +31,7 @@ public class Input {
         this.name = name;
     }
 
-    @Column(name = "type", nullable = false)
+
     public String getType() {
         return type;
     }
@@ -35,7 +39,6 @@ public class Input {
         this.type = type;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
     public JagActivity getJagActivity() {
         return jagActivity;
     }
@@ -48,6 +51,7 @@ public class Input {
         return "Input{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", jagActivity=" + jagActivity +
                 '}';
     }
 }

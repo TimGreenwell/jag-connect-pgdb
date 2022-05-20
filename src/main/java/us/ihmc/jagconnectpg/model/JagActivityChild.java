@@ -1,43 +1,49 @@
 package us.ihmc.jagconnectpg.model;
+
 import javax.persistence.*;
 
 @Entity(name = "JagActivityChild")
-@Table(name = "jagActivityChild")
+@Table(name = "ACTIVITY_CHILD")
 public class JagActivityChild {
-
-    private String urn;
+    @Id
+    @Column(name = "activity_child_id", nullable = false)
     private String id;
+
+    @Column(name = "activity_child_urn", nullable = false)
+    private String urn;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="parent_fk", nullable=false)
     private JagActivity jagActivity;
 
-    public JagActivityChild(String urn, String id, JagActivity jagActivity) {
-        this.urn = urn;
+    public JagActivityChild(String id, String urn) {
         this.id = id;
-        this.jagActivity = jagActivity;
+        this.urn = urn;
     }
 
     public JagActivityChild() {
     }
 
-    @Id
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
 
-    @Column(name = "urn", nullable = false)
     public String getUrn() {
         return urn;
     }
+
     public void setUrn(String urn) {
         this.urn = urn;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
     public JagActivity getJagActivity() {
         return jagActivity;
     }
+
     public void setJagActivity(JagActivity jagActivity) {
         this.jagActivity = jagActivity;
     }
@@ -45,8 +51,9 @@ public class JagActivityChild {
     @Override
     public String toString() {
         return "JagActivityChild{" +
-                "urn='" + urn + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
+                ", urn='" + urn + '\'' +
+                ", jagActivity=" + jagActivity +
                 '}';
     }
 }

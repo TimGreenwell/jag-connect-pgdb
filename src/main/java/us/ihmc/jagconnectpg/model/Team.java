@@ -3,15 +3,31 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "Team")
-@Table(name = "team")
+@Table(name = "TEAM")
 public class Team {
-
+    @Id
+    @Column(name = "team_id", nullable = false)
     private String id;
+    @Column(name = "team_name", nullable = false)
     private String name;
+    @Column(name = "agent", nullable = false)
+    @OneToMany(
+      //      mappedBy = "team",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Agent> agents = new ArrayList<>();
+    @Column(name = "performer", nullable = true)
+    @OneToMany(
+      //      mappedBy = "team",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Performer> performers = new ArrayList<>();
 
     public Team(String name, List<Agent> agents, List<Performer> performers) {
@@ -24,7 +40,7 @@ public class Team {
     }
 
 
-    @Id
+
     public String getId() {
         return id;
     }
@@ -33,7 +49,7 @@ public class Team {
     }
 
 
-    @Column(name = "name", nullable = false)
+
     public String getName() {
         return name;
     }
@@ -41,12 +57,7 @@ public class Team {
         this.name = name;
     }
 
-    @Column(name = "agent", nullable = false)
-    @OneToMany(
-            mappedBy = "team",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+
     public List<Agent> getAgents() {
         return agents;
     }
@@ -55,12 +66,7 @@ public class Team {
         this.agents = agents;
     }
 
-    @Column(name = "performer", nullable = true)
-    @OneToMany(
-            mappedBy = "team",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+
     public List<Performer> getPerformers() {
         return performers;
     }
