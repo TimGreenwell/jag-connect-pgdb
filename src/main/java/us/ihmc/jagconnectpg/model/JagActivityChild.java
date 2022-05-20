@@ -2,24 +2,27 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 
-@Entity(name = "JagActivityChild")
-@Table(name = "ACTIVITY_CHILD")
+@Entity(name = "ActivityChild")
+@Table(name = "ActivityChild")
 public class JagActivityChild {
     @Id
-    @Column(name = "activity_child_id", nullable = false)
+    @Column(name = "activityChild_pk", nullable = false)
     private String id;
 
-    @Column(name = "activity_child_urn", nullable = false)
+    @Column(name = "activityChild_urn", nullable = false)
     private String urn;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="parent_fk", nullable=false)
+    @JoinColumn(name="activityChild_parent_fk", nullable=false)
     private JagActivity jagActivity;
 
-    public JagActivityChild(String id, String urn) {
+    public JagActivityChild(String id, String urn, JagActivity jagActivity) {
         this.id = id;
         this.urn = urn;
+        this.jagActivity = jagActivity;
     }
+
+
 
     public JagActivityChild() {
     }

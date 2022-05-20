@@ -32,45 +32,72 @@ public class JagActivityController {
     }
     @CrossOrigin(origins = "http://localhost:8888")
     @PostMapping("/jagActivities")
-    public JagActivity createJagActivity(@Valid @RequestBody JagActivity jagActivity) {
+    public JagActivity createJagActivity(@Valid @RequestBody JagActivity createdJagActivity) {
         System.out.println("---- CREATE ----------");
 
         JagActivity newJagActivity = new JagActivity();
-        newJagActivity.setUrn(jagActivity.getUrn());
-        newJagActivity.setDescription(jagActivity.getDescription());
-        newJagActivity.setName(jagActivity.getName());
-        newJagActivity.setType(jagActivity.getType());
+        newJagActivity.setUrn(createdJagActivity.getUrn());
+        newJagActivity.setDescription(createdJagActivity.getDescription());
+        newJagActivity.setName(createdJagActivity.getName());
+        newJagActivity.setType(createdJagActivity.getType());
 
         Connector newConnector = new Connector();
-        newConnector.setExecution(jagActivity.getConnector().getExecution());
-        newConnector.setOperator(jagActivity.getConnector().getOperator());
+        newConnector.setExecution(createdJagActivity.getConnector().getExecution());
+        newConnector.setOperator(createdJagActivity.getConnector().getOperator());
         newJagActivity.setConnector(newConnector);
 
-        List<Binding> newBindingList = jagActivity.getBindings();
-        for (Binding binding : newBindingList) {
-            binding.setJagActivity(newJagActivity);
+        List<Binding> newBindingList = new ArrayList<>();
+        for (Binding binding : createdJagActivity.getBindings()) {
+            Binding newBinding = new Binding();
+            newBinding.setJagActivity(newJagActivity);
+            newBinding.setId(binding.getId());
+            newBinding.setIn(binding.getIn());
+            newBinding.setOut(binding.getOut());
         }
 
-        List<Output> newOutputList = jagActivity.getOutputs();
-        for (Output output : newOutputList) {
-            output.setJagActivity(newJagActivity);
+        List<Output> newOutputList = new ArrayList<>();
+        for (Output output : createdJagActivity.getOutputs()) {
+            Output newOutput = new Output();
+            newOutput.setJagActivity(newJagActivity);
+            newOutput.setName(output.getName());
+            newOutput.setType(output.getType());
         }
 
-        List<Input> newInputList = jagActivity.getInputs();
-        for (Input input : newInputList) {
-            input.setJagActivity(newJagActivity);
+        List<Input> newInputList = new ArrayList<>();
+        for (Input input : createdJagActivity.getInputs()) {
+            Input newInput = new Input();
+            newInput.setJagActivity(newJagActivity);
+            newInput.setName(input.getName());
+            newInput.setType(input.getType());
         }
 
-        List<JagActivityChild> newJagActivityChildList = jagActivity.getChildren();
-        for (JagActivityChild jagActivityChild : newJagActivityChildList) {
-            jagActivityChild.setJagActivity(newJagActivity);
+
+        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
+        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
+            String id = jagActivityChild.getId();
+            String urn = jagActivityChild.getUrn();
+            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
+            newJagActivityChildList.add(newJagActivityChild);
         }
+
+
+//        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
+//        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
+//            JagActivityChild newJagActivityChild = new JagActivityChild();
+//            newJagActivityChild.setJagActivity(newJagActivity);
+//            newJagActivityChild.setId(jagActivityChild.getId());
+//            newJagActivityChild.setUrn(jagActivityChild.getUrn());
+        //            newJagActivityChild.setUrn(jagActivityChild.getUrn());
+//            newJagActivityChildList.add(newJagActivityChild);
+//        }
+
+
+
 
         newJagActivity.setBindings(newBindingList);
         newJagActivity.setOutputs(newOutputList);
         newJagActivity.setInputs(newInputList);
         newJagActivity.setChildren(newJagActivityChildList);
-
         return jagActivityRepository.save(newJagActivity);
     }
 
@@ -82,8 +109,8 @@ public class JagActivityController {
         System.out.println("----UPDATE----------" + jagActivityId);
         // Note: updatedJagActivity and the findById(jagActivityId) should be exactly the same...
 
-        JagActivity currentJagActivity = jagActivityRepository.findById(jagActivityId)
-                .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
+//        JagActivity currentJagActivity = jagActivityRepository.findById(jagActivityId)
+//                .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
 
 
         JagActivity newJagActivity = new JagActivity();
@@ -97,36 +124,52 @@ public class JagActivityController {
         newConnector.setOperator(updatedJagActivity.getConnector().getOperator());
         newJagActivity.setConnector(newConnector);
 
-        List<Binding> newBindingList = updatedJagActivity.getBindings();
-        for (Binding binding : newBindingList) {
-            binding.setJagActivity(newJagActivity);
+        List<Binding> newBindingList = new ArrayList<>();
+        for (Binding binding : updatedJagActivity.getBindings()) {
+            Binding newBinding = new Binding();
+            newBinding.setJagActivity(newJagActivity);
+            newBinding.setId(binding.getId());
+            newBinding.setIn(binding.getIn());
+            newBinding.setOut(binding.getOut());
+            newBindingList.add(newBinding);
         }
 
-        List<Output> newOutputList = updatedJagActivity.getOutputs();
-        for (Output output : newOutputList) {
-            output.setJagActivity(newJagActivity);
+        List<Output> newOutputList = new ArrayList<>();
+        for (Output output : updatedJagActivity.getOutputs()) {
+            Output newOutput = new Output();
+            newOutput.setJagActivity(newJagActivity);
+            newOutput.setName(output.getName());
+            newOutput.setType(output.getType());
+            newOutputList.add(newOutput);
         }
 
-        List<Input> newInputList = updatedJagActivity.getInputs();
-        for (Input input : newInputList) {
-            input.setJagActivity(newJagActivity);
+        List<Input> newInputList = new ArrayList<>();
+        for (Input input : updatedJagActivity.getInputs()) {
+            Input newInput = new Input();
+            newInput.setJagActivity(newJagActivity);
+            newInput.setName(input.getName());
+            newInput.setType(input.getType());
+            newInputList.add(newInput);
         }
 
-        List<JagActivityChild> newJagActivityChildList = updatedJagActivity.getChildren();
-        for (JagActivityChild jagActivityChild : newJagActivityChildList) {
-            jagActivityChild.setJagActivity(newJagActivity);
+        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
+        for (JagActivityChild jagActivityChild : updatedJagActivity.getChildren()) {
+            String id = jagActivityChild.getId();
+            String urn = jagActivityChild.getUrn();
+            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
+            newJagActivityChildList.add(newJagActivityChild);
         }
 
-//        Alternate: try this if existing fails.
-//        List<JagActivityChild> children = new ArrayList<>();
-//        for (JagActivityChild child : updatedJagActivity.getChildren()){
-//            JagActivityChild newChild = new JagActivityChild();
-//            newChild.setId(child.getId()) ;
-//            newChild.setUrn(child.getUrn()) ;
-//            children.add(newChild);
+
+
+//        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
+//        for (JagActivityChild jagActivityChild : updatedJagActivity.getChildren()) {
+//            JagActivityChild newJagActivityChild = new JagActivityChild();
+//            newJagActivityChild.setJagActivity(newJagActivity);
+//            newJagActivityChild.setId(jagActivityChild.getId());
+//            newJagActivityChild.setUrn(jagActivityChild.getUrn());
+//            newJagActivityChildList.add(newJagActivityChild);
 //        }
-//        currentJagActivity.setChildren(children);
-
 
         newJagActivity.setBindings(newBindingList);
         newJagActivity.setOutputs(newOutputList);

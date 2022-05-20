@@ -1,30 +1,27 @@
 package us.ihmc.jagconnectpg.model;
 
-
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "Team")
-@Table(name = "TEAM")
+@Table(name = "Team")
 public class Team {
     @Id
-    @Column(name = "team_id", nullable = false)
+    @Column(name = "team_pk", nullable = false)
     private String id;
     @Column(name = "team_name", nullable = false)
     private String name;
-    @Column(name = "agent", nullable = false)
+
     @OneToMany(
-      //      mappedBy = "team",
+            mappedBy = "team",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<Agent> agents = new ArrayList<>();
-    @Column(name = "performer", nullable = true)
+
     @OneToMany(
-      //      mappedBy = "team",
+            mappedBy = "team",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -39,16 +36,12 @@ public class Team {
     public Team() {
     }
 
-
-
     public String getId() {
         return id;
     }
     public void setId(String id) {
         this.id = id;
     }
-
-
 
     public String getName() {
         return name;

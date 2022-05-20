@@ -2,26 +2,25 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 
 @Entity(name = "Agent")
-@Table(name = "AGENT")
+@Table(name = "Agent")
 public class Agent implements Serializable {
     @Id
-    @Column(name = "agent_id")
+    @Column(name = "agent_pk")
     private String id;
     @Column(name = "agent_name", nullable = false)
     private String name;
-    @Column(name = "assessment", nullable = true)
+
     @OneToMany(
-     //       mappedBy = "agent",
+            mappedBy = "agent",
             cascade = CascadeType.ALL,
             orphanRemoval = true )
     private List<Assessment> assessments = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="agent_team_fk", nullable=false)
     private Team team;
 
     public Agent(String id, String name, List<Assessment> assessments, Team team) {
@@ -34,14 +33,12 @@ public class Agent implements Serializable {
     public Agent() {
     }
 
-
     public String getId() {
         return id;
     }
     public void setId(String id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;

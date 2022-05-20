@@ -3,7 +3,7 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Entity(name = "Binding")
-@Table(name = "BINDING")
+@Table(name = "Binding")
 public class Binding {
     @Id
     @GeneratedValue
@@ -15,7 +15,7 @@ public class Binding {
     private String out;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    //    @JoinColumn(name = "activity_urn", nullable = false)
+    @JoinColumn(name="binding_activity_fk", nullable=false)
     private JagActivity jagActivity;
 
 

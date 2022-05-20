@@ -3,7 +3,7 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Embeddable
-@Table(name = "CONNECTOR")
+@Table(name = "Connector")
 public class Connector {
     @Column(name = "connector_exec", nullable = false)
     private String execution;

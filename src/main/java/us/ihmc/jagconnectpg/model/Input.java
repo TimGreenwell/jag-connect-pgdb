@@ -2,17 +2,17 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 
-@Entity(name = "Input")
-@Table(name = "INPUT_DATA")
+@Entity(name = "Consume")
+@Table(name = "Consume")
 public class Input {
     @Id
-    @Column(name = "input_id", nullable = false)
+    @Column(name = "consume_pk", nullable = false)
     private String name;
-    @Column(name = "input_type", nullable = false)
+    @Column(name = "consume_type", nullable = false)
     private String type;
 
-//    @JoinColumn(name = "activity_urn", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="consume_activity_fk", nullable=false)
     private JagActivity jagActivity;
 
 

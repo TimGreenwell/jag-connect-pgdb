@@ -7,11 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "Nodes")
-@Table(name = "NODE")
+@Entity(name = "Node")
+@Table(name = "Node")
 public class JagCell {
     @Id
-    @Column(name = "node_id", nullable = false)
+    @Column(name = "node_pk", nullable = false)
     private String id;
     @Column(name = "node_jag", nullable = false)
     private String jagUrn;
@@ -23,14 +23,15 @@ public class JagCell {
     private Boolean collapsed;
     @Column(name = "node_length", nullable = false)
     private Integer length;
-    @Column(name = "node_children", nullable = false)
+
     @OneToMany(
-        //    mappedBy = "jagCell",
+            mappedBy = "jagCell",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<JagCell> children = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="node_cell_fk", nullable=false)
     private JagCell jagCell;
 
     public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {

@@ -34,8 +34,17 @@ public class AnalysisController {
     }
 
     @PostMapping("/analyses")
-    public Analysis createAnalysis(@Valid @RequestBody Analysis analysis) {
-        return analysisRepository.save(analysis);
+    public Analysis createAnalysis(@Valid @RequestBody Analysis analysisDetails) {
+
+        Analysis newAnalysis = new Analysis();
+        newAnalysis.setId(analysisDetails.getId());
+        newAnalysis.setDescription(analysisDetails.getDescription());
+        newAnalysis.setName(analysisDetails.getName());
+        newAnalysis.setRootJagNodeId(analysisDetails.getRootJagNodeId());
+        newAnalysis.setRootJagActivityUrn(analysisDetails.getRootJagActivityUrn());
+        newAnalysis.setTeamId(analysisDetails.getTeamId());
+
+        return analysisRepository.save(newAnalysis);
     }
 
     @PutMapping("/analyses/{id}")
@@ -44,12 +53,14 @@ public class AnalysisController {
         Analysis analysis = analysisRepository.findById(analysisId)
                 .orElseThrow(() -> new ResourceNotFoundException("Analysis not found for this id :: " + analysisId));
 
-        analysis.setId(analysisDetails.getId());
-        analysis.setDescription(analysisDetails.getDescription());
-        analysis.setName(analysisDetails.getName());
-        analysis.setRootJagNodeId(analysisDetails.getRootJagNodeId());
-        analysis.setRootJagActivityUrn(analysisDetails.getRootJagActivityUrn());
-        analysis.setTeamId(analysisDetails.getTeamId());
+        Analysis newAnalysis = new Analysis();
+        newAnalysis.setId(analysisDetails.getId());
+        newAnalysis.setDescription(analysisDetails.getDescription());
+        newAnalysis.setName(analysisDetails.getName());
+        newAnalysis.setRootJagNodeId(analysisDetails.getRootJagNodeId());
+        newAnalysis.setRootJagActivityUrn(analysisDetails.getRootJagActivityUrn());
+        newAnalysis.setTeamId(analysisDetails.getTeamId());
+
         final Analysis updatedAnalysis = analysisRepository.save(analysis);
         return ResponseEntity.ok(updatedAnalysis);
     }

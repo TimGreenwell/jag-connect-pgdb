@@ -33,8 +33,22 @@ public class JagCellController {
     }
 
     @PostMapping("/jagCells")
-    public JagCell createJagCell(@Valid @RequestBody JagCell jagCell) {
-        return jagCellRepository.save(jagCell);
+    public JagCell createJagCell(@Valid @RequestBody JagCell jagCellDetails) {
+
+
+        JagCell newJagCell = new JagCell();
+
+        newJagCell.setId(jagCellDetails.getId());
+        newJagCell.setJagUrn(jagCellDetails.getJagUrn());
+        newJagCell.setLinkStatus(jagCellDetails.getLinkStatus());
+        newJagCell.setColor(jagCellDetails.getColor());
+        newJagCell.setCollapsed(jagCellDetails.getCollapsed());
+        newJagCell.setLength(jagCellDetails.getLength());
+
+        newJagCell.setChildren(jagCellDetails.getChildren());
+
+
+        return jagCellRepository.save(newJagCell);
     }
 
     @PutMapping("/jagCells/{id}")
@@ -43,14 +57,18 @@ public class JagCellController {
         JagCell jagCell = jagCellRepository.findById(jagCellId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
 
-        jagCell.setId(jagCellDetails.getId());
-        jagCell.setJagUrn(jagCellDetails.getJagUrn());
-        jagCell.setLinkStatus(jagCellDetails.getLinkStatus());
-        jagCell.setColor(jagCellDetails.getColor());
-        jagCell.setCollapsed(jagCellDetails.getCollapsed());
-        jagCell.setLength(jagCellDetails.getLength());
-        jagCell.setChildren(jagCellDetails.getChildren());
-        final JagCell updatedJagCell = jagCellRepository.save(jagCell);
+        JagCell newJagCell = new JagCell();
+
+        newJagCell.setId(jagCellDetails.getId());
+        newJagCell.setJagUrn(jagCellDetails.getJagUrn());
+        newJagCell.setLinkStatus(jagCellDetails.getLinkStatus());
+        newJagCell.setColor(jagCellDetails.getColor());
+        newJagCell.setCollapsed(jagCellDetails.getCollapsed());
+        newJagCell.setLength(jagCellDetails.getLength());
+
+        newJagCell.setChildren(jagCellDetails.getChildren());
+
+        final JagCell updatedJagCell = jagCellRepository.save(newJagCell);
         return ResponseEntity.ok(updatedJagCell);
     }
 

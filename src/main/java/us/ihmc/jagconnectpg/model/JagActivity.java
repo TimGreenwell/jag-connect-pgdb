@@ -1,11 +1,10 @@
 package us.ihmc.jagconnectpg.model;
 
-
 import javax.persistence.*;
 import java.util.*;
 
-@Entity(name = "JagActivity")
-@Table(name = "ACTIVITY")
+@Entity(name = "Activity")
+@Table(name = "Activity")
 public class JagActivity {
     @Id
     @Column(name = "activity_urn")
@@ -22,9 +21,6 @@ public class JagActivity {
             orphanRemoval = true
     )
     private List<JagActivityChild> children = new ArrayList<>();
-
-    @Embedded
-    private Connector connector = new Connector();
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
@@ -37,7 +33,6 @@ public class JagActivity {
             orphanRemoval = true
     )
     private List<Output> outputs = new ArrayList<>();
-    //@Column(name = "bindings", nullable = true)
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
@@ -45,6 +40,8 @@ public class JagActivity {
     )
     private List<Binding> bindings = new ArrayList<>();
 
+    @Embedded
+    private Connector connector = new Connector();
 
     public JagActivity(String urn, String description, String name, String type,
                        List<JagActivityChild> children, Connector connector,
@@ -69,14 +66,12 @@ public class JagActivity {
         this.urn = urn;
     }
 
-
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getName() {
         return name;
@@ -85,15 +80,12 @@ public class JagActivity {
         this.name = name;
     }
 
-
     public String getType() {
         return type;
     }
     public void setType(String type) {
         this.type = type;
     }
-
-//    @Column(name = "activity_children", nullable = true)
 
     public List<JagActivityChild> getChildren() {
         return children;
@@ -102,7 +94,6 @@ public class JagActivity {
         this.children.clear();
         this.children.addAll(children);
     }
-
 
     public Connector getConnector() {
         return connector;
@@ -131,7 +122,6 @@ public class JagActivity {
         this.outputs.clear();
         this.outputs.addAll(outputs);
     }
-
 
     public List<Binding> getBindings() {
         return bindings;

@@ -4,9 +4,10 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Entity(name = "Analysis")
-@Table(name = "ANALYSIS")
+@Table(name = "Analysis")
 public class Analysis {
     @Id
+    @Column(name = "analysis_pk", nullable = true)
     private String id;
     @Column(name = "analysis_desc", nullable = true)
     private String description;

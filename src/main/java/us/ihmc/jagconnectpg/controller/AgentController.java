@@ -5,13 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.Agent;
+import us.ihmc.jagconnectpg.model.Assessment;
+import us.ihmc.jagconnectpg.model.Binding;
 import us.ihmc.jagconnectpg.repository.AgentRepository;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -34,20 +33,52 @@ public class AgentController {
     }
 
     @PostMapping("/agents")
-    public Agent createAgent(@Valid @RequestBody Agent agent) {
-        return agentRepository.save(agent);
+    public Agent createAgent(@Valid @RequestBody Agent agentDetails) {
+        System.out.println("---- CREATE ----------");
+
+        Agent newAgent = new Agent();
+        newAgent.setId(agentDetails.getId());
+        newAgent.setName(agentDetails.getName());
+
+        List<Assessment> newAssessmentList = new ArrayList<>();
+        for (Assessment assessment : agentDetails.getAssessments()) {
+            Assessment newAssessment = new Assessment();
+            newAssessment.setAgent(newAgent);
+            newAssessment.setUrn(assessment.getUrn());
+            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
+            newAssessmentList.add(newAssessment);
+        }
+
+        newAgent.setAssessments(newAssessmentList);
+
+        return agentRepository.save(newAgent);
     }
 
     @PutMapping("/agents/{id}")
     public ResponseEntity<Agent> updateAgent(@PathVariable(value = "id") String agentId,
-                                                   @Valid @RequestBody Agent agentDetails) throws ResourceNotFoundException {
-        Agent agent = agentRepository.findById(agentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
+                                             @Valid @RequestBody Agent agentDetails) throws ResourceNotFoundException {
 
-        agent.setId(agentDetails.getId());
-        agent.setAssessments(agentDetails.getAssessments());
-        agent.setName(agentDetails.getName());
-        final Agent updatedAgent = agentRepository.save(agent);
+        // Note: updatedJagActivity and the findById(jagActivityId) should be exactly the same...
+//        Agent agent = agentRepository.findById(agentId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
+
+
+        Agent newAgent = new Agent();
+        newAgent.setId(agentDetails.getId());
+        newAgent.setName(agentDetails.getName());
+
+        List<Assessment> newAssessmentList = new ArrayList<>();
+        for (Assessment assessment : agentDetails.getAssessments()) {
+            Assessment newAssessment = new Assessment();
+            newAssessment.setAgent(newAgent);
+            newAssessment.setUrn(assessment.getUrn());
+            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
+            newAssessmentList.add(newAssessment);
+        }
+
+        newAgent.setAssessments(newAssessmentList);
+
+        final Agent updatedAgent = agentRepository.save(newAgent);
         return ResponseEntity.ok(updatedAgent);
     }
 

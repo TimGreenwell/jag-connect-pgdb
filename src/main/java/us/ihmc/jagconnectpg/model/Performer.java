@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Performer")
-@Table(name = "PERFORMER")
+@Table(name = "Performer")
 public class Performer {
     @Id
-    @Column(name = "performer_id", nullable = false)
+    @Column(name = "performer_pk", nullable = false)
     private String id;
     @Column(name = "performer_name", nullable = false)
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="performer_team_fk", nullable=false)
     private Team team;
 
 

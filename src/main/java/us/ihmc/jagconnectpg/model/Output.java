@@ -2,20 +2,18 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 
-@Entity(name = "Output")
-@Table(name = "OUTPUT_DATA")
+@Entity(name = "Produce")
+@Table(name = "Produce")
 public class Output {
     @Id
-    @Column(name = "output_id", nullable = false)
+    @Column(name = "produce_pk", nullable = false)
     private String name;
-    @Column(name = "output_type", nullable = false)
+    @Column(name = "produce_type", nullable = false)
     private String type;
 
-
-//    @JoinColumn(name = "activity_urn", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="produce_activity_fk", nullable=false)
     private JagActivity jagActivity;
-
 
     public Output(String name, String type) {
         this.name = name;

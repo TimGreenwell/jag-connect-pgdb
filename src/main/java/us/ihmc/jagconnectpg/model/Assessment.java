@@ -3,14 +3,15 @@ package us.ihmc.jagconnectpg.model;
 import javax.persistence.*;
 
 @Entity(name = "Assessment")
-@Table(name = "ASSESSMENT")
+@Table(name = "Assessment")
 public class Assessment {
     @Id
-    @Column(name = "assessment_id", nullable = false)
+    @Column(name = "assessment_pk", nullable = false)
     private String id;
     @Column(name = "assessment_score", nullable = false)
     private Integer assessmentScore;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="assessment_agent_fk", nullable=false)
     private Agent agent;
 
 
