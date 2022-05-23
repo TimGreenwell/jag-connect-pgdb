@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(maxAge = 3600)
+
 @RestController
 @RequestMapping("/api/v1")
 public class TeamController {
@@ -110,4 +110,13 @@ public class TeamController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+    @DeleteMapping("/teams")
+    public Map<String, Boolean> deleteTeam() {
+        teamRepository.deleteAll();
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
 }

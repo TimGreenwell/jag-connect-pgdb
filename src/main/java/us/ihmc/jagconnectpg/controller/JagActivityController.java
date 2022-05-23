@@ -9,7 +9,6 @@ import us.ihmc.jagconnectpg.repository.JagActivityRepository;
 import javax.validation.Valid;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:8888")
 @RestController
 @RequestMapping("/api/v1")
 public class JagActivityController {
@@ -30,7 +29,7 @@ public class JagActivityController {
                 .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
         return ResponseEntity.ok().body(jagActivity);
     }
-    @CrossOrigin(origins = "http://localhost:8888")
+
     @PostMapping("/jagActivities")
     public JagActivity createJagActivity(@Valid @RequestBody JagActivity createdJagActivity) {
         System.out.println("---- CREATE ----------");
@@ -102,7 +101,6 @@ public class JagActivityController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:8888")
     @PutMapping("/jagActivities/{urn}")
     public ResponseEntity<JagActivity> updateJagActivity(@PathVariable(value = "urn") String jagActivityId,
                                                    @Valid @RequestBody JagActivity updatedJagActivity) throws ResourceNotFoundException {
@@ -162,15 +160,6 @@ public class JagActivityController {
 
 
 
-//        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
-//        for (JagActivityChild jagActivityChild : updatedJagActivity.getChildren()) {
-//            JagActivityChild newJagActivityChild = new JagActivityChild();
-//            newJagActivityChild.setJagActivity(newJagActivity);
-//            newJagActivityChild.setId(jagActivityChild.getId());
-//            newJagActivityChild.setUrn(jagActivityChild.getUrn());
-//            newJagActivityChildList.add(newJagActivityChild);
-//        }
-
         newJagActivity.setBindings(newBindingList);
         newJagActivity.setOutputs(newOutputList);
         newJagActivity.setInputs(newInputList);
@@ -192,4 +181,15 @@ public class JagActivityController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+    @DeleteMapping("/jagActivities")
+    public Map<String, Boolean> deleteJagActivity(){
+        System.out.println("----CLEAR----------");
+        jagActivityRepository.deleteAll();
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
+
 }

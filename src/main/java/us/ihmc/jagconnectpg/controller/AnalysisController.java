@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
 public class AnalysisController {
@@ -76,4 +75,13 @@ public class AnalysisController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+    @DeleteMapping("/analyses")
+    public Map<String, Boolean> deleteAnalysis() {
+        analysisRepository.deleteAll();
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
 }

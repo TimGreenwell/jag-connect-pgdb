@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,7 +62,7 @@ public class JagActivityControllerIntegrationTest {
         JagActivity jagActivity = new JagActivity();
         jagActivity.setUrn("one:two:three:four");
         jagActivity.setName("activity-name");
-        jagActivity.setdescription("This is an awful description");
+        jagActivity.setDescription("This is an awful description");
 
         ResponseEntity<JagActivity> postResponse = restTemplate.postForEntity(getRootUrl() + "/jagActivities", jagActivity, JagActivity.class);
         assertNotNull(postResponse);

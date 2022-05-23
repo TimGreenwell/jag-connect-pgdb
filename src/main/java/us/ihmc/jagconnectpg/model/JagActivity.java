@@ -1,5 +1,6 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.*;
 
@@ -20,6 +21,7 @@ public class JagActivity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<JagActivityChild> children = new ArrayList<>();
     @OneToMany(
             mappedBy = "jagActivity",
@@ -112,8 +114,6 @@ public class JagActivity {
         this.inputs.clear();
         this.inputs.addAll(inputs);
     }
-
-    //@Column(name = "activity_outputs", nullable = true)
 
     public List<Output> getOutputs() {
         return outputs;

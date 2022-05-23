@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
 public class JagCellController {
@@ -35,11 +34,12 @@ public class JagCellController {
     @PostMapping("/jagCells")
     public JagCell createJagCell(@Valid @RequestBody JagCell jagCellDetails) {
 
+        System.out.println(jagCellDetails.toString());
 
         JagCell newJagCell = new JagCell();
 
         newJagCell.setId(jagCellDetails.getId());
-        newJagCell.setJagUrn(jagCellDetails.getJagUrn());
+        newJagCell.setJag(jagCellDetails.getJag());
         newJagCell.setLinkStatus(jagCellDetails.getLinkStatus());
         newJagCell.setColor(jagCellDetails.getColor());
         newJagCell.setCollapsed(jagCellDetails.getCollapsed());
@@ -60,7 +60,7 @@ public class JagCellController {
         JagCell newJagCell = new JagCell();
 
         newJagCell.setId(jagCellDetails.getId());
-        newJagCell.setJagUrn(jagCellDetails.getJagUrn());
+        newJagCell.setJag(jagCellDetails.getJag());
         newJagCell.setLinkStatus(jagCellDetails.getLinkStatus());
         newJagCell.setColor(jagCellDetails.getColor());
         newJagCell.setCollapsed(jagCellDetails.getCollapsed());
@@ -83,4 +83,14 @@ public class JagCellController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+
+    @DeleteMapping("/jagCells")
+    public Map<String, Boolean> deleteJagCell() {
+        jagCellRepository.deleteAll();
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
 }

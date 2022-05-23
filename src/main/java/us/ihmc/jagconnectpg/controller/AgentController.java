@@ -12,7 +12,6 @@ import us.ihmc.jagconnectpg.repository.AgentRepository;
 import javax.validation.Valid;
 import java.util.*;
 
-@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
 public class AgentController {
@@ -93,4 +92,13 @@ public class AgentController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+    @DeleteMapping("/agents")
+    public Map<String, Boolean> deleteAgent() {
+        agentRepository.deleteAll();
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
 }

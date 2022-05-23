@@ -1,5 +1,7 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "ActivityChild")
@@ -13,6 +15,7 @@ public class JagActivityChild {
     private String urn;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name="activityChild_parent_fk", nullable=false)
     private JagActivity jagActivity;
 
@@ -21,8 +24,6 @@ public class JagActivityChild {
         this.urn = urn;
         this.jagActivity = jagActivity;
     }
-
-
 
     public JagActivityChild() {
     }

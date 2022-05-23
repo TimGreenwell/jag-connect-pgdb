@@ -14,7 +14,6 @@ public class Assessment {
     @JoinColumn(name="assessment_agent_fk", nullable=false)
     private Agent agent;
 
-
     public Assessment(String id, Integer assessmentScore, Agent agent) {
         this.id = id;
         this.assessmentScore = assessmentScore;

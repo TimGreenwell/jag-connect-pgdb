@@ -3,9 +3,7 @@ package us.ihmc.jagconnectpg.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "Node")
 @Table(name = "Node")
@@ -15,13 +13,13 @@ public class JagCell {
     private String id;
     @Column(name = "node_jag", nullable = false)
     private String jagUrn;
-    @Column(name = "node_link_status", nullable = false)
+    @Column(name = "node_link_status", nullable = true)
     private String linkStatus;
-    @Column(name = "node_color", nullable = false)
+    @Column(name = "node_color", nullable = true)
     private String color;
     @Column(name = "node_collapsed", nullable = false)
     private Boolean collapsed;
-    @Column(name = "node_length", nullable = false)
+    @Column(name = "node_length", nullable = true)
     private Integer length;
 
     @OneToMany(
@@ -48,7 +46,6 @@ public class JagCell {
     public JagCell() {
     }
 
-
     public String getId() {
         return id;
     }
@@ -57,10 +54,10 @@ public class JagCell {
     }
 
 
-    public String getJagUrn() {
+    public String getJag() {
         return jagUrn;
     }
-    public void setJagUrn(String jagUrn) {
+    public void setJag(String jagUrn) {
         this.jagUrn = jagUrn;
     }
 
