@@ -11,16 +11,44 @@ public class JagCell {
     @Id
     @Column(name = "node_pk", nullable = false)
     private String id;
-    @Column(name = "node_jag", nullable = false)
+    @Column(name = "node_jag", nullable = true)
     private String jagUrn;
-    @Column(name = "node_link_status", nullable = true)
-    private String linkStatus;
-    @Column(name = "node_color", nullable = true)
-    private String color;
-    @Column(name = "node_collapsed", nullable = false)
-    private Boolean collapsed;
-    @Column(name = "node_length", nullable = true)
-    private Integer length;
+
+    @Column(name = "node_childId", nullable = true)
+    private String childId;
+
+    @Column(name = "node_expanded", nullable = true)
+    private Boolean expanded;
+    @Column(name = "node_isLocked", nullable = true)
+    private Boolean isLocked;
+
+    @Column(name = "node_conName", nullable = true)
+    private String contextualName;
+    @Column(name = "node_conDesc", nullable = true)
+    private String contextualDescription;
+
+    @Column(name = "node_x", nullable = true)
+    private int x;
+    @Column(name = "node_y", nullable = true)
+    private int y;
+
+    @OneToMany(
+            mappedBy = "jagCell",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Subscription> subscriptions = new ArrayList<>();
+
+
+    @Column(name = "node_returnValue", nullable = true)
+    private String returnValue;
+    @Column(name = "node_returnState", nullable = true)
+    private String returnState;
+
+    @Column(name = "node_testReturnValue", nullable = true)
+    private String testReturnValue;
+    @Column(name = "node_testReturnState", nullable = true)
+    private String testReturnState;
 
     @OneToMany(
             mappedBy = "jagCell",
@@ -32,13 +60,48 @@ public class JagCell {
     @JoinColumn(name="node_cell_fk", nullable=false)
     private JagCell jagCell;
 
-    public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {
+//    public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {
+//        this.id = id;
+//        this.jagUrn = jagUrn;
+//        this.linkStatus = linkStatus;
+//        this.color = color;
+//        this.collapsed = collapsed;
+//        this.length = length;
+//        this.children = children;
+//        this.jagCell = jagCell;
+//    }
+
+
+    public JagCell(String id,
+                   String jagUrn,
+                   String childId,
+                   Boolean expanded,
+                   Boolean isLocked,
+                   String contextualName,
+                   String contextualDescription,
+                   int x, int y,
+                   List<Subscription> subscriptions,
+                   String returnValue,
+                   String returnState,
+                   String testReturnValue,
+                   String testReturnState,
+                   List<JagCell> children,
+                   JagCell jagCell) {
+
         this.id = id;
         this.jagUrn = jagUrn;
-        this.linkStatus = linkStatus;
-        this.color = color;
-        this.collapsed = collapsed;
-        this.length = length;
+        this.childId = childId;
+        this.expanded = expanded;
+        this.isLocked = isLocked;
+        this.contextualName = contextualName;
+        this.contextualDescription = contextualDescription;
+        this.x = x;
+        this.y = y;
+        this.subscriptions = subscriptions;
+        this.returnValue = returnValue;
+        this.returnState = returnState;
+        this.testReturnValue = testReturnValue;
+        this.testReturnState = testReturnState;
         this.children = children;
         this.jagCell = jagCell;
     }
@@ -46,65 +109,131 @@ public class JagCell {
     public JagCell() {
     }
 
+
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
 
-
-    public String getJag() {
+    public String getJagUrn() {
         return jagUrn;
     }
-    public void setJag(String jagUrn) {
+
+    public void setJagUrn(String jagUrn) {
         this.jagUrn = jagUrn;
     }
 
-
-    public String getLinkStatus() {
-        return linkStatus;
-    }
-    public void setLinkStatus(String linkStatus) {
-        this.linkStatus = linkStatus;
+    public String getChildId() {
+        return childId;
     }
 
-
-    public String getColor() {
-        return color;
-    }
-    public void setColor(String color) {
-        this.color = color;
+    public void setChildId(String childId) {
+        this.childId = childId;
     }
 
-
-    public Boolean getCollapsed() {
-        return collapsed;
-    }
-    public void setCollapsed(Boolean collapsed) {
-        this.collapsed = collapsed;
+    public Boolean getExpanded() {
+        return expanded;
     }
 
-
-    public Integer getLength() {
-        return length;
-    }
-    public void setLength(Integer length) {
-        this.length = length;
+    public void setExpanded(Boolean expanded) {
+        this.expanded = expanded;
     }
 
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(Boolean locked) {
+        isLocked = locked;
+    }
+
+    public String getContextualName() {
+        return contextualName;
+    }
+
+    public void setContextualName(String contextualName) {
+        this.contextualName = contextualName;
+    }
+
+    public String getContextualDescription() {
+        return contextualDescription;
+    }
+
+    public void setContextualDescription(String contextualDescription) {
+        this.contextualDescription = contextualDescription;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public String getReturnValue() {
+        return returnValue;
+    }
+
+    public void setReturnValue(String returnValue) {
+        this.returnValue = returnValue;
+    }
+
+    public String getReturnState() {
+        return returnState;
+    }
+
+    public void setReturnState(String returnState) {
+        this.returnState = returnState;
+    }
+
+    public String getTestReturnValue() {
+        return testReturnValue;
+    }
+
+    public void setTestReturnValue(String testReturnValue) {
+        this.testReturnValue = testReturnValue;
+    }
+
+    public String getTestReturnState() {
+        return testReturnState;
+    }
+
+    public void setTestReturnState(String testReturnState) {
+        this.testReturnState = testReturnState;
+    }
 
     public List<JagCell> getChildren() {
         return children;
     }
+
     public void setChildren(List<JagCell> children) {
         this.children = children;
     }
 
-
     public JagCell getJagCell() {
         return jagCell;
     }
+
     public void setJagCell(JagCell jagCell) {
         this.jagCell = jagCell;
     }
@@ -114,11 +243,20 @@ public class JagCell {
         return "JagCell{" +
                 "id='" + id + '\'' +
                 ", jagUrn='" + jagUrn + '\'' +
-                ", linkStatus='" + linkStatus + '\'' +
-                ", color='" + color + '\'' +
-                ", collapsed=" + collapsed +
-                ", length=" + length +
+                ", childId='" + childId + '\'' +
+                ", expanded=" + expanded +
+                ", isLocked=" + isLocked +
+                ", contextualName='" + contextualName + '\'' +
+                ", contextualDescription='" + contextualDescription + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", subscriptions=" + subscriptions +
+                ", returnValue='" + returnValue + '\'' +
+                ", returnState='" + returnState + '\'' +
+                ", testReturnValue='" + testReturnValue + '\'' +
+                ", testReturnState='" + testReturnState + '\'' +
                 ", children=" + children +
+                ", jagCell=" + jagCell +
                 '}';
     }
 }

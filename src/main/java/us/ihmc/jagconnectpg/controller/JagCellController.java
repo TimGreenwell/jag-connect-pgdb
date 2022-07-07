@@ -39,12 +39,7 @@ public class JagCellController {
         JagCell newJagCell = new JagCell();
 
         newJagCell.setId(jagCellDetails.getId());
-        newJagCell.setJag(jagCellDetails.getJag());
-        newJagCell.setLinkStatus(jagCellDetails.getLinkStatus());
-        newJagCell.setColor(jagCellDetails.getColor());
-        newJagCell.setCollapsed(jagCellDetails.getCollapsed());
-        newJagCell.setLength(jagCellDetails.getLength());
-
+        newJagCell.setJagUrn(jagCellDetails.getJagUrn());
         newJagCell.setChildren(jagCellDetails.getChildren());
 
 
@@ -60,12 +55,19 @@ public class JagCellController {
         JagCell newJagCell = new JagCell();
 
         newJagCell.setId(jagCellDetails.getId());
-        newJagCell.setJag(jagCellDetails.getJag());
-        newJagCell.setLinkStatus(jagCellDetails.getLinkStatus());
-        newJagCell.setColor(jagCellDetails.getColor());
-        newJagCell.setCollapsed(jagCellDetails.getCollapsed());
-        newJagCell.setLength(jagCellDetails.getLength());
-
+        newJagCell.setJagUrn(jagCellDetails.getJagUrn());
+        newJagCell.setChildId(jagCellDetails.getChildId());
+        newJagCell.setExpanded(jagCellDetails.getExpanded());
+        newJagCell.setLocked(jagCellDetails.getLocked());
+        newJagCell.setContextualName(jagCellDetails.getContextualName());
+        newJagCell.setContextualDescription(jagCellDetails.getContextualDescription());
+        newJagCell.setX(jagCellDetails.getX());
+        newJagCell.setY(jagCellDetails.getY());
+        newJagCell.setReturnValue(jagCellDetails.getReturnValue());
+        newJagCell.setReturnState(jagCellDetails.getReturnState());
+        newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
+        newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
+        newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
         newJagCell.setChildren(jagCellDetails.getChildren());
 
         final JagCell updatedJagCell = jagCellRepository.save(newJagCell);

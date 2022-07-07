@@ -38,10 +38,18 @@ public class JagActivityController {
         newJagActivity.setUrn(createdJagActivity.getUrn());
         newJagActivity.setDescription(createdJagActivity.getDescription());
         newJagActivity.setName(createdJagActivity.getName());
-        newJagActivity.setType(createdJagActivity.getType());
+
+        newJagActivity.setAuthor(createdJagActivity.getAuthor());
+        newJagActivity.setLockedBy(createdJagActivity.getLockedBy());
+        newJagActivity.setCreatedDate(createdJagActivity.getCreatedDate());
+        newJagActivity.setModifiedDate(createdJagActivity.getModifiedDate());
+        newJagActivity.setLocked(createdJagActivity.getLocked());
+        newJagActivity.setCollapsed(createdJagActivity.getCollapsed());
+
 
         Connector newConnector = new Connector();
         newConnector.setExecution(createdJagActivity.getConnector().getExecution());
+        newConnector.setReturns(createdJagActivity.getConnector().getReturns());
         newConnector.setOperator(createdJagActivity.getConnector().getOperator());
         newJagActivity.setConnector(newConnector);
 
@@ -90,9 +98,6 @@ public class JagActivityController {
 //            newJagActivityChildList.add(newJagActivityChild);
 //        }
 
-
-
-
         newJagActivity.setBindings(newBindingList);
         newJagActivity.setOutputs(newOutputList);
         newJagActivity.setInputs(newInputList);
@@ -115,7 +120,6 @@ public class JagActivityController {
         newJagActivity.setUrn(updatedJagActivity.getUrn());
         newJagActivity.setDescription(updatedJagActivity.getDescription());
         newJagActivity.setName(updatedJagActivity.getName());
-        newJagActivity.setType(updatedJagActivity.getType());
 
         Connector newConnector = new Connector();
         newConnector.setExecution(updatedJagActivity.getConnector().getExecution());

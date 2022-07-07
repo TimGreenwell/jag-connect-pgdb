@@ -14,8 +14,8 @@ public class JagActivity {
     private String description;
     @Column(name = "activity_name", nullable = false)
     private String name;
-    @Column(name = "activity_type", nullable = true)
-    private String type;
+//    @Column(name = "activity_type", nullable = true)
+//    private String type;
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
@@ -45,18 +45,53 @@ public class JagActivity {
     @Embedded
     private Connector connector = new Connector();
 
-    public JagActivity(String urn, String description, String name, String type,
-                       List<JagActivityChild> children, Connector connector,
-                       List<Input> inputs, List<Output> outputs, List<Binding> bindings) {
+    @Column(name = "activity_author", nullable = true)
+    private String author;
+
+    @Column(name = "activity_lockedBy", nullable = true)
+    private String lockedBy;
+
+    @Column(name = "activity_createdDate", nullable = true)
+    private Date createdDate;
+
+    @Column(name = "activity_modifiedDate", nullable = true)
+    private Date modifiedDate;
+
+    @Column(name = "activity_isLocked", nullable = true)
+    private Boolean isLocked;
+
+    @Column(name = "activity_collapsed", nullable = true)
+    private Boolean collapsed;
+
+
+    public JagActivity(String urn,
+                       String description,
+                       String name,
+                       List<JagActivityChild> children,
+                       List<Input> inputs,
+                       List<Output> outputs,
+                       List<Binding> bindings,
+                       Connector connector,
+                       String author,
+                       String lockedBy,
+                       Date createdDate,
+                       Date modifiedDate,
+                       Boolean isLocked,
+                       Boolean collapsed) {
         this.urn = urn;
         this.description = description;
         this.name = name;
-        this.type = type;
         this.children = children;
-        this.connector = connector;
         this.inputs = inputs;
         this.outputs = outputs;
         this.bindings = bindings;
+        this.connector = connector;
+        this.author = author;
+        this.lockedBy = lockedBy;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+        this.isLocked = isLocked;
+        this.collapsed = collapsed;
     }
 
     public JagActivity() { }
@@ -82,12 +117,12 @@ public class JagActivity {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
+//    public String getType() {
+//        return type;
+//    }
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 
     public List<JagActivityChild> getChildren() {
         return children;
@@ -102,6 +137,7 @@ public class JagActivity {
     }
     public void setConnector(Connector connector) {
         this.connector.setExecution(connector.getExecution());
+        this.connector.setReturns(connector.getReturns());
         this.connector.setOperator(connector.getOperator());
     }
 
@@ -131,18 +167,71 @@ public class JagActivity {
         this.bindings.addAll(bindings);
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getLockedBy() {
+        return lockedBy;
+    }
+
+    public void setLockedBy(String lockedBy) {
+        this.lockedBy = lockedBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(Boolean locked) {
+        isLocked = locked;
+    }
+
+    public Boolean getCollapsed() {
+        return collapsed;
+    }
+
+    public void setCollapsed(Boolean collapsed) {
+        this.collapsed = collapsed;
+    }
+
     @Override
     public String toString() {
         return "JagActivity{" +
                 "urn='" + urn + '\'' +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
                 ", children=" + children +
-                ", connector=" + connector +
                 ", inputs=" + inputs +
                 ", outputs=" + outputs +
                 ", bindings=" + bindings +
+                ", connector=" + connector +
+                ", author='" + author + '\'' +
+                ", lockedBy='" + lockedBy + '\'' +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                ", isLocked=" + isLocked +
+                ", collapsed=" + collapsed +
                 '}';
     }
 }

@@ -7,13 +7,17 @@ import javax.persistence.*;
 public class Connector {
     @Column(name = "connector_exec", nullable = false)
     private String execution;
+    @Column(name = "connector_rtns", nullable = true)
+    private String returns;
     @Column(name = "connector_oper", nullable = false)
     private String operator;
 
-    public Connector(String execution, String operator) {
+    public Connector(String execution, String returns, String operator) {
         this.execution = execution;
+        this.returns = returns;
         this.operator = operator;
     }
+
 
     public Connector() {
     }
@@ -24,6 +28,10 @@ public class Connector {
     public void setExecution(String execution) {
         this.execution = execution;
     }
+
+
+    public String getReturns() { return returns; }
+    public void setReturns(String returns) { this.returns = returns; }
 
     public String getOperator() {
         return operator;
@@ -36,6 +44,7 @@ public class Connector {
     public String toString() {
         return "Connector{" +
                 "execution='" + execution + '\'' +
+                ", returns='" + returns + '\'' +
                 ", operator='" + operator + '\'' +
                 '}';
     }
