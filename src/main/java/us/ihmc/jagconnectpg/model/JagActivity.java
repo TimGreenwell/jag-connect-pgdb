@@ -45,6 +45,12 @@ public class JagActivity {
     @Embedded
     private Connector connector = new Connector();
 
+    @Column(name = "activity_isLocked", nullable = true)
+    private Boolean isLocked;
+
+    @Column(name = "activity_collapsed", nullable = true)
+    private Boolean collapsed;
+
     @Column(name = "activity_author", nullable = true)
     private String author;
 
@@ -57,11 +63,7 @@ public class JagActivity {
     @Column(name = "activity_modifiedDate", nullable = true)
     private Date modifiedDate;
 
-    @Column(name = "activity_isLocked", nullable = true)
-    private Boolean isLocked;
 
-    @Column(name = "activity_collapsed", nullable = true)
-    private Boolean collapsed;
 
 
     public JagActivity(String urn,
@@ -226,12 +228,12 @@ public class JagActivity {
                 ", outputs=" + outputs +
                 ", bindings=" + bindings +
                 ", connector=" + connector +
+                ", isLocked=" + isLocked +
+                ", collapsed=" + collapsed +
                 ", author='" + author + '\'' +
                 ", lockedBy='" + lockedBy + '\'' +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
-                ", isLocked=" + isLocked +
-                ", collapsed=" + collapsed +
                 '}';
     }
 }

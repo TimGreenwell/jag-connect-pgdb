@@ -36,22 +36,41 @@ public class JagActivityController {
 
         JagActivity newJagActivity = new JagActivity();
         newJagActivity.setUrn(createdJagActivity.getUrn());
-        newJagActivity.setDescription(createdJagActivity.getDescription());
         newJagActivity.setName(createdJagActivity.getName());
-
-        newJagActivity.setAuthor(createdJagActivity.getAuthor());
-        newJagActivity.setLockedBy(createdJagActivity.getLockedBy());
-        newJagActivity.setCreatedDate(createdJagActivity.getCreatedDate());
-        newJagActivity.setModifiedDate(createdJagActivity.getModifiedDate());
-        newJagActivity.setLocked(createdJagActivity.getLocked());
-        newJagActivity.setCollapsed(createdJagActivity.getCollapsed());
-
+        newJagActivity.setDescription(createdJagActivity.getDescription());
 
         Connector newConnector = new Connector();
         newConnector.setExecution(createdJagActivity.getConnector().getExecution());
         newConnector.setReturns(createdJagActivity.getConnector().getReturns());
         newConnector.setOperator(createdJagActivity.getConnector().getOperator());
         newJagActivity.setConnector(newConnector);
+
+        List<Input> newInputList = new ArrayList<>();
+        for (Input input : createdJagActivity.getInputs()) {
+            Input newInput = new Input();
+            newInput.setJagActivity(newJagActivity);
+            newInput.setName(input.getName());
+            newInput.setType(input.getType());
+        }
+        newJagActivity.setInputs(newInputList);
+
+        List<Output> newOutputList = new ArrayList<>();
+        for (Output output : createdJagActivity.getOutputs()) {
+            Output newOutput = new Output();
+            newOutput.setJagActivity(newJagActivity);
+            newOutput.setName(output.getName());
+            newOutput.setType(output.getType());
+        }
+        newJagActivity.setOutputs(newOutputList);
+
+        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
+        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
+            String id = jagActivityChild.getId();
+            String urn = jagActivityChild.getUrn();
+            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
+            newJagActivityChildList.add(newJagActivityChild);
+        }
+        newJagActivity.setChildren(newJagActivityChildList);
 
         List<Binding> newBindingList = new ArrayList<>();
         for (Binding binding : createdJagActivity.getBindings()) {
@@ -61,32 +80,17 @@ public class JagActivityController {
             newBinding.setIn(binding.getIn());
             newBinding.setOut(binding.getOut());
         }
+        newJagActivity.setBindings(newBindingList);
 
-        List<Output> newOutputList = new ArrayList<>();
-        for (Output output : createdJagActivity.getOutputs()) {
-            Output newOutput = new Output();
-            newOutput.setJagActivity(newJagActivity);
-            newOutput.setName(output.getName());
-            newOutput.setType(output.getType());
-        }
+        newJagActivity.setLocked(createdJagActivity.getLocked());
+        newJagActivity.setCollapsed(createdJagActivity.getCollapsed());
 
-        List<Input> newInputList = new ArrayList<>();
-        for (Input input : createdJagActivity.getInputs()) {
-            Input newInput = new Input();
-            newInput.setJagActivity(newJagActivity);
-            newInput.setName(input.getName());
-            newInput.setType(input.getType());
-        }
-
-
-        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
-        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
-            String id = jagActivityChild.getId();
-            String urn = jagActivityChild.getUrn();
-            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
-            newJagActivityChildList.add(newJagActivityChild);
-        }
-
+        newJagActivity.setAuthor(createdJagActivity.getAuthor());
+        newJagActivity.setLockedBy(createdJagActivity.getLockedBy());
+        newJagActivity.setCreatedDate(createdJagActivity.getCreatedDate());
+        newJagActivity.setModifiedDate(createdJagActivity.getModifiedDate());
+        newJagActivity.setLocked(createdJagActivity.getLocked());
+        newJagActivity.setCollapsed(createdJagActivity.getCollapsed());
 
 //        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
 //        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
@@ -98,10 +102,7 @@ public class JagActivityController {
 //            newJagActivityChildList.add(newJagActivityChild);
 //        }
 
-        newJagActivity.setBindings(newBindingList);
-        newJagActivity.setOutputs(newOutputList);
-        newJagActivity.setInputs(newInputList);
-        newJagActivity.setChildren(newJagActivityChildList);
+
         return jagActivityRepository.save(newJagActivity);
     }
 
@@ -117,14 +118,45 @@ public class JagActivityController {
 
 
         JagActivity newJagActivity = new JagActivity();
+
         newJagActivity.setUrn(updatedJagActivity.getUrn());
-        newJagActivity.setDescription(updatedJagActivity.getDescription());
         newJagActivity.setName(updatedJagActivity.getName());
+        newJagActivity.setDescription(updatedJagActivity.getDescription());
 
         Connector newConnector = new Connector();
         newConnector.setExecution(updatedJagActivity.getConnector().getExecution());
+        newConnector.setReturns(updatedJagActivity.getConnector().getReturns());
         newConnector.setOperator(updatedJagActivity.getConnector().getOperator());
         newJagActivity.setConnector(newConnector);
+
+        List<Input> newInputList = new ArrayList<>();
+        for (Input input : updatedJagActivity.getInputs()) {
+            Input newInput = new Input();
+            newInput.setJagActivity(newJagActivity);
+            newInput.setName(input.getName());
+            newInput.setType(input.getType());
+            newInputList.add(newInput);
+        }
+        newJagActivity.setInputs(newInputList);
+
+        List<Output> newOutputList = new ArrayList<>();
+        for (Output output : updatedJagActivity.getOutputs()) {
+            Output newOutput = new Output();
+            newOutput.setJagActivity(newJagActivity);
+            newOutput.setName(output.getName());
+            newOutput.setType(output.getType());
+            newOutputList.add(newOutput);
+        }
+        newJagActivity.setOutputs(newOutputList);
+
+        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
+        for (JagActivityChild jagActivityChild : updatedJagActivity.getChildren()) {
+            String id = jagActivityChild.getId();
+            String urn = jagActivityChild.getUrn();
+            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
+            newJagActivityChildList.add(newJagActivityChild);
+        }
+        newJagActivity.setChildren(newJagActivityChildList);
 
         List<Binding> newBindingList = new ArrayList<>();
         for (Binding binding : updatedJagActivity.getBindings()) {
@@ -135,39 +167,14 @@ public class JagActivityController {
             newBinding.setOut(binding.getOut());
             newBindingList.add(newBinding);
         }
-
-        List<Output> newOutputList = new ArrayList<>();
-        for (Output output : updatedJagActivity.getOutputs()) {
-            Output newOutput = new Output();
-            newOutput.setJagActivity(newJagActivity);
-            newOutput.setName(output.getName());
-            newOutput.setType(output.getType());
-            newOutputList.add(newOutput);
-        }
-
-        List<Input> newInputList = new ArrayList<>();
-        for (Input input : updatedJagActivity.getInputs()) {
-            Input newInput = new Input();
-            newInput.setJagActivity(newJagActivity);
-            newInput.setName(input.getName());
-            newInput.setType(input.getType());
-            newInputList.add(newInput);
-        }
-
-        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
-        for (JagActivityChild jagActivityChild : updatedJagActivity.getChildren()) {
-            String id = jagActivityChild.getId();
-            String urn = jagActivityChild.getUrn();
-            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
-            newJagActivityChildList.add(newJagActivityChild);
-        }
-
-
-
         newJagActivity.setBindings(newBindingList);
-        newJagActivity.setOutputs(newOutputList);
-        newJagActivity.setInputs(newInputList);
-        newJagActivity.setChildren(newJagActivityChildList);
+
+        newJagActivity.setAuthor(updatedJagActivity.getAuthor());
+        newJagActivity.setLockedBy(updatedJagActivity.getLockedBy());
+        newJagActivity.setCreatedDate(updatedJagActivity.getCreatedDate());
+        newJagActivity.setModifiedDate(updatedJagActivity.getModifiedDate());
+        newJagActivity.setLocked(updatedJagActivity.getLocked());
+        newJagActivity.setCollapsed(updatedJagActivity.getCollapsed());
 
         final JagActivity finalJagActivity = jagActivityRepository.save(newJagActivity);
         return ResponseEntity.ok(finalJagActivity);

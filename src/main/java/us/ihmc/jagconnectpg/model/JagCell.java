@@ -17,6 +17,9 @@ public class JagCell {
     @Column(name = "node_childId", nullable = true)
     private String childId;
 
+    @Column(name = "node_projectId", nullable = true)
+    private String projectId;
+
     @Column(name = "node_expanded", nullable = true)
     private Boolean expanded;
     @Column(name = "node_isLocked", nullable = true)
@@ -75,6 +78,7 @@ public class JagCell {
     public JagCell(String id,
                    String jagUrn,
                    String childId,
+                   String projectId,
                    Boolean expanded,
                    Boolean isLocked,
                    String contextualName,
@@ -91,6 +95,7 @@ public class JagCell {
         this.id = id;
         this.jagUrn = jagUrn;
         this.childId = childId;
+        this.projectId = projectId;
         this.expanded = expanded;
         this.isLocked = isLocked;
         this.contextualName = contextualName;
@@ -132,6 +137,14 @@ public class JagCell {
 
     public void setChildId(String childId) {
         this.childId = childId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public Boolean getExpanded() {
@@ -244,6 +257,7 @@ public class JagCell {
                 "id='" + id + '\'' +
                 ", jagUrn='" + jagUrn + '\'' +
                 ", childId='" + childId + '\'' +
+                ", projectId='" + projectId + '\'' +
                 ", expanded=" + expanded +
                 ", isLocked=" + isLocked +
                 ", contextualName='" + contextualName + '\'' +

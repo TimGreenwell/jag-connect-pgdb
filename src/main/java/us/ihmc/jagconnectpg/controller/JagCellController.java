@@ -57,18 +57,23 @@ public class JagCellController {
         newJagCell.setId(jagCellDetails.getId());
         newJagCell.setJagUrn(jagCellDetails.getJagUrn());
         newJagCell.setChildId(jagCellDetails.getChildId());
+        newJagCell.setProjectId(jagCellDetails.getProjectId());
+
         newJagCell.setExpanded(jagCellDetails.getExpanded());
         newJagCell.setLocked(jagCellDetails.getLocked());
         newJagCell.setContextualName(jagCellDetails.getContextualName());
         newJagCell.setContextualDescription(jagCellDetails.getContextualDescription());
         newJagCell.setX(jagCellDetails.getX());
         newJagCell.setY(jagCellDetails.getY());
+        newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
         newJagCell.setReturnValue(jagCellDetails.getReturnValue());
         newJagCell.setReturnState(jagCellDetails.getReturnState());
         newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
         newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
-        newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
         newJagCell.setChildren(jagCellDetails.getChildren());
+
+
+
 
         final JagCell updatedJagCell = jagCellRepository.save(newJagCell);
         return ResponseEntity.ok(updatedJagCell);
