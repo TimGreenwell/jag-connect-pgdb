@@ -21,7 +21,7 @@ public class JagActivity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<JagActivityChild> children = new ArrayList<>();
     @OneToMany(
             mappedBy = "jagActivity",
@@ -54,13 +54,13 @@ public class JagActivity {
     @Column(name = "activity_author", nullable = true)
     private String author;
 
-    @Column(name = "activity_lockedBy", nullable = true)
+    @Column(name = "activity_locked_by", nullable = true)
     private String lockedBy;
 
-    @Column(name = "activity_createdDate", nullable = true)
+    @Column(name = "activity_created_date", nullable = true)
     private Date createdDate;
 
-    @Column(name = "activity_modifiedDate", nullable = true)
+    @Column(name = "activity_modified_date", nullable = true)
     private Date modifiedDate;
 
 
@@ -83,7 +83,6 @@ public class JagActivity {
         this.urn = urn;
         this.description = description;
         this.name = name;
-        this.children = children;
         this.inputs = inputs;
         this.outputs = outputs;
         this.bindings = bindings;
@@ -94,6 +93,7 @@ public class JagActivity {
         this.modifiedDate = modifiedDate;
         this.isLocked = isLocked;
         this.collapsed = collapsed;
+        this.children = children;
     }
 
     public JagActivity() { }
@@ -117,21 +117,6 @@ public class JagActivity {
     }
     public void setName(String name) {
         this.name = name;
-    }
-
-//    public String getType() {
-//        return type;
-//    }
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-
-    public List<JagActivityChild> getChildren() {
-        return children;
-    }
-    public void setChildren(List<JagActivityChild> children) {
-        this.children.clear();
-        this.children.addAll(children);
     }
 
     public Connector getConnector() {
@@ -216,6 +201,16 @@ public class JagActivity {
     public void setCollapsed(Boolean collapsed) {
         this.collapsed = collapsed;
     }
+
+    public List<JagActivityChild> getChildren() {
+        return children;
+    }
+    public void setChildren(List<JagActivityChild> children) {
+        this.children.clear();
+        this.children.addAll(children);
+    }
+
+
 
     @Override
     public String toString() {

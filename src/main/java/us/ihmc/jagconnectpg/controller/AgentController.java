@@ -77,6 +77,7 @@ public class AgentController {
 
         newAgent.setAssessments(newAssessmentList);
 
+
         final Agent updatedAgent = agentRepository.save(newAgent);
         return ResponseEntity.ok(updatedAgent);
     }

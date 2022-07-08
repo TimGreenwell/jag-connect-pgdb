@@ -8,17 +8,21 @@ import javax.persistence.*;
 @Table(name = "ActivityChild")
 public class JagActivityChild {
     @Id
-    @Column(name = "activityChild_pk", nullable = false)
+    @Column(name = "activity_child_pk", nullable = false)
     private String id;
 
-    @Column(name = "activityChild_urn", nullable = false)
+    @Column(name = "activity_child_urn", nullable = false)
     private String urn;
 
+
+
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name="activityChild_parent_fk", nullable=false)
+//    @JsonBackReference
+    @JoinColumn(name="activity_child_parent_fk", nullable=false)
     private JagActivity jagActivity;
 
+    // public JagActivityChild(String id, String urn, JagActivity jagActivity) {
     public JagActivityChild(String id, String urn, JagActivity jagActivity) {
         this.id = id;
         this.urn = urn;

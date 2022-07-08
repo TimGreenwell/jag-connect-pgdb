@@ -12,28 +12,32 @@ public class JagCell {
     @Column(name = "node_pk", nullable = false)
     private String id;
     @Column(name = "node_jag", nullable = true)
-    private String jagUrn;
+    private String urn;
 
-    @Column(name = "node_childId", nullable = true)
+    @Column(name = "node_child_id", nullable = true)
     private String childId;
 
-    @Column(name = "node_projectId", nullable = true)
+    @Column(name = "node_parent_id", nullable = true)
+    private String parentId;
+    @Column(name = "node_project_id", nullable = false)
     private String projectId;
 
-    @Column(name = "node_expanded", nullable = true)
+    @Column(name = "node_expanded", nullable = false)
     private Boolean expanded;
-    @Column(name = "node_isLocked", nullable = true)
+    @Column(name = "node_is_locked", nullable = true)
     private Boolean isLocked;
-
-    @Column(name = "node_conName", nullable = true)
-    private String contextualName;
-    @Column(name = "node_conDesc", nullable = true)
-    private String contextualDescription;
 
     @Column(name = "node_x", nullable = true)
     private int x;
     @Column(name = "node_y", nullable = true)
     private int y;
+
+    @Column(name = "node_con_name", nullable = true)
+    private String contextualName;
+    @Column(name = "node_con_desc", nullable = true)
+    private String contextualDescription;
+
+
 
     @OneToMany(
             mappedBy = "jagCell",
@@ -43,14 +47,14 @@ public class JagCell {
     private List<Subscription> subscriptions = new ArrayList<>();
 
 
-    @Column(name = "node_returnValue", nullable = true)
+    @Column(name = "node_return_value", nullable = true)
     private String returnValue;
-    @Column(name = "node_returnState", nullable = true)
+    @Column(name = "node_return_state", nullable = true)
     private String returnState;
 
-    @Column(name = "node_testReturnValue", nullable = true)
+    @Column(name = "node_test_return_value", nullable = true)
     private String testReturnValue;
-    @Column(name = "node_testReturnState", nullable = true)
+    @Column(name = "node_test_return_state", nullable = true)
     private String testReturnState;
 
     @OneToMany(
@@ -59,42 +63,33 @@ public class JagCell {
             orphanRemoval = true
     )
     private List<JagCell> children = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="node_cell_fk", nullable=false)
+    @JoinColumn(name="node_cell_fk", nullable=true)
     private JagCell jagCell;
 
-//    public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {
-//        this.id = id;
-//        this.jagUrn = jagUrn;
-//        this.linkStatus = linkStatus;
-//        this.color = color;
-//        this.collapsed = collapsed;
-//        this.length = length;
-//        this.children = children;
-//        this.jagCell = jagCell;
-//    }
-
-
     public JagCell(String id,
-                   String jagUrn,
+                   String urn,
                    String childId,
+                   String parentId,
                    String projectId,
                    Boolean expanded,
                    Boolean isLocked,
                    String contextualName,
                    String contextualDescription,
-                   int x, int y,
+                   Integer x, Integer y,
                    List<Subscription> subscriptions,
                    String returnValue,
                    String returnState,
                    String testReturnValue,
                    String testReturnState,
-                   List<JagCell> children,
-                   JagCell jagCell) {
+                   List<JagCell> children ){
+      //             JagCell jagCell) {
 
         this.id = id;
-        this.jagUrn = jagUrn;
+        this.urn = urn;
         this.childId = childId;
+        this.parentId = parentId;
         this.projectId = projectId;
         this.expanded = expanded;
         this.isLocked = isLocked;
@@ -108,7 +103,7 @@ public class JagCell {
         this.testReturnValue = testReturnValue;
         this.testReturnState = testReturnState;
         this.children = children;
-        this.jagCell = jagCell;
+     //   this.jagCell = jagCell;
     }
 
     public JagCell() {
@@ -123,12 +118,12 @@ public class JagCell {
         this.id = id;
     }
 
-    public String getJagUrn() {
-        return jagUrn;
+    public String getUrn() {
+        return urn;
     }
 
-    public void setJagUrn(String jagUrn) {
-        this.jagUrn = jagUrn;
+    public void setUrn(String urn) {
+        this.urn = urn;
     }
 
     public String getChildId() {
@@ -137,6 +132,14 @@ public class JagCell {
 
     public void setChildId(String childId) {
         this.childId = childId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public String getProjectId() {
@@ -243,20 +246,21 @@ public class JagCell {
         this.children = children;
     }
 
-    public JagCell getJagCell() {
-        return jagCell;
-    }
-
-    public void setJagCell(JagCell jagCell) {
-        this.jagCell = jagCell;
-    }
+//    public JagCell getJagCell() {
+//        return jagCell;
+//    }
+//
+//    public void setJagCell(JagCell jagCell) {
+//        this.jagCell = jagCell;
+//    }
 
     @Override
     public String toString() {
         return "JagCell{" +
                 "id='" + id + '\'' +
-                ", jagUrn='" + jagUrn + '\'' +
+                ", urn='" + urn + '\'' +
                 ", childId='" + childId + '\'' +
+                ", parentId='" + projectId + '\'' +
                 ", projectId='" + projectId + '\'' +
                 ", expanded=" + expanded +
                 ", isLocked=" + isLocked +
@@ -270,7 +274,7 @@ public class JagCell {
                 ", testReturnValue='" + testReturnValue + '\'' +
                 ", testReturnState='" + testReturnState + '\'' +
                 ", children=" + children +
-                ", jagCell=" + jagCell +
+//                ", jagCell=" + jagCell +
                 '}';
     }
 }
