@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
+
 @Entity(name = "ActivityChild")
 @Table(name = "ActivityChild")
 public class JagActivityChild {
@@ -15,12 +16,13 @@ public class JagActivityChild {
     private String urn;
 
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonBackReference
-    @JoinColumn(name="activity_child_parent_fk", nullable=false)
+    @JoinColumn(name="activity_child_parent_fk", nullable = false)
+    @JsonBackReference
     private JagActivity jagActivity;
+
+
+
 
     // public JagActivityChild(String id, String urn, JagActivity jagActivity) {
     public JagActivityChild(String id, String urn, JagActivity jagActivity) {

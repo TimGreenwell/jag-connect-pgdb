@@ -34,23 +34,6 @@ public class JagActivityController {
     public JagActivity createJagActivity(@Valid @RequestBody JagActivity createdJagActivity) {
         System.out.println("---- CREATE ----------");
 
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println(createdJagActivity.toString());
-        System.out.println(createdJagActivity.toString());
-        System.out.println(createdJagActivity.toString());
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-        System.out.println("v");
-
-
         JagActivity newJagActivity = new JagActivity();
         newJagActivity.setUrn(createdJagActivity.getUrn());
         newJagActivity.setName(createdJagActivity.getName());
@@ -65,31 +48,22 @@ public class JagActivityController {
         List<Input> newInputList = new ArrayList<>();
         for (Input input : createdJagActivity.getInputs()) {
             Input newInput = new Input();
-            newInput.setJagActivity(newJagActivity);
+            newInput.setJagActivity(input.getJagActivity());
             newInput.setName(input.getName());
             newInput.setType(input.getType());
+            newInputList.add(newInput);
         }
         newJagActivity.setInputs(newInputList);
 
         List<Output> newOutputList = new ArrayList<>();
         for (Output output : createdJagActivity.getOutputs()) {
             Output newOutput = new Output();
-            newOutput.setJagActivity(newJagActivity);
             newOutput.setName(output.getName());
             newOutput.setType(output.getType());
+            newOutput.setJagActivity(output.getJagActivity());
+            newOutputList.add(newOutput);
         }
         newJagActivity.setOutputs(newOutputList);
-
-//        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
-//        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
-//            String id = jagActivityChild.getId();
-//            String urn = jagActivityChild.getUrn();
-//     //       JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
-//            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn);
-//            newJagActivityChildList.add(newJagActivityChild);
-//        }
-//        newJagActivity.setChildren(newJagActivityChildList);
-
 
         List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
         for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
@@ -101,17 +75,13 @@ public class JagActivityController {
         }
         newJagActivity.setChildren(newJagActivityChildList);
 
-
-
-
-
         List<Binding> newBindingList = new ArrayList<>();
         for (Binding binding : createdJagActivity.getBindings()) {
             Binding newBinding = new Binding();
-            newBinding.setJagActivity(newJagActivity);
-            //newBinding.setId(binding.getId());
             newBinding.setIn(binding.getIn());
             newBinding.setOut(binding.getOut());
+            newBinding.setJagActivity(newJagActivity);
+            newBindingList.add(newBinding);
         }
         newJagActivity.setBindings(newBindingList);
 
@@ -125,20 +95,6 @@ public class JagActivityController {
         newJagActivity.setLocked(createdJagActivity.getLocked());
         newJagActivity.setCollapsed(createdJagActivity.getCollapsed());
 
-//        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
-//        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
-//            JagActivityChild newJagActivityChild = new JagActivityChild();
-//            newJagActivityChild.setJagActivity(newJagActivity);
-//            newJagActivityChild.setId(jagActivityChild.getId());
-//            newJagActivityChild.setUrn(jagActivityChild.getUrn());
-        //            newJagActivityChild.setUrn(jagActivityChild.getUrn());
-//            newJagActivityChildList.add(newJagActivityChild);
-//        }
-
-
-
-
-
         return jagActivityRepository.save(newJagActivity);
     }
 
@@ -148,19 +104,6 @@ public class JagActivityController {
                                                    @Valid @RequestBody JagActivity updatedJagActivity) throws ResourceNotFoundException {
         System.out.println("----UPDATE----------" + jagActivityId);
 
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println(updatedJagActivity.toString());
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
         // Note: updatedJagActivity and the findById(jagActivityId) should be exactly the same...
 
 //        JagActivity currentJagActivity = jagActivityRepository.findById(jagActivityId)
@@ -180,150 +123,52 @@ public class JagActivityController {
         newJagActivity.setLocked(updatedJagActivity.getLocked());
         newJagActivity.setCollapsed(updatedJagActivity.getCollapsed());
 
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("2");
-        System.out.println(newJagActivity.toString());
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-
-
-
-
         Connector newConnector = new Connector();
         newConnector.setExecution(updatedJagActivity.getConnector().getExecution());
         newConnector.setReturns(updatedJagActivity.getConnector().getReturns());
         newConnector.setOperator(updatedJagActivity.getConnector().getOperator());
         newJagActivity.setConnector(newConnector);
 
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("3");
-        System.out.println(newJagActivity.toString());
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-
-
         List<Input> newInputList = new ArrayList<>();
         for (Input input : updatedJagActivity.getInputs()) {
             Input newInput = new Input();
-            newInput.setJagActivity(newJagActivity);
+            newInput.setJagActivity(input.getJagActivity());
             newInput.setName(input.getName());
             newInput.setType(input.getType());
             newInputList.add(newInput);
         }
         newJagActivity.setInputs(newInputList);
 
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("4");
-        System.out.println(newJagActivity.toString());
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
 
         List<Output> newOutputList = new ArrayList<>();
         for (Output output : updatedJagActivity.getOutputs()) {
             Output newOutput = new Output();
-            newOutput.setJagActivity(newJagActivity);
+            newOutput.setJagActivity(output.getJagActivity());
             newOutput.setName(output.getName());
             newOutput.setType(output.getType());
             newOutputList.add(newOutput);
         }
         newJagActivity.setOutputs(newOutputList);
 
-
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("5");
-        System.out.println(newJagActivity.toString());
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-
-
         List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
         for (JagActivityChild jagActivityChild : updatedJagActivity.getChildren()) {
             JagActivityChild newJagActivityChild = new JagActivityChild();
             newJagActivityChild.setId(jagActivityChild.getId());
             newJagActivityChild.setUrn(jagActivityChild.getUrn());
-//            String id = jagActivityChild.getId();
-//            String urn = jagActivityChild.getUrn();
-    //        JagActivityChild newJagActivityChild = new JagActivityChild(id,urn);
             newJagActivityChild.setJagActivity(newJagActivity);
             newJagActivityChildList.add(newJagActivityChild);
         }
         newJagActivity.setChildren(newJagActivityChildList);
 
-
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("6*");
-        System.out.println(newJagActivity.toString());
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-
-
         List<Binding> newBindingList = new ArrayList<>();
         for (Binding binding : updatedJagActivity.getBindings()) {
             Binding newBinding = new Binding();
-            newBinding.setJagActivity(newJagActivity);
-            //newBinding.setId(binding.getId());
             newBinding.setIn(binding.getIn());
             newBinding.setOut(binding.getOut());
+            newBinding.setJagActivity(binding.getJagActivity());
             newBindingList.add(newBinding);
         }
         newJagActivity.setBindings(newBindingList);
-
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("7");
-        System.out.println(newJagActivity.toString());
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-        System.out.println("^");
-
-
-
 
         final JagActivity finalJagActivity = jagActivityRepository.save(newJagActivity);
         return ResponseEntity.ok(finalJagActivity);

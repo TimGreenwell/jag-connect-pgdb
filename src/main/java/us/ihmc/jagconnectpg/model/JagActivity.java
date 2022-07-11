@@ -1,8 +1,11 @@
 package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.*;
+
 
 @Entity(name = "Activity")
 @Table(name = "Activity")
@@ -14,34 +17,50 @@ public class JagActivity {
     private String description;
     @Column(name = "activity_name", nullable = false)
     private String name;
-//    @Column(name = "activity_type", nullable = true)
-//    private String type;
+
+//
+
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-//    @JsonManagedReference
-    private List<JagActivityChild> children = new ArrayList<>();
-    @OneToMany(
-            mappedBy = "jagActivity",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @JsonManagedReference
     private List<Input> inputs = new ArrayList<>();
+
+//
+//
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Output> outputs = new ArrayList<>();
+
+//
+//
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Binding> bindings = new ArrayList<>();
 
+
+    //
+    @OneToMany(
+            mappedBy = "jagActivity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<JagActivityChild> children = new ArrayList<>();
+
+
+//////////////////
+//////////////////////
     @Embedded
     private Connector connector = new Connector();
 
@@ -128,8 +147,8 @@ public class JagActivity {
         this.connector.setOperator(connector.getOperator());
     }
 
-    //@Column(name = "activity_inputs", nullable = true)
-
+//    //@Column(name = "activity_inputs", nullable = true)
+//
     public List<Input> getInputs() {
         return inputs;
     }
@@ -186,18 +205,22 @@ public class JagActivity {
         this.modifiedDate = modifiedDate;
     }
 
+    @JsonProperty("isLocked")
     public Boolean getLocked() {
         return isLocked;
     }
 
+    @JsonProperty("isLocked")
     public void setLocked(Boolean locked) {
         isLocked = locked;
     }
 
+    @JsonProperty("isCollapsed")
     public Boolean getCollapsed() {
         return collapsed;
     }
 
+    @JsonProperty("isCollapsed")
     public void setCollapsed(Boolean collapsed) {
         this.collapsed = collapsed;
     }

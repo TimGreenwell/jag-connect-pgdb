@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
-import us.ihmc.jagconnectpg.model.JagActivityChild;
 import us.ihmc.jagconnectpg.model.JagCell;
 import us.ihmc.jagconnectpg.repository.JagCellRepository;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,35 +34,9 @@ public class JagCellController {
     @PostMapping("/jagCells")
     public JagCell createJagCell(@Valid @RequestBody JagCell jagCellDetails) {
 
-        System.out.println("c");
-        System.out.println(jagCellDetails.toString());
-        System.out.println("c");
-        System.out.println("c");
-
-//        JagCell newJagCell = new JagCell();
-//
-//        newJagCell.setId(jagCellDetails.getId());
-//        newJagCell.setUrn(jagCellDetails.getUrn());
-//        newJagCell.setChildId(jagCellDetails.getChildId());
-//        newJagCell.setParentId(jagCellDetails.getParentId());
-//        newJagCell.setProjectId(jagCellDetails.getProjectId());
-//
-//        newJagCell.setExpanded(jagCellDetails.getExpanded());
-//        newJagCell.setLocked(jagCellDetails.getLocked());
-//        newJagCell.setContextualName(jagCellDetails.getContextualName());
-//        newJagCell.setContextualDescription(jagCellDetails.getContextualDescription());
-//        newJagCell.setX(jagCellDetails.getX());
-//        newJagCell.setY(jagCellDetails.getY());
-//        newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
-//        newJagCell.setReturnValue(jagCellDetails.getReturnValue());
-//        newJagCell.setReturnState(jagCellDetails.getReturnState());
-//        newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
-//        newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
-//        newJagCell.setChildren(jagCellDetails.getChildren());
-
         JagCell newJagCell = setChild(jagCellDetails);
 
-        return jagCellRepository.save(newJagCell);
+        return saveTree(newJagCell);
     }
 
     @PutMapping("/jagCells/{id}")
@@ -72,17 +44,21 @@ public class JagCellController {
                                                    @Valid @RequestBody JagCell jagCellDetails) throws ResourceNotFoundException {
         JagCell jagCell = jagCellRepository.findById(jagCellId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
-
-
-        System.out.println("u");
-        System.out.println(jagCellDetails.toString());
-        System.out.println("u");
-
+  /// the jagCell (above) should be exacly the same as jagCellDetails that is passed in.
 
         JagCell newJagCell = setChild(jagCellDetails);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
-        final JagCell updatedJagCell = jagCellRepository.save(newJagCell);
+
+        final JagCell updatedJagCell = saveTree(newJagCell);
         return ResponseEntity.ok(updatedJagCell);
+    }
+
+    private JagCell saveTree(JagCell currentRoot){
+        for (JagCell child : currentRoot.getChildren()) {
+            saveTree(child);
+        }
+        return jagCellRepository.save(currentRoot);
     }
 
     private JagCell setChild(JagCell jagCellDetails){
@@ -105,15 +81,15 @@ public class JagCellController {
         newJagCell.setReturnState(jagCellDetails.getReturnState());
         newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
         newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
-        List<JagCell> children = new ArrayList<>();
 
+
+        List<JagCell> childrenList = new ArrayList<>();
         for (JagCell jagCellChild : jagCellDetails.getChildren()) {
-            System.out.println("..");
-            System.out.println(jagCellChild.getUrn());
             JagCell newJagCellChild = setChild(jagCellChild);
-            children.add(newJagCellChild);
+            newJagCellChild.setJagCell(jagCellDetails);
+            childrenList.add(newJagCellChild);
         }
-        newJagCell.setChildren(children);
+        newJagCell.setChildren(childrenList);
 
         return newJagCell;
     }

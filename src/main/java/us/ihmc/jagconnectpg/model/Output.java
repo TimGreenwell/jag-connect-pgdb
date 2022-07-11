@@ -1,5 +1,7 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "Produce")
@@ -11,8 +13,10 @@ public class Output {
     @Column(name = "produce_type", nullable = false)
     private String type;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="produce_activity_fk", nullable=false)
+    @JoinColumn(name="produce_activity_fk", nullable = false)
+    @JsonBackReference
     private JagActivity jagActivity;
 
     public Output(String name, String type) {
