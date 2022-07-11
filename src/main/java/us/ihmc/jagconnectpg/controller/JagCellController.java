@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
+import us.ihmc.jagconnectpg.model.JagActivityChild;
 import us.ihmc.jagconnectpg.model.JagCell;
 import us.ihmc.jagconnectpg.repository.JagCellRepository;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -33,32 +31,94 @@ public class JagCellController {
 
     @PostMapping("/jagCells")
     public JagCell createJagCell(@Valid @RequestBody JagCell jagCellDetails) {
-
         JagCell newJagCell = setChild(jagCellDetails);
+         //   return saveTree(newJagCell);
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 
-        return saveTree(newJagCell);
+        /////////////////////////////////////
+        List<JagCell> allNodes = dbTree(newJagCell);
+ //       final List<JagCell> results = jagCellRepository.saveAll(allNodes);
+        return newJagCell;
+        ///////////////////////////////////
+
     }
 
     @PutMapping("/jagCells/{id}")
     public ResponseEntity<JagCell> updateJagCell(@PathVariable(value = "id") String jagCellId,
                                                    @Valid @RequestBody JagCell jagCellDetails) throws ResourceNotFoundException {
-        JagCell jagCell = jagCellRepository.findById(jagCellId)
-                .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
+       // JagCell jagCell = jagCellRepository.findById(jagCellId)
+        //        .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
   /// the jagCell (above) should be exacly the same as jagCellDetails that is passed in.
 
         JagCell newJagCell = setChild(jagCellDetails);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
+       // final JagCell updatedJagCell = saveTree(newJagCell);
 
-        final JagCell updatedJagCell = saveTree(newJagCell);
-        return ResponseEntity.ok(updatedJagCell);
+        List<JagCell> allNodes = clumpTree(newJagCell);
+        final List<JagCell> results = jagCellRepository.saveAll(allNodes);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(allNodes);
+        return ResponseEntity.ok(jagCellDetails);
     }
 
     private JagCell saveTree(JagCell currentRoot){
+         var result = jagCellRepository.save(currentRoot);
         for (JagCell child : currentRoot.getChildren()) {
             saveTree(child);
         }
-        return jagCellRepository.save(currentRoot);
+        return result;
+    }
+
+
+    private List<JagCell> dbTree(JagCell rootNode) {
+        List<JagCell> clumpList = new ArrayList<>();
+        Stack<JagCell> workStack = new Stack<>();
+        workStack.push(rootNode);
+        while (workStack.size()>0) {
+            JagCell currentNode = workStack.pop();
+            System.out.println("++++++++++++++++++++++++++++    POP     ++++++++++++++++++++++++++");
+
+            for (JagCell child : currentNode.getChildren()){
+                workStack.push(child);
+                System.out.println("++++++++++++++++++++++++++++   " + child.getUrn() + "   ++++++++++++++++++++++++++");
+            }
+
+            jagCellRepository.save(currentNode);
+        }
+        return clumpList;
+    }
+
+
+    private List<JagCell> clumpTree(JagCell rootNode) {
+        List<JagCell> clumpList = new ArrayList<>();
+        Stack<JagCell> workStack = new Stack<>();
+        workStack.push(rootNode);
+        while (workStack.size()>0) {
+            JagCell currentNode = workStack.pop();
+
+            for (JagCell child : currentNode.getChildren()){
+                workStack.push(child);
+            }
+            clumpList.add(currentNode);
+        }
+        return clumpList;
     }
 
     private JagCell setChild(JagCell jagCellDetails){
