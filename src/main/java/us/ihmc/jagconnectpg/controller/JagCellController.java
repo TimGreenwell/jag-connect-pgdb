@@ -34,20 +34,10 @@ public class JagCellController {
         JagCell newJagCell = setChild(jagCellDetails);
          //   return saveTree(newJagCell);
         System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-
         /////////////////////////////////////
         List<JagCell> allNodes = dbTree(newJagCell);
  //       final List<JagCell> results = jagCellRepository.saveAll(allNodes);
         return newJagCell;
-        ///////////////////////////////////
-
     }
 
     @PutMapping("/jagCells/{id}")
@@ -60,20 +50,12 @@ public class JagCellController {
         JagCell newJagCell = setChild(jagCellDetails);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
        // final JagCell updatedJagCell = saveTree(newJagCell);
-
-        List<JagCell> allNodes = clumpTree(newJagCell);
-        final List<JagCell> results = jagCellRepository.saveAll(allNodes);
+  //      List<JagCell> allNodes = clumpTree(newJagCell);
+ //       final List<JagCell> results = jagCellRepository.saveAll(allNodes);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        List<JagCell> allNodes = dbTree(newJagCell);
         System.out.println(allNodes);
         return ResponseEntity.ok(jagCellDetails);
     }
