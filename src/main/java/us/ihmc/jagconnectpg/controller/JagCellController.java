@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
+import us.ihmc.jagconnectpg.model.JagActivityChild;
 import us.ihmc.jagconnectpg.model.JagCell;
 import us.ihmc.jagconnectpg.repository.JagCellRepository;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -55,10 +53,16 @@ public class JagCellController {
     }
 
     private JagCell saveTree(JagCell currentRoot){
-        for (JagCell child : currentRoot.getChildren()) {
-            saveTree(child);
+        Stack<JagCell> workStack = new Stack();
+        workStack.push(currentRoot);
+        while (!workStack.empty()) {
+            JagCell workRoot = workStack.pop();
+            jagCellRepository.save(workRoot);
+            for (JagCell child : workRoot.getChildren()) {
+                workStack.push(child);
+            }
         }
-        return jagCellRepository.save(currentRoot);
+        return currentRoot;
     }
 
     private JagCell setChild(JagCell jagCellDetails){

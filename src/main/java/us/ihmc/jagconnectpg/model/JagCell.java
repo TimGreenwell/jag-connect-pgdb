@@ -15,7 +15,7 @@ public class JagCell {
     @Id
     @Column(name = "node_pk", nullable = false)
     private String id;
-    @Column(name = "node_jag", nullable = true)
+    @Column(name = "node_jag", nullable = false)
     private String urn;
 
     @Column(name = "node_child_id", nullable = true)
@@ -28,7 +28,7 @@ public class JagCell {
 
     @Column(name = "node_expanded", nullable = false)
     private Boolean isExpanded;
-    @Column(name = "node_is_locked", nullable = true)
+    @Column(name = "node_is_locked", nullable = false)
     private Boolean isLocked;
 
     @Column(name = "node_x", nullable = true)
@@ -69,9 +69,9 @@ public class JagCell {
 
     @OneToMany(
             mappedBy = "jagCell",
-            fetch = FetchType.LAZY
-   //         cascade = CascadeType.ALL,
-   //         orphanRemoval = true
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     @JsonManagedReference
     private List<JagCell> children = new ArrayList<>();
