@@ -1,14 +1,14 @@
 package us.ihmc.jagconnectpg.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.Agent;
 import us.ihmc.jagconnectpg.model.Assessment;
-import us.ihmc.jagconnectpg.model.Binding;
 import us.ihmc.jagconnectpg.repository.AgentRepository;
-
 import javax.validation.Valid;
 import java.util.*;
 
@@ -32,30 +32,26 @@ public class AgentController {
     }
 
     @PostMapping("/agents")
-    public Agent createAgent(@Valid @RequestBody Agent agentDetails) {
+    public Agent createAgent(@Valid @RequestBody Agent agentDetails) throws JsonProcessingException {
         System.out.println("---- CREATE ----------");
 
         Agent newAgent = new Agent();
         newAgent.setId(agentDetails.getId());
         newAgent.setName(agentDetails.getName());
 
-        List<Assessment> newAssessmentList = new ArrayList<>();
-        for (Assessment assessment : agentDetails.getAssessments()) {
-            Assessment newAssessment = new Assessment();
-            newAssessment.setAgent(newAgent);
-            newAssessment.setUrn(assessment.getUrn());
-            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
-            newAssessmentList.add(newAssessment);
-        }
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(agentDetails.getAssessments());
+        String assessments = String.valueOf(agentDetails.getAssessments());
+        Map<String, Integer> newAssessmentMap = mapper.readValue(assessments, Map.class);
 
-        newAgent.setAssessments(newAssessmentList);
+        newAgent.setAssessments(newAssessmentMap);
 
         return agentRepository.save(newAgent);
     }
 
     @PutMapping("/agents/{id}")
     public ResponseEntity<Agent> updateAgent(@PathVariable(value = "id") String agentId,
-                                             @Valid @RequestBody Agent agentDetails) throws ResourceNotFoundException {
+                                             @Valid @RequestBody Agent agentDetails) throws ResourceNotFoundException, JsonProcessingException {
 
         // Note: updatedJagActivity and the findById(jagActivityId) should be exactly the same...
 //        Agent agent = agentRepository.findById(agentId)
@@ -66,17 +62,14 @@ public class AgentController {
         newAgent.setId(agentDetails.getId());
         newAgent.setName(agentDetails.getName());
 
-        List<Assessment> newAssessmentList = new ArrayList<>();
-        for (Assessment assessment : agentDetails.getAssessments()) {
-            Assessment newAssessment = new Assessment();
-            newAssessment.setAgent(newAgent);
-            newAssessment.setUrn(assessment.getUrn());
-            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
-            newAssessmentList.add(newAssessment);
-        }
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(agentDetails.getAssessments());
+        String assessments = String.valueOf(agentDetails.getAssessments());
+        Map<String, Integer> newAssessmentMap = null;
 
-        newAgent.setAssessments(newAssessmentList);
+            newAssessmentMap = mapper.readValue(assessments, Map.class);
 
+        newAgent.setAssessments(newAssessmentMap);
 
         final Agent updatedAgent = agentRepository.save(newAgent);
         return ResponseEntity.ok(updatedAgent);

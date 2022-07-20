@@ -9,75 +9,86 @@ public class Analysis {
     @Id
     @Column(name = "analysis_pk", nullable = true)
     private String id;
-    @Column(name = "analysis_desc", nullable = true)
-    private String description;
     @Column(name = "analysis_name", nullable = false)
     private String name;
-    @Column(name = "analysis_root", nullable = false)
-    private String rootJagNodeId;
-    @Column(name = "analysis_root_urn", nullable = false)
-    private String rootJagActivityUrn;
+    @Column(name = "analysis_desc", nullable = true)
+    private String description;
+    @Column(name = "analysis_rooturn", nullable = false)
+    private String rootUrn;
+
     @Column(name = "analysis_team", nullable = false)
     private String teamId;
+    @Column(name = "is_locked", nullable = false)
+    private String isLocked;
 
-    public Analysis(String id, String description, String name, String rootJagNodeId, String rootJagActivityUrn, String teamId) {
+    public Analysis(String id, String name, String description, String rootUrn, String teamId, String isLocked) {
         this.id = id;
-        this.description = description;
         this.name = name;
-        this.rootJagNodeId = rootJagNodeId;
-        this.rootJagActivityUrn = rootJagActivityUrn;
+        this.description = description;
+        this.rootUrn = rootUrn;
         this.teamId = teamId;
+        this.isLocked = isLocked;
     }
 
     public Analysis() {    }
 
-
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
     }
-    public void setDescription(String firstName) {
+
+    public void setDescription(String description) {
         this.description = description;
     }
 
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String lastName) {
-        this.name = name;
+    public String getRootUrn() {
+        return rootUrn;
     }
 
-
-    public String getRootJagNodeId() { return rootJagNodeId; }
-    public void setRootJagNodeId(String rootJagNodeId) { this.rootJagNodeId = rootJagNodeId; }
-
-
-    public String getRootJagActivityUrn() { return rootJagActivityUrn; }
-    public void setRootJagActivityUrn(String rootJagActivityUrn) {
-        this.rootJagActivityUrn = rootJagActivityUrn;
+    public void setRootUrn(String rootUrn) {
+        this.rootUrn = rootUrn;
     }
 
+    public String getTeamId() {
+        return teamId;
+    }
 
-    public String getTeamId() { return teamId; }
-    public void setTeamId(String teamId) { this.teamId = teamId; }
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(String isLocked) {
+        this.isLocked = isLocked;
+    }
 
     @Override
     public String toString() {
-        return "{" +
+        return "Analysis{" +
                 "id='" + id + '\'' +
-                ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
-                ", rootJagNodeId='" + rootJagNodeId + '\'' +
-                ", rootJagActivityUrn='" + rootJagActivityUrn + '\'' +
+                ", description='" + description + '\'' +
+                ", rootUrn='" + rootUrn + '\'' +
                 ", teamId='" + teamId + '\'' +
+                ", isLocked='" + isLocked + '\'' +
                 '}';
     }
 }
