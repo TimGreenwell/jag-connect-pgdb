@@ -8,7 +8,10 @@ import us.ihmc.jagconnectpg.model.JagActivityChild;
 import us.ihmc.jagconnectpg.model.JagCell;
 import us.ihmc.jagconnectpg.repository.JagCellRepository;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,7 +34,6 @@ public class JagCellController {
 
     @PostMapping("/jagCells")
     public JagCell createJagCell(@Valid @RequestBody JagCell jagCellDetails) {
-
         JagCell newJagCell = setChild(jagCellDetails);
 
         return saveTree(newJagCell);

@@ -17,7 +17,6 @@ public class JagCell {
     private String id;
     @Column(name = "node_jag", nullable = false)
     private String urn;
-
     @Column(name = "node_child_id", nullable = true)
     private String childId;
 
