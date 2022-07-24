@@ -1,6 +1,9 @@
 package us.ihmc.jagconnectpg.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +61,20 @@ public class JagCell {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<JagCell> children = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="node_cell_fk", nullable=false)
+    @JoinColumn(name="node_cell_fk", nullable=true)
+    @JsonBackReference
     private JagCell jagCell;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="node_parent_fk", nullable = true)
+//    @JsonBackReference
+//    private JagCell jagCell;
+
+
 
 //    public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {
 //        this.id = id;
