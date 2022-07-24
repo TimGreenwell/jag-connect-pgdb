@@ -1,5 +1,7 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "Assessment")
@@ -10,8 +12,10 @@ public class Assessment {
     private String id;
     @Column(name = "assessment_score", nullable = false)
     private Integer assessmentScore;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="assessment_agent_fk", nullable=false)
+    @JsonBackReference
     private Agent agent;
 
     public Assessment(String id, Integer assessmentScore, Agent agent) {

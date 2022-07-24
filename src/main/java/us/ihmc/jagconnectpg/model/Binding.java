@@ -1,5 +1,7 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "Binding")
@@ -16,6 +18,7 @@ public class Binding {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="binding_activity_fk", nullable=false)
+    @JsonBackReference
     private JagActivity jagActivity;
 
 

@@ -1,5 +1,7 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class Team {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Agent> agents = new ArrayList<>();
 
     @OneToMany(
@@ -25,6 +28,7 @@ public class Team {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Performer> performers = new ArrayList<>();
 
     public Team(String name, List<Agent> agents, List<Performer> performers) {

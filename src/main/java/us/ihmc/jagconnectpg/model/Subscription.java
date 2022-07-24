@@ -1,5 +1,7 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -17,6 +19,7 @@ public class Subscription {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="sub_node_fk", nullable=false)
+    @JsonBackReference
     private JagCell jagCell;
 
 

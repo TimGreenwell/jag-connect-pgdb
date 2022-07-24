@@ -1,5 +1,8 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -18,9 +21,12 @@ public class Agent implements Serializable {
             mappedBy = "agent",
             cascade = CascadeType.ALL,
             orphanRemoval = true )
+    @JsonManagedReference
     private List<Assessment> assessments = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="agent_team_fk", nullable=false)
+    @JsonBackReference
     private Team team;
 
     public Agent(String id, String name, List<Assessment> assessments, Team team) {

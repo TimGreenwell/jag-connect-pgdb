@@ -1,5 +1,7 @@
 package us.ihmc.jagconnectpg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "Consume")
@@ -13,6 +15,7 @@ public class Input {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="consume_activity_fk", nullable=false)
+    @JsonBackReference
     private JagActivity jagActivity;
 
 

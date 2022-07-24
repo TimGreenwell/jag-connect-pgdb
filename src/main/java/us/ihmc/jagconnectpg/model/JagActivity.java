@@ -23,23 +23,29 @@ public class JagActivity {
     )
     @JsonManagedReference
     private List<JagActivityChild> children = new ArrayList<>();
+
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Input> inputs = new ArrayList<>();
+
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Output> outputs = new ArrayList<>();
+
     @OneToMany(
             mappedBy = "jagActivity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Binding> bindings = new ArrayList<>();
 
     @Embedded

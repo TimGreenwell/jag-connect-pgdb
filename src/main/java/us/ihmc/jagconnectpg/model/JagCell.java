@@ -43,6 +43,7 @@ public class JagCell {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Subscription> subscriptions = new ArrayList<>();
 
 

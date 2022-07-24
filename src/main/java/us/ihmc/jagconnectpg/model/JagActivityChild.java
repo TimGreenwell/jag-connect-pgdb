@@ -15,8 +15,8 @@ public class JagActivityChild {
     private String urn;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     @JoinColumn(name="activityChild_parent_fk", nullable=false)
+    @JsonBackReference
     private JagActivity jagActivity;
 
     public JagActivityChild(String id, String urn, JagActivity jagActivity) {
