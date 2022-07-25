@@ -3,8 +3,6 @@ package us.ihmc.jagconnectpg.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.JagCell;
 import us.ihmc.jagconnectpg.repository.JagCellRepository;
@@ -34,7 +32,6 @@ public class JagCellController {
 
     @PostMapping("/jagCells")
     public JagCell createJagCell(@Valid @RequestBody JagCell jagCellDetails) {
-
         return saveTree(jagCellDetails);
     }
 
@@ -43,10 +40,7 @@ public class JagCellController {
     @PutMapping("/jagCells/{id}")
     public ResponseEntity<JagCell> updateJagCell(@PathVariable(value = "id") String jagCellId,
                                                    @Valid @RequestBody JagCell jagCellDetails) throws ResourceNotFoundException {
-        JagCell jagCell = jagCellRepository.findById(jagCellId)
-                .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
-
-        this.saveTree(jagCellDetails);
+        final JagCell updatedJagCell = saveTree(jagCellDetails);
         return ResponseEntity.ok(updatedJagCell);
     }
 
@@ -63,77 +57,6 @@ public class JagCellController {
         }
         return currentRoot;
     }
-
-    private JagCell setChild(JagCell jagCellDetails){
-
-        JagCell newJagCell = new JagCell();
-        newJagCell.setId(jagCellDetails.getId());
-        newJagCell.setUrn(jagCellDetails.getUrn());
-        newJagCell.setChildId(jagCellDetails.getChildId());
-        newJagCell.setParentId(jagCellDetails.getParentId());
-        newJagCell.setProjectId(jagCellDetails.getProjectId());
-
-        newJagCell.setExpanded(jagCellDetails.getExpanded());
-        newJagCell.setLocked(jagCellDetails.getLocked());
-        newJagCell.setContextualName(jagCellDetails.getContextualName());
-        newJagCell.setContextualDescription(jagCellDetails.getContextualDescription());
-        newJagCell.setX(jagCellDetails.getX());
-        newJagCell.setY(jagCellDetails.getY());
-        newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
-        newJagCell.setReturnValue(jagCellDetails.getReturnValue());
-        newJagCell.setReturnState(jagCellDetails.getReturnState());
-        newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
-        newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
-
-
-        List<JagCell> childrenList = new ArrayList<>();
-        for (JagCell jagCellChild : jagCellDetails.getChildren()) {
-            JagCell newJagCellChild = setChild(jagCellChild);
-            newJagCellChild.setJagCell(jagCellDetails);
-            childrenList.add(newJagCellChild);
-        }
-        newJagCell.setChildren(childrenList);
-
-        return newJagCell;
-    }
-
-
-
-//    private JagCell setChild(JagCell jagCellDetails){
-//
-//        JagCell newJagCell = new JagCell();
-//        newJagCell.setId(jagCellDetails.getId());
-//        newJagCell.setUrn(jagCellDetails.getUrn());
-//        newJagCell.setChildId(jagCellDetails.getChildId());
-//        newJagCell.setParentId(jagCellDetails.getParentId());
-//        newJagCell.setProjectId(jagCellDetails.getProjectId());
-//
-//        newJagCell.setExpanded(jagCellDetails.getExpanded());
-//        newJagCell.setLocked(jagCellDetails.getLocked());
-//        newJagCell.setContextualName(jagCellDetails.getContextualName());
-//        newJagCell.setContextualDescription(jagCellDetails.getContextualDescription());
-//        newJagCell.setX(jagCellDetails.getX());
-//        newJagCell.setY(jagCellDetails.getY());
-//        newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
-//        newJagCell.setReturnValue(jagCellDetails.getReturnValue());
-//        newJagCell.setReturnState(jagCellDetails.getReturnState());
-//        newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
-//        newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
-//
-//
-//        List<JagCell> childrenList = new ArrayList<>();
-//        for (JagCell jagCellChild : jagCellDetails.getChildren()) {
-//            JagCell newJagCellChild = setChild(jagCellChild);
-//            newJagCellChild.setJagCell(jagCellDetails);
-//            childrenList.add(newJagCellChild);
-//        }
-//        newJagCell.setChildren(childrenList);
-//
-//        return newJagCell;
-//    }
-
-
-
 
     @DeleteMapping("/jagCells/{id}")
     public Map<String, Boolean> deleteJagCell(@PathVariable(value = "id") String jagCellId)

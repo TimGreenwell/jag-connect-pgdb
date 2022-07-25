@@ -4,34 +4,46 @@ package us.ihmc.jagconnectpg.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Node")
 @Table(name = "Node")
+@Data
 public class JagCell {
+
     @Id
     @Column(name = "node_pk", nullable = false)
     private String id;
-    @Column(name = "node_jag", nullable = true)
+
+
+    @Column(name = "node_urn", nullable = true)
     private String urn;
 
-    @Column(name = "node_childId", nullable = true)
+
+    @Column(name = "node_child_id", nullable = true)
     private String childId;
 
-    @Column(name = "node_parentId", nullable = true)
+
+    @Column(name = "node_parent_id", nullable = true)
     private String parentId;
 
-    @Column(name = "node_projectId", nullable = true)
+
+    @Column(name = "node_project_id", nullable = true)
     private String projectId;
 
-    @Column(name = "node_isLocked", nullable = true)
+
+    @JsonProperty("isLocked")
+    @Column(name = "node_is_locked", nullable = true)
     private Boolean isLocked;
 
-    @Column(name = "node_isexpanded", nullable = true)
+
+    @JsonProperty("isExpanded")
+    @Column(name = "node_is_expanded", nullable = true)
     private Boolean isExpanded;
+
 
     @Column(name = "node_x", nullable = true)
     private int x;
@@ -39,10 +51,13 @@ public class JagCell {
     private int y;
 
 
-    @Column(name = "node_conName", nullable = true)
+    @Column(name = "node_con_name", nullable = true)
     private String contextualName;
-    @Column(name = "node_conDesc", nullable = true)
+
+
+    @Column(name = "node_con_desc", nullable = true)
     private String contextualDescription;
+
 
     @OneToMany(
             mappedBy = "jagCell",
@@ -53,15 +68,19 @@ public class JagCell {
     private List<Subscription> subscriptions = new ArrayList<>();
 
 
-    @Column(name = "node_returnValue", nullable = true)
+    @Column(name = "node_return_value", nullable = true)
     private String returnValue;
-    @Column(name = "node_returnState", nullable = true)
+
+    @Column(name = "node_return_state", nullable = true)
     private String returnState;
 
-    @Column(name = "node_testReturnValue", nullable = true)
+
+    @Column(name = "node_test_return_value", nullable = true)
     private String testReturnValue;
-    @Column(name = "node_testReturnState", nullable = true)
+
+    @Column(name = "node_test_return_state", nullable = true)
     private String testReturnState;
+
 
     @OneToMany(
             mappedBy = "jagCell",
@@ -69,245 +88,14 @@ public class JagCell {
             orphanRemoval = true
     )
     @JsonManagedReference
-    private List<JagCell> children = new ArrayList<>();
+    public List<JagCell> children = new ArrayList<>();
+
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="node_cell_fk", nullable=true)
+    @JoinColumn(name="node_child_parent_fk", nullable=true)
     @JsonBackReference
     private JagCell jagCell;
 
-
-
-//    public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {
-//        this.id = id;
-//        this.jagUrn = jagUrn;
-//        this.linkStatus = linkStatus;
-//        this.color = color;
-//        this.collapsed = collapsed;
-//        this.length = length;
-//        this.children = children;
-//        this.jagCell = jagCell;
-//    }
-
-
-    public JagCell(String id,
-                   String urn,
-                   String childId,
-                   String parentId,
-                   String projectId,
-                   Boolean isLocked,
-                   Boolean isExpanded,
-                   int x, int y,
-                   String contextualName,
-                   String contextualDescription,
-                   List<Subscription> subscriptions,
-                   String returnValue,
-                   String returnState,
-                   String testReturnValue,
-                   String testReturnState,
-                   List<JagCell> children,
-                   JagCell jagCell
-    ) {
-
-        this.id = id;
-        this.urn = urn;
-        this.childId = childId;
-        this.parentId = parentId;
-        this.projectId = projectId;
-        this.isLocked = isLocked;
-        this.isExpanded = isExpanded;
-        this.x = x;
-        this.y = y;
-        this.contextualName = contextualName;
-        this.contextualDescription = contextualDescription;
-        this.subscriptions = subscriptions;
-        this.returnValue = returnValue;
-        this.returnState = returnState;
-        this.testReturnValue = testReturnValue;
-        this.testReturnState = testReturnState;
-        this.children = children;
-        this.jagCell = jagCell;
-    }
-
-    public JagCell() {
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUrn() {
-        return urn;
-    }
-
-    public void setUrn(String urn) {
-        this.urn = urn;
-    }
-
-
-    public String getChildId() {
-        return childId;
-    }
-
-    public void setChildId(String childId) {
-        this.childId = childId;
-    }
-
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
-    @JsonProperty("isExpanded")
-    public Boolean getExpanded() {
-        return isExpanded;
-    }
-
-    @JsonProperty("isExpanded")
-    public void setExpanded(Boolean expanded) {
-        this.isExpanded = expanded;
-    }
-
-
-
-    @JsonProperty("isLocked")
-    public Boolean getLocked() {
-        return isLocked;
-    }
-
-    @JsonProperty("isLocked")
-    public void setLocked(Boolean locked) {
-        isLocked = locked;
-    }
-
-    public String getContextualName() {
-        return contextualName;
-    }
-
-    public void setContextualName(String contextualName) {
-        this.contextualName = contextualName;
-    }
-
-    public String getContextualDescription() {
-        return contextualDescription;
-    }
-
-    public void setContextualDescription(String contextualDescription) {
-        this.contextualDescription = contextualDescription;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public List<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
-
-    public String getReturnValue() {
-        return returnValue;
-    }
-
-    public void setReturnValue(String returnValue) {
-        this.returnValue = returnValue;
-    }
-
-    public String getReturnState() {
-        return returnState;
-    }
-
-    public void setReturnState(String returnState) {
-        this.returnState = returnState;
-    }
-
-    public String getTestReturnValue() {
-        return testReturnValue;
-    }
-
-    public void setTestReturnValue(String testReturnValue) {
-        this.testReturnValue = testReturnValue;
-    }
-
-    public String getTestReturnState() {
-        return testReturnState;
-    }
-
-    public void setTestReturnState(String testReturnState) {
-        this.testReturnState = testReturnState;
-    }
-
-    public List<JagCell> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<JagCell> children) {
-        this.children = children;
-    }
-
-    public JagCell getJagCell() {
-        return jagCell;
-    }
-
-    public void setJagCell(JagCell jagCell) {
-        this.jagCell = jagCell;
-    }
-
-    @Override
-    public String toString() {
-        return "JagCell{" +
-                "id='" + id + '\'' +
-                ", urn='" + urn + '\'' +
-                ", childId='" + childId + '\'' +
-                ", projectId='" + projectId + '\'' +
-                ", parentId='" + parentId + '\'' +
-                ", isExpanded=" + isExpanded +
-                ", isLocked=" + isLocked +
-                ", contextualName='" + contextualName + '\'' +
-                ", contextualDescription='" + contextualDescription + '\'' +
-                ", x=" + x +
-                ", y=" + y +
-                ", subscriptions=" + subscriptions +
-                ", returnValue='" + returnValue + '\'' +
-                ", returnState='" + returnState + '\'' +
-                ", testReturnValue='" + testReturnValue + '\'' +
-                ", testReturnState='" + testReturnState + '\'' +
-                ", children=" + children +
-                ", jagCell=" + jagCell +
-                '}';
-    }
 }
 
 

@@ -43,7 +43,7 @@ public class AgentController {
         for (Assessment assessment : agentDetails.getAssessments()) {
             Assessment newAssessment = new Assessment();
             newAssessment.setAgent(newAgent);
-            newAssessment.setUrn(assessment.getUrn());
+            newAssessment.setId(assessment.getId());
             newAssessment.setAssessmentScore(assessment.getAssessmentScore());
             newAssessmentList.add(newAssessment);
         }
@@ -70,7 +70,7 @@ public class AgentController {
         for (Assessment assessment : agentDetails.getAssessments()) {
             Assessment newAssessment = new Assessment();
             newAssessment.setAgent(newAgent);
-            newAssessment.setUrn(assessment.getUrn());
+            newAssessment.setId(assessment.getId());
             newAssessment.setAssessmentScore(assessment.getAssessmentScore());
             newAssessmentList.add(newAssessment);
         }

@@ -1,13 +1,14 @@
 package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Team")
 @Table(name = "Team")
+@Data
 public class Team {
     @Id
     @Column(name = "team_pk", nullable = false)
@@ -31,46 +32,46 @@ public class Team {
     @JsonManagedReference
     private List<Performer> performers = new ArrayList<>();
 
-    public Team(String name, List<Agent> agents, List<Performer> performers) {
-        this.name = name;
-        this.agents = agents;
-        this.performers = performers;
-    }
-
-    public Team() {
-    }
-
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public List<Agent> getAgents() {
-        return agents;
-    }
-
-    public void setAgents(List<Agent> agents) {
-        this.agents = agents;
-    }
-
-
-    public List<Performer> getPerformers() {
-        return performers;
-    }
-    public void setPerformers(List<Performer> performers) {
-        this.performers = performers;
-    }
-
+//    public Team(String name, List<Agent> agents, List<Performer> performers) {
+//        this.name = name;
+//        this.agents = agents;
+//        this.performers = performers;
+//    }
+//
+//    public Team() {
+//    }
+//
+//    public String getId() {
+//        return id;
+//    }
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//
+//    public List<Agent> getAgents() {
+//        return agents;
+//    }
+//
+//    public void setAgents(List<Agent> agents) {
+//        this.agents = agents;
+//    }
+//
+//
+//    public List<Performer> getPerformers() {
+//        return performers;
+//    }
+//    public void setPerformers(List<Performer> performers) {
+//        this.performers = performers;
+//    }
+//
 
 }
 
