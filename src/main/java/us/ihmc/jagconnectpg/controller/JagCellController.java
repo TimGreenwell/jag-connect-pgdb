@@ -11,9 +11,7 @@ import us.ihmc.jagconnectpg.repository.JagCellRepository;
 
 import javax.transaction.SystemException;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -36,64 +34,8 @@ public class JagCellController {
 
     @PostMapping("/jagCells")
     public JagCell createJagCell(@Valid @RequestBody JagCell jagCellDetails) {
-        JagCell newJagCell = new JagCell();
-        try {
-            System.out.println(jagCellDetails.toString());
 
-            System.out.println("____________________________________");
-            newJagCell.setId(jagCellDetails.getId());
-            System.out.println(jagCellDetails.getId());
-
-            newJagCell.setUrn(jagCellDetails.getUrn());
-            System.out.println(jagCellDetails.getUrn());
-
-            newJagCell.setChildId(jagCellDetails.getChildId());
-            System.out.println(jagCellDetails.getChildId());
-
-            newJagCell.setParentId(jagCellDetails.getParentId());
-            System.out.println(jagCellDetails.getParentId());
-
-            newJagCell.setProjectId(jagCellDetails.getProjectId());
-            System.out.println(jagCellDetails.getProjectId());
-
-            newJagCell.setExpanded(jagCellDetails.getExpanded());
-            System.out.println(jagCellDetails.getExpanded());
-
-            newJagCell.setLocked(jagCellDetails.getLocked());
-            System.out.println(jagCellDetails.getLocked());
-
-            newJagCell.setContextualName(jagCellDetails.getContextualName());
-            System.out.println(jagCellDetails.getContextualName());
-
-            newJagCell.setContextualDescription(jagCellDetails.getContextualDescription());
-            System.out.println(jagCellDetails.getContextualDescription());
-
-            newJagCell.setX(jagCellDetails.getX());
-            System.out.println(jagCellDetails.getX());
-            newJagCell.setY(jagCellDetails.getY());
-            System.out.println(jagCellDetails.getY());
-
-            newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
-            System.out.println(jagCellDetails.getSubscriptions());
-
-            newJagCell.setReturnValue(jagCellDetails.getReturnValue());
-            System.out.println(jagCellDetails.getReturnValue());
-            newJagCell.setReturnState(jagCellDetails.getReturnState());
-            System.out.println(jagCellDetails.getReturnState());
-
-            newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
-            System.out.println(jagCellDetails.getTestReturnState());
-            newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
-            System.out.println(jagCellDetails.getTestReturnValue());
-
-
-            newJagCell.setChildren(jagCellDetails.getChildren());
-            System.out.println(jagCellDetails.getChildren());
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        return jagCellRepository.save(newJagCell);
+        return saveTree(jagCellDetails);
     }
 
 
@@ -104,14 +46,33 @@ public class JagCellController {
         JagCell jagCell = jagCellRepository.findById(jagCellId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
 
+        this.saveTree(jagCellDetails);
+        return ResponseEntity.ok(updatedJagCell);
+    }
+
+
+    private JagCell saveTree(JagCell currentRoot){
+        Stack<JagCell> workStack = new Stack();
+        workStack.push(currentRoot);
+        while (!workStack.empty()) {
+            JagCell workRoot = workStack.pop();
+            jagCellRepository.save(workRoot);
+            for (JagCell child : workRoot.getChildren()) {
+                workStack.push(child);
+            }
+        }
+        return currentRoot;
+    }
+
+    private JagCell setChild(JagCell jagCellDetails){
+
         JagCell newJagCell = new JagCell();
-
         newJagCell.setId(jagCellDetails.getId());
-
         newJagCell.setUrn(jagCellDetails.getUrn());
         newJagCell.setChildId(jagCellDetails.getChildId());
-        newJagCell.setProjectId(jagCellDetails.getProjectId());
         newJagCell.setParentId(jagCellDetails.getParentId());
+        newJagCell.setProjectId(jagCellDetails.getProjectId());
+
         newJagCell.setExpanded(jagCellDetails.getExpanded());
         newJagCell.setLocked(jagCellDetails.getLocked());
         newJagCell.setContextualName(jagCellDetails.getContextualName());
@@ -121,13 +82,21 @@ public class JagCellController {
         newJagCell.setSubscriptions(jagCellDetails.getSubscriptions());
         newJagCell.setReturnValue(jagCellDetails.getReturnValue());
         newJagCell.setReturnState(jagCellDetails.getReturnState());
-        newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
         newJagCell.setTestReturnValue(jagCellDetails.getTestReturnValue());
-        newJagCell.setChildren(jagCellDetails.getChildren());
+        newJagCell.setTestReturnState(jagCellDetails.getTestReturnState());
 
-        final JagCell updatedJagCell = jagCellRepository.save(newJagCell);
-        return ResponseEntity.ok(updatedJagCell);
+
+        List<JagCell> childrenList = new ArrayList<>();
+        for (JagCell jagCellChild : jagCellDetails.getChildren()) {
+            JagCell newJagCellChild = setChild(jagCellChild);
+            newJagCellChild.setJagCell(jagCellDetails);
+            childrenList.add(newJagCellChild);
+        }
+        newJagCell.setChildren(childrenList);
+
+        return newJagCell;
     }
+
 
 
 //    private JagCell setChild(JagCell jagCellDetails){
