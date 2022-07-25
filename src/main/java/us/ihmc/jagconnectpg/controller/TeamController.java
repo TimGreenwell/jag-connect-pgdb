@@ -8,7 +8,6 @@ import us.ihmc.jagconnectpg.model.Agent;
 import us.ihmc.jagconnectpg.model.Performer;
 import us.ihmc.jagconnectpg.model.Team;
 import us.ihmc.jagconnectpg.repository.TeamRepository;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,25 +16,28 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1")
 public class TeamController {
     @Autowired
     private TeamRepository teamRepository;
 
-    @GetMapping("/teams")
+    @GetMapping(value = "/teams")
     public List<Team> getAllTeams() {
         return teamRepository.findAll();
     }
 
-    @GetMapping("/teams/{id}")
+    @GetMapping(value = "/teams/{id}")
     public ResponseEntity<Team> getTeamById(@PathVariable(value = "id") String teamId)
             throws ResourceNotFoundException {
+
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new ResourceNotFoundException("Team not found for this id :: " + teamId));
+
         return ResponseEntity.ok().body(team);
     }
 
-    @PostMapping("/teams")
+    @PostMapping(value = "/teams",
+            consumes = "application/json")
     public Team createTeam(@Valid @RequestBody Team teamDetails) {
 
 
@@ -44,7 +46,7 @@ public class TeamController {
         newTeam.setId(teamDetails.getId());
         newTeam.setName(teamDetails.getName());
         List<Agent> agentList = new ArrayList<>();
-        for (Agent agent: teamDetails.getAgents()) {
+        for (Agent agent: teamDetails.getAgentIds()) {
             Agent newAgent = new Agent();
             newAgent.setId(agent.getId());
             newAgent.setName(agent.getName());
@@ -60,13 +62,14 @@ public class TeamController {
             performerList.add(newPerformer);
         }
 
-        newTeam.setAgents(agentList);
+        newTeam.setAgentIds(agentList);
         newTeam.setPerformers(performerList);
 
         return teamRepository.save(newTeam);
     }
 
-    @PutMapping("/teams/{id}")
+    @PutMapping(value = "/teams/{id}",
+            consumes = "application/json")
     public ResponseEntity<Team> updateTeam(@PathVariable(value = "id") String teamId,
                                                    @Valid @RequestBody Team teamDetails) throws ResourceNotFoundException {
         Team team = teamRepository.findById(teamId)
@@ -77,7 +80,7 @@ public class TeamController {
         newTeam.setId(teamDetails.getId());
         newTeam.setName(teamDetails.getName());
         List<Agent> agentList = new ArrayList<>();
-        for (Agent agent: teamDetails.getAgents()) {
+        for (Agent agent: teamDetails.getAgentIds()) {
             Agent newAgent = new Agent();
             newAgent.setId(agent.getId());
             newAgent.setName(agent.getName());
@@ -93,15 +96,16 @@ public class TeamController {
             performerList.add(newPerformer);
         }
 
-        newTeam.setAgents(agentList);
+        newTeam.setAgentIds(agentList);
         newTeam.setPerformers(performerList);
         final Team updatedTeam = teamRepository.save(newTeam);
         return ResponseEntity.ok(updatedTeam);
     }
 
-    @DeleteMapping("/teams/{id}")
+    @DeleteMapping(value = "/teams/{id}")
     public Map<String, Boolean> deleteTeam(@PathVariable(value = "id") String teamId)
             throws ResourceNotFoundException {
+
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new ResourceNotFoundException("Team not found for this id :: " + teamId));
 
@@ -111,7 +115,7 @@ public class TeamController {
         return response;
     }
 
-    @DeleteMapping("/teams")
+    @DeleteMapping(value = "/teams")
     public Map<String, Boolean> deleteTeam() {
         teamRepository.deleteAll();
         Map<String, Boolean> response = new HashMap<>();

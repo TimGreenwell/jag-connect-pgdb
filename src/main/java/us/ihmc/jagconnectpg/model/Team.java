@@ -22,7 +22,7 @@ public class Team {
             orphanRemoval = true
     )
     @JsonManagedReference
-    private List<Agent> agents = new ArrayList<>();
+    private List<Agent> agentIds = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "team",

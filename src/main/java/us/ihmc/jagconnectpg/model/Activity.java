@@ -15,19 +15,14 @@ public class Activity {
     @Column(name = "activity_urn")
     private String urn;
 
-    @Column(name = "activity_description", nullable = true)
-    private String description;
-
     @Column(name = "activity_name", nullable = false)
     private String name;
 
-    @OneToMany(
-            mappedBy = "activity",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JsonManagedReference
-    private List<Subactivity> children = new ArrayList<>();
+    @Column(name = "activity_description", nullable = true)
+    private String description;
+
+    @Embedded
+    private Connector connector = new Connector();
 
     @OneToMany(
             mappedBy = "activity",
@@ -45,6 +40,15 @@ public class Activity {
     @JsonManagedReference
     private List<Output> outputs = new ArrayList<>();
 
+
+    @OneToMany(
+            mappedBy = "activity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<Subactivity> children = new ArrayList<>();
+
     @OneToMany(
             mappedBy = "activity",
             cascade = CascadeType.ALL,
@@ -53,20 +57,8 @@ public class Activity {
     @JsonManagedReference
     private List<Binding> bindings = new ArrayList<>();
 
-    @Embedded
-    private Connector connector = new Connector();
-
-    @Column(name = "activity_is_locked", nullable = true)
-    private Boolean isLocked;
-
-    @Column(name = "activity_collapsed", nullable = true)
-    private Boolean collapsed;
-
     @Column(name = "activity_author", nullable = true)
     private String author;
-
-    @Column(name = "activity_locked_by", nullable = true)
-    private String lockedBy;
 
     @Column(name = "activity_created_date", nullable = true)
     private Date createdDate;
@@ -74,8 +66,16 @@ public class Activity {
     @Column(name = "activity_modified_date", nullable = true)
     private Date modifiedDate;
 
+    @Column(name = "activity_locked_by", nullable = true)
+    private String lockedBy;
 
+    @Column(name = "activity_is_locked", nullable = true)
+    private Boolean isLocked;
 
+    @Column(name = "activity_collapsed", nullable = true)
+    private Boolean collapsed;
+
+}
 
 //    public void setChildren(List<JagActivityChild> children) {
 //        this.children.clear();
@@ -112,5 +112,5 @@ public class Activity {
 //        this.bindings.addAll(bindings);
 //    }
 //
-}
+
 

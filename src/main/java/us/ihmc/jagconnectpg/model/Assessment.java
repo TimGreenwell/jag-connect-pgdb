@@ -16,6 +16,10 @@ public class Assessment {
     private Integer assessmentScore;
 
 //  tlg - this might have been replaced by an elementCollection
+    // note to me: As this is just a map - it makes more sense to use an element
+    // collection rather than a bidirectional relationship...
+    // @TODO The same goes for Input and Output and maybe Binding and Subscriptions
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="assessment_agent_fk", nullable = false)
     @JsonBackReference

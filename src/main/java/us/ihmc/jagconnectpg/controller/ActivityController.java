@@ -10,42 +10,45 @@ import javax.validation.Valid;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1")
 public class ActivityController {
     @Autowired
     private ActivityRepository activityRepository;
 
-    @GetMapping("/activities")
-    public List<Activity> getAllJagActivities() {
+    @GetMapping(value = "/activities")
+    public List<Activity> getAllActivities() {
         return activityRepository.findAll();
     }
 
-    @GetMapping("/activities/{urn}")
-    public ResponseEntity<Activity> getJagActivityById(@PathVariable(value = "urn") String jagActivityId)
+    @GetMapping(value = "/activities/{urn}")
+    public ResponseEntity<Activity> getActivityById(@PathVariable(value = "urn") String jagActivityId)
             throws ResourceNotFoundException {
         Activity activity = activityRepository.findById(jagActivityId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
         return ResponseEntity.ok().body(activity);
     }
 
-    @PostMapping("/activities")
-    public Activity createJagActivity(@Valid @RequestBody Activity createdActivity) {
+    @PostMapping(value = "/activities",
+            consumes = "application/json")
+    public Activity createActivity(@Valid @RequestBody Activity createdActivity) {
         return activityRepository.save(createdActivity);
     }
 
-    @PutMapping("/activities/{urn}")
-    public ResponseEntity<Activity> updateJagActivity(@PathVariable(value = "urn") String jagActivityId,
-                                                      @Valid @RequestBody Activity updatedActivity) throws ResourceNotFoundException {
+    @PutMapping(value = "/activities/{urn}",
+            consumes = "application/json")
+    public ResponseEntity<Activity> updateActivity(@PathVariable(value = "urn") String jagActivityId,
+                                                   @Valid @RequestBody Activity updatedActivity)
+                                                   throws ResourceNotFoundException {
 
-//        JagActivity currentJagActivity = jagActivityRepository.findById(jagActivityId)
-//                .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
+        Activity activity = activityRepository.findById(jagActivityId)
+                .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
 
-        final Activity finalActivity = activityRepository.save(updatedActivity);
+        final Activity finalActivity = activityRepository.save(activity);
         return ResponseEntity.ok(finalActivity);
     }
 
-    @DeleteMapping("/activities/{urn}")
-    public Map<String, Boolean> deleteJagActivity(@PathVariable(value = "urn") String jagActivityId)
+    @DeleteMapping(value = "/activities/{urn}")
+    public Map<String, Boolean> deleteActivity(@PathVariable(value = "urn") String jagActivityId)
             throws ResourceNotFoundException {
 
         Activity activity = activityRepository.findById(jagActivityId)
@@ -57,8 +60,8 @@ public class ActivityController {
         return response;
     }
 
-    @DeleteMapping("/activities")
-    public Map<String, Boolean> deleteJagActivity(){
+    @DeleteMapping(value = "/activities")
+    public Map<String, Boolean> deleteActivity(){
         activityRepository.deleteAll();
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);

@@ -35,20 +35,13 @@ public class Node {
     private String projectId;
 
 
-    @JsonProperty("isLocked")
-    @Column(name = "node_is_locked", nullable = true)
-    private Boolean isLocked;
-
-
     @JsonProperty("isExpanded")
     @Column(name = "node_is_expanded", nullable = true)
     private Boolean isExpanded;
 
-
-    @Column(name = "node_x", nullable = true)
-    private int x;
-    @Column(name = "node_y", nullable = true)
-    private int y;
+    @JsonProperty("isLocked")
+    @Column(name = "node_is_locked", nullable = true)
+    private Boolean isLocked;
 
 
     @Column(name = "node_con_name", nullable = true)
@@ -57,6 +50,13 @@ public class Node {
 
     @Column(name = "node_con_desc", nullable = true)
     private String contextualDescription;
+
+
+    @Column(name = "node_x", nullable = true)
+    private int x;
+    @Column(name = "node_y", nullable = true)
+    private int y;
+
 
     @OneToMany(
             mappedBy = "node",
@@ -87,7 +87,6 @@ public class Node {
     )
     @JsonManagedReference
     public List<Node> children = new ArrayList<>();
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="node_child_parent_fk", nullable=true)

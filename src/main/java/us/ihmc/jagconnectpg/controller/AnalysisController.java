@@ -14,25 +14,28 @@ import java.util.Map;
 //import java.util.Set;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1")
 public class AnalysisController {
     @Autowired
     private AnalysisRepository analysisRepository;
 
-    @GetMapping("/analyses")
+    @GetMapping(value = "/analyses")
     public List<Analysis> getAllAnalyses() {
         return analysisRepository.findAll();
     }
 
-    @GetMapping("/analyses/{id}")
+    @GetMapping(value = "/analyses/{id}")
     public ResponseEntity<Analysis> getAnalysisById(@PathVariable(value = "id") String analysisId)
             throws ResourceNotFoundException {
+
         Analysis analysis = analysisRepository.findById(analysisId)
                 .orElseThrow(() -> new ResourceNotFoundException("Analysis not found for this id :: " + analysisId));
+
         return ResponseEntity.ok().body(analysis);
     }
 
-    @PostMapping("/analyses")
+    @PostMapping(value = "/analyses",
+            consumes = "application/json")
     public Analysis createAnalysis(@Valid @RequestBody Analysis analysisDetails) {
         System.out.println("......................................................................................................");
         System.out.println(analysisDetails);
@@ -47,9 +50,11 @@ public class AnalysisController {
         return analysisRepository.save(newAnalysis);
     }
 
-    @PutMapping("/analyses/{id}")
+    @PutMapping(value = "/analyses/{id}",
+            consumes = "application/json")
     public ResponseEntity<Analysis> updateAnalysis(@PathVariable(value = "id") String analysisId,
                                                    @Valid @RequestBody Analysis analysisDetails) throws ResourceNotFoundException {
+
         Analysis analysis = analysisRepository.findById(analysisId)
                 .orElseThrow(() -> new ResourceNotFoundException("Analysis not found for this id :: " + analysisId));
 
@@ -65,7 +70,7 @@ public class AnalysisController {
         return ResponseEntity.ok(updatedAnalysis);
     }
 
-    @DeleteMapping("/analyses/{id}")
+    @DeleteMapping(value = "/analyses/{id}")
     public Map<String, Boolean> deleteAnalysis(@PathVariable(value = "id") String analysisId)
             throws ResourceNotFoundException {
         Analysis analysis = analysisRepository.findById(analysisId)
@@ -77,7 +82,7 @@ public class AnalysisController {
         return response;
     }
 
-    @DeleteMapping("/analyses")
+    @DeleteMapping(value = "/analyses")
     public Map<String, Boolean> deleteAnalysis() {
         analysisRepository.deleteAll();
         Map<String, Boolean> response = new HashMap<>();

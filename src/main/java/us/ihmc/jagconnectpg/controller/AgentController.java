@@ -14,17 +14,17 @@ import javax.validation.Valid;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1")
 public class AgentController {
     @Autowired
     private AgentRepository agentRepository;
 
-    @GetMapping("/agents")
+    @GetMapping(value = "/agents")
     public List<Agent> getAllAgents() {
         return agentRepository.findAll();
     }
 
-    @GetMapping("/agents/{id}")
+    @GetMapping(value = "/agents/{id}")
     public ResponseEntity<Agent> getAgentById(@PathVariable(value = "id") String agentId)
             throws ResourceNotFoundException {
         Agent agent = agentRepository.findById(agentId)
@@ -32,7 +32,8 @@ public class AgentController {
         return ResponseEntity.ok().body(agent);
     }
 
-    @PostMapping("/agents")
+    @PostMapping(value = "/agents",
+            consumes = "application/json")
     public Agent createAgent(@Valid @RequestBody Agent agentDetails) {
 
         Agent newAgent = new Agent();
@@ -53,13 +54,14 @@ public class AgentController {
         return agentRepository.save(newAgent);
     }
 
-    @PutMapping("/agents/{id}")
+    @PutMapping(value = "/agents/{id}",
+            consumes = "application/json")
     public ResponseEntity<Agent> updateAgent(@PathVariable(value = "id") String agentId,
                                              @Valid @RequestBody Agent agentDetails) throws ResourceNotFoundException, JsonProcessingException {
 
         // Note: updatedJagActivity and the findById(jagActivityId) should be exactly the same...
-//        Agent agent = agentRepository.findById(agentId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
+        Agent agent = agentRepository.findById(agentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
 
         Agent newAgent = new Agent();
         newAgent.setId(agentDetails.getId());
@@ -84,7 +86,7 @@ public class AgentController {
         return ResponseEntity.ok(updatedAgent);
     }
 
-    @DeleteMapping("/agents/{id}")
+    @DeleteMapping(value = "/agents/{id}")
     public Map<String, Boolean> deleteAgent(@PathVariable(value = "id") String agentId)
             throws ResourceNotFoundException {
         Agent agent = agentRepository.findById(agentId)
@@ -96,7 +98,7 @@ public class AgentController {
         return response;
     }
 
-    @DeleteMapping("/agents")
+    @DeleteMapping(value = "/agents")
     public Map<String, Boolean> deleteAgent() {
         agentRepository.deleteAll();
         Map<String, Boolean> response = new HashMap<>();
