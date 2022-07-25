@@ -22,45 +22,4 @@ public class Performer {
     @JsonBackReference
     private Team team;
 
-//
-//    public Performer(String id, String name, Team team) {
-//        this.id = id;
-//        this.name = name;
-//        this.team = team;
-//    }
-//
-//    public Performer() {
-//    }
-//
-//
-//    public String getId() {
-//        return id;
-//    }
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//
-//
-//    public String getName() {
-//        return name;
-//    }
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//
-//    public Team getTeam() {
-//        return team;
-//    }
-//    public void setTeam(Team team) {
-//        this.team = team;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Performer{" +
-//                "id='" + id + '\'' +
-//                ", name='" + name + '\'' +
-//                '}';
-//    }
 }

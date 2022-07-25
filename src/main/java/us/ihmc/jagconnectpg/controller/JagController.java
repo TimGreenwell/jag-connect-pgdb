@@ -16,12 +16,12 @@ public class JagController {
     @Autowired
     private JagRepository jagRepository;
 
-    @GetMapping("/jagCells")
+    @GetMapping("/jags")
     public List<Node> getAllJagCells() {
         return jagRepository.findAll();
     }
 
-    @GetMapping("/jagCells/{id}")
+    @GetMapping("/jags/{id}")
     public ResponseEntity<Node> getJagCellById(@PathVariable(value = "id") String jagCellId)
             throws ResourceNotFoundException {
         Node node = jagRepository.findById(jagCellId)
@@ -29,14 +29,14 @@ public class JagController {
         return ResponseEntity.ok().body(node);
     }
 
-    @PostMapping("/jagCells")
+    @PostMapping("/jags")
     public Node createJagCell(@Valid @RequestBody Node nodeDetails) {
         return saveTree(nodeDetails);
     }
 
 
 
-    @PutMapping("/jagCells/{id}")
+    @PutMapping("/jags/{id}")
     public ResponseEntity<Node> updateJagCell(@PathVariable(value = "id") String jagCellId,
                                               @Valid @RequestBody Node nodeDetails) throws ResourceNotFoundException {
         final Node updatedNode = saveTree(nodeDetails);
@@ -57,7 +57,7 @@ public class JagController {
         return currentRoot;
     }
 
-    @DeleteMapping("/jagCells/{id}")
+    @DeleteMapping("/jags/{id}")
     public Map<String, Boolean> deleteJagCell(@PathVariable(value = "id") String jagCellId)
             throws ResourceNotFoundException {
         Node node = jagRepository.findById(jagCellId)
@@ -70,7 +70,7 @@ public class JagController {
     }
 
 
-    @DeleteMapping("/jagCells")
+    @DeleteMapping("/jags")
     public Map<String, Boolean> deleteJagCell() {
         jagRepository.deleteAll();
         Map<String, Boolean> response = new HashMap<>();

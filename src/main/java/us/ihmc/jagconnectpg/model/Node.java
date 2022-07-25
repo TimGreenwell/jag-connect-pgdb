@@ -58,7 +58,6 @@ public class Node {
     @Column(name = "node_con_desc", nullable = true)
     private String contextualDescription;
 
-
     @OneToMany(
             mappedBy = "node",
             cascade = CascadeType.ALL,
@@ -66,7 +65,6 @@ public class Node {
     )
     @JsonManagedReference
     private List<Subscription> subscriptions = new ArrayList<>();
-
 
     @Column(name = "node_return_value", nullable = true)
     private String returnValue;

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.Agent;
 import us.ihmc.jagconnectpg.model.Assessment;
-import us.ihmc.jagconnectpg.model.Binding;
 import us.ihmc.jagconnectpg.repository.AgentRepository;
 
 import javax.validation.Valid;
@@ -35,7 +34,6 @@ public class AgentController {
 
     @PostMapping("/agents")
     public Agent createAgent(@Valid @RequestBody Agent agentDetails) {
-        System.out.println("---- CREATE ----------");
 
         Agent newAgent = new Agent();
         newAgent.setId(agentDetails.getId());
@@ -63,19 +61,24 @@ public class AgentController {
 //        Agent agent = agentRepository.findById(agentId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
 
-
         Agent newAgent = new Agent();
         newAgent.setId(agentDetails.getId());
         newAgent.setName(agentDetails.getName());
 
-        ObjectMapper mapper = new ObjectMapper();
-        System.out.println(agentDetails.getAssessments());
-        String assessments = String.valueOf(agentDetails.getAssessments());
-        Map<String, Integer> newAssessmentMap = null;
-
-            newAssessmentMap = mapper.readValue(assessments, Map.class);
-
-        newAgent.setAssessments(newAssessmentMap);
+        // ALTERNATIVE? IMPORVEMENT?
+//        ObjectMapper mapper = new ObjectMapper();
+//        System.out.println(agentDetails.getAssessments());
+//        String assessments = String.valueOf(agentDetails.getAssessments());
+//        Map<String, Integer> newAssessmentMap = mapper.readValue(assessments, Map.class);
+//        newAgent.setAssessments(newAssessmentMap);
+        List<Assessment> newAssessmentList = new ArrayList<>();
+        for (Assessment assessment : agentDetails.getAssessments()) {
+            Assessment newAssessment = new Assessment();
+            newAssessment.setAgent(newAgent);
+            newAssessment.setId(assessment.getId());
+            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
+            newAssessmentList.add(newAssessment);
+        }
 
         final Agent updatedAgent = agentRepository.save(newAgent);
         return ResponseEntity.ok(updatedAgent);
