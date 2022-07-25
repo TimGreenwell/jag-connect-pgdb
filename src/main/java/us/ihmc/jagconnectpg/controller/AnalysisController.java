@@ -47,7 +47,7 @@ public class AnalysisController {
         newAnalysis.setRootUrn(analysisDetails.getRootUrn());
         newAnalysis.setTeamId(analysisDetails.getTeamId());
         newAnalysis.setIsLocked(analysisDetails.getIsLocked());
-        return analysisRepository.save(newAnalysis);
+        return analysisRepository.save(analysisDetails);
     }
 
     @PutMapping(value = "/analyses/{id}",

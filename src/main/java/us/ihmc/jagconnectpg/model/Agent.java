@@ -28,23 +28,22 @@ public class Agent implements Serializable {
     @Column(name = "agent_date_created", nullable = true)
     private Date dateCreated;
 
-
     @Column(name = "agent_is_locked", nullable = true)
     private Boolean isLocked;
 
     //   tlg - a possible alternative to the the ONeToMany for assessment (assessment class also)
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @MapKeyColumn(name="activity")
-//    @Column(name="assessment")
-//    @CollectionTable(name="agent_assessments", joinColumns=@JoinColumn(name = "agent_pk"))
-//    private Map<String, Integer> assessments = new HashMap<String, Integer>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    @MapKeyColumn(name="activity")
+    @Column(name="assessment")
+    @CollectionTable(name="Agent_Assessments", joinColumns=@JoinColumn(name = "agent_pk"))
+    private Map<String, Integer> assessments = new HashMap<>();
 
-    @OneToMany(
-            mappedBy = "agent",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true )
-    @JsonManagedReference
-    private List<Assessment> assessments = new ArrayList<>();
+//    @OneToMany(
+//            mappedBy = "agent",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true )
+//    @JsonManagedReference
+//    private List<Assessment> assessments = new ArrayList<>();
 
 
     @ManyToOne(fetch = FetchType.LAZY)

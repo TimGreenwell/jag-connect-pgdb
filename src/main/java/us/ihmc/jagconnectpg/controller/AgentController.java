@@ -34,24 +34,36 @@ public class AgentController {
 
     @PostMapping(value = "/agents",
             consumes = "application/json")
-    public Agent createAgent(@Valid @RequestBody Agent agentDetails) {
+    public Agent createAgent(@Valid @RequestBody Agent agentDetails)  {
 
-        Agent newAgent = new Agent();
-        newAgent.setId(agentDetails.getId());
-        newAgent.setName(agentDetails.getName());
+//        Agent newAgent = new Agent();
+//        newAgent.setId(agentDetails.getId());
+//        newAgent.setName(agentDetails.getName());
 
-        List<Assessment> newAssessmentList = new ArrayList<>();
-        for (Assessment assessment : agentDetails.getAssessments()) {
-            Assessment newAssessment = new Assessment();
-            newAssessment.setAgent(newAgent);
-            newAssessment.setId(assessment.getId());
-            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
-            newAssessmentList.add(newAssessment);
+//        List<Assessment> newAssessmentList = new ArrayList<>();
+//        for (Assessment assessment : agentDetails.getAssessments()) {
+//            Assessment newAssessment = new Assessment();
+//            newAssessment.setAgent(newAgent);
+//            newAssessment.setId(assessment.getId());
+//            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
+//            newAssessmentList.add(newAssessment);
+//        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(agentDetails.getAssessments());
+        String assessments = String.valueOf(agentDetails.getAssessments());
+        Map<String, Integer> newAssessmentMap = null;
+        try {
+            newAssessmentMap = mapper.readValue(assessments, Map.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
+        agentDetails.setAssessments(newAssessmentMap);
 
-        newAgent.setAssessments(newAssessmentList);
 
-        return agentRepository.save(newAgent);
+//        newAgent.setAssessments(newAssessmentList);
+
+        return agentRepository.save(agentDetails);
     }
 
     @PutMapping(value = "/agents/{id}",
@@ -63,26 +75,23 @@ public class AgentController {
         Agent agent = agentRepository.findById(agentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
 
-        Agent newAgent = new Agent();
-        newAgent.setId(agentDetails.getId());
-        newAgent.setName(agentDetails.getName());
 
-        // ALTERNATIVE? IMPORVEMENT?
-//        ObjectMapper mapper = new ObjectMapper();
-//        System.out.println(agentDetails.getAssessments());
-//        String assessments = String.valueOf(agentDetails.getAssessments());
-//        Map<String, Integer> newAssessmentMap = mapper.readValue(assessments, Map.class);
-//        newAgent.setAssessments(newAssessmentMap);
-        List<Assessment> newAssessmentList = new ArrayList<>();
-        for (Assessment assessment : agentDetails.getAssessments()) {
-            Assessment newAssessment = new Assessment();
-            newAssessment.setAgent(newAgent);
-            newAssessment.setId(assessment.getId());
-            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
-            newAssessmentList.add(newAssessment);
-        }
+        // ALTERNATIVE? IMPROVEMENT?
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(agentDetails.getAssessments());
+        String assessments = String.valueOf(agentDetails.getAssessments());
+        Map<String, Integer> newAssessmentMap = mapper.readValue(assessments, Map.class);
+        agent.setAssessments(newAssessmentMap);
+//        List<Assessment> newAssessmentList = new ArrayList<>();
+//        for (Assessment assessment : agentDetails.getAssessments()) {
+//            Assessment newAssessment = new Assessment();
+//            newAssessment.setAgent(newAgent);
+//            newAssessment.setId(assessment.getId());
+//            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
+//            newAssessmentList.add(newAssessment);
+//        }
 
-        final Agent updatedAgent = agentRepository.save(newAgent);
+        final Agent updatedAgent = agentRepository.save(agent);
         return ResponseEntity.ok(updatedAgent);
     }
 

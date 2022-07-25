@@ -20,9 +20,9 @@ public class Assessment {
     // collection rather than a bidirectional relationship...
     // @TODO The same goes for Input and Output and maybe Binding and Subscriptions
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="assessment_agent_fk", nullable = false)
-    @JsonBackReference
-    private Agent agent;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="assessment_agent_fk", nullable = false)
+//    @JsonBackReference
+//    private Agent agent;
 
 }
