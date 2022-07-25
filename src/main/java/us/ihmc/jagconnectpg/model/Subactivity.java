@@ -4,21 +4,21 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import javax.persistence.*;
 
-@Entity(name = "ActivityChild")
-@Table(name = "ActivityChild")
+@Entity(name = "Subactivity")
+@Table(name = "Subactivity")
 @Data
-public class JagActivityChild {
+public class Subactivity {
     @Id
-    @Column(name = "activityChild_pk", nullable = false)
+    @Column(name = "subactivity_pk", nullable = false)
     private String id;
 
-    @Column(name = "activityChild_urn", nullable = false)
+    @Column(name = "subactivity_urn", nullable = false)
     private String urn;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="activityChild_parent_fk", nullable=false)
+    @JoinColumn(name="subactivity_parent_fk", nullable=false)
     @JsonBackReference
-    private JagActivity jagActivity;
+    private Activity activity;
 
 //    public JagActivityChild(String id, String urn, JagActivity jagActivity) {
 //        this.id = id;

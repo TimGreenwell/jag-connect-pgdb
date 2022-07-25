@@ -19,7 +19,7 @@ public class Input {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="consume_activity_fk", nullable=false)
     @JsonBackReference
-    private JagActivity jagActivity;
+    private Activity activity;
 
 //
 //    public Input(String name, String type) {

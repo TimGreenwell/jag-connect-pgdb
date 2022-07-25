@@ -18,8 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
 
-import us.ihmc.jagconnectpg.JagconnectpgApplication;
-import us.ihmc.jagconnectpg.model.JagActivity;
+import us.ihmc.jagconnectpg.model.Activity;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JagconnectpgApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -52,19 +51,19 @@ public class JagActivityControllerIntegrationTest {
 
     @Test
     public void testGetJagActivityById() {
-        JagActivity jagActivity = restTemplate.getForObject(getRootUrl() + "/jagActivities/1", JagActivity.class);
-        System.out.println(jagActivity.getName());
-        assertNotNull(jagActivity);
+        Activity activity = restTemplate.getForObject(getRootUrl() + "/jagActivities/1", Activity.class);
+        System.out.println(activity.getName());
+        assertNotNull(activity);
     }
 
     @Test
     public void testCreateJagActivity() {
-        JagActivity jagActivity = new JagActivity();
-        jagActivity.setUrn("one:two:three:four");
-        jagActivity.setName("activity-name");
-        jagActivity.setDescription("This is an awful description");
+        Activity activity = new Activity();
+        activity.setUrn("one:two:three:four");
+        activity.setName("activity-name");
+        activity.setDescription("This is an awful description");
 
-        ResponseEntity<JagActivity> postResponse = restTemplate.postForEntity(getRootUrl() + "/jagActivities", jagActivity, JagActivity.class);
+        ResponseEntity<Activity> postResponse = restTemplate.postForEntity(getRootUrl() + "/jagActivities", activity, Activity.class);
         assertNotNull(postResponse);
         assertNotNull(postResponse.getBody());
     }
@@ -72,26 +71,26 @@ public class JagActivityControllerIntegrationTest {
     @Test
     public void testUpdateJagActivity() {
         int id = 1;
-        JagActivity jagActivity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, JagActivity.class);
-        jagActivity.setName("activity-name2");
-        jagActivity.setDescription("This is an even worse description");
+        Activity activity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, Activity.class);
+        activity.setName("activity-name2");
+        activity.setDescription("This is an even worse description");
 
-        restTemplate.put(getRootUrl() + "/jagActivities/" + id, jagActivity);
+        restTemplate.put(getRootUrl() + "/jagActivities/" + id, activity);
 
-        JagActivity updatedJagActivity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, JagActivity.class);
-        assertNotNull(updatedJagActivity);
+        Activity updatedActivity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, Activity.class);
+        assertNotNull(updatedActivity);
     }
 
     @Test
     public void testDeleteJagActivity() {
         int id = 2;
-        JagActivity jagActivity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, JagActivity.class);
-        assertNotNull(jagActivity);
+        Activity activity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, Activity.class);
+        assertNotNull(activity);
 
         restTemplate.delete(getRootUrl() + "/jagActivities/" + id);
 
         try {
-            jagActivity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, JagActivity.class);
+            activity = restTemplate.getForObject(getRootUrl() + "/jagActivities/" + id, Activity.class);
         } catch (final HttpClientErrorException e) {
             assertEquals(e.getStatusCode(), HttpStatus.NOT_FOUND);
         }

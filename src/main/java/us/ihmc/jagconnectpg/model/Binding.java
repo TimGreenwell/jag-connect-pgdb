@@ -22,7 +22,7 @@ public class Binding {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="binding_activity_fk", nullable=false)
     @JsonBackReference
-    private JagActivity jagActivity;
+    private Activity activity;
 
 //
 //    public Binding(String id, String in, String out) {

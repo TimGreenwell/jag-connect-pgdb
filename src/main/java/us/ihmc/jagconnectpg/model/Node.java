@@ -12,7 +12,7 @@ import java.util.List;
 @Entity(name = "Node")
 @Table(name = "Node")
 @Data
-public class JagCell {
+public class Node {
 
     @Id
     @Column(name = "node_pk", nullable = false)
@@ -60,7 +60,7 @@ public class JagCell {
 
 
     @OneToMany(
-            mappedBy = "jagCell",
+            mappedBy = "node",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -83,18 +83,18 @@ public class JagCell {
 
 
     @OneToMany(
-            mappedBy = "jagCell",
+            mappedBy = "node",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JsonManagedReference
-    public List<JagCell> children = new ArrayList<>();
+    public List<Node> children = new ArrayList<>();
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="node_child_parent_fk", nullable=true)
     @JsonBackReference
-    private JagCell jagCell;
+    private Node node;
 
 }
 

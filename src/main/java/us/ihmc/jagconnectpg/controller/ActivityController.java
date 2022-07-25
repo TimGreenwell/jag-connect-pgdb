@@ -5,54 +5,54 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.*;
-import us.ihmc.jagconnectpg.repository.JagActivityRepository;
+import us.ihmc.jagconnectpg.repository.ActivityRepository;
 import javax.validation.Valid;
 import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
-public class JagActivityController {
+public class ActivityController {
     @Autowired
-    private JagActivityRepository jagActivityRepository;
+    private ActivityRepository activityRepository;
 
     @GetMapping("/jagActivities")
-    public List<JagActivity> getAllJagActivities() {
-        return jagActivityRepository.findAll();
+    public List<Activity> getAllJagActivities() {
+        return activityRepository.findAll();
     }
 
     @GetMapping("/jagActivities/{urn}")
-    public ResponseEntity<JagActivity> getJagActivityById(@PathVariable(value = "urn") String jagActivityId)
+    public ResponseEntity<Activity> getJagActivityById(@PathVariable(value = "urn") String jagActivityId)
             throws ResourceNotFoundException {
-        JagActivity jagActivity = jagActivityRepository.findById(jagActivityId)
+        Activity activity = activityRepository.findById(jagActivityId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
-        return ResponseEntity.ok().body(jagActivity);
+        return ResponseEntity.ok().body(activity);
     }
 
     @PostMapping("/jagActivities")
-    public JagActivity createJagActivity(@Valid @RequestBody JagActivity createdJagActivity) {
+    public Activity createJagActivity(@Valid @RequestBody Activity createdActivity) {
 
-        return jagActivityRepository.save(createdJagActivity);
+        return activityRepository.save(createdActivity);
     }
 
     @PutMapping("/jagActivities/{urn}")
-    public ResponseEntity<JagActivity> updateJagActivity(@PathVariable(value = "urn") String jagActivityId,
-                                                   @Valid @RequestBody JagActivity updatedJagActivity) throws ResourceNotFoundException {
+    public ResponseEntity<Activity> updateJagActivity(@PathVariable(value = "urn") String jagActivityId,
+                                                      @Valid @RequestBody Activity updatedActivity) throws ResourceNotFoundException {
 
 //        JagActivity currentJagActivity = jagActivityRepository.findById(jagActivityId)
 //                .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
 
-        final JagActivity finalJagActivity = jagActivityRepository.save(updatedJagActivity);
-        return ResponseEntity.ok(finalJagActivity);
+        final Activity finalActivity = activityRepository.save(updatedActivity);
+        return ResponseEntity.ok(finalActivity);
     }
 
     @DeleteMapping("/jagActivities/{urn}")
     public Map<String, Boolean> deleteJagActivity(@PathVariable(value = "urn") String jagActivityId)
             throws ResourceNotFoundException {
         System.out.println("----DELETE----------" + jagActivityId);
-        JagActivity jagActivity = jagActivityRepository.findById(jagActivityId)
+        Activity activity = activityRepository.findById(jagActivityId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
 
-        jagActivityRepository.delete(jagActivity);
+        activityRepository.delete(activity);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
@@ -61,7 +61,7 @@ public class JagActivityController {
     @DeleteMapping("/jagActivities")
     public Map<String, Boolean> deleteJagActivity(){
         System.out.println("----CLEAR----------");
-        jagActivityRepository.deleteAll();
+        activityRepository.deleteAll();
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;

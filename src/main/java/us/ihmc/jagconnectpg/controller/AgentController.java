@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.Agent;
 import us.ihmc.jagconnectpg.model.Assessment;
-import us.ihmc.jagconnectpg.model.Binding;
 import us.ihmc.jagconnectpg.repository.AgentRepository;
-
 import javax.validation.Valid;
 import java.util.*;
 

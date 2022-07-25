@@ -9,7 +9,7 @@ import java.util.*;
 @Entity(name = "Activity")
 @Table(name = "Activity")
 @Data
-public class JagActivity {
+public class Activity {
     @Id
     @Column(name = "activity_urn")
     private String urn;
@@ -21,15 +21,15 @@ public class JagActivity {
     private String name;
 
     @OneToMany(
-            mappedBy = "jagActivity",
+            mappedBy = "activity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JsonManagedReference
-    private List<JagActivityChild> children = new ArrayList<>();
+    private List<Subactivity> children = new ArrayList<>();
 
     @OneToMany(
-            mappedBy = "jagActivity",
+            mappedBy = "activity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -37,7 +37,7 @@ public class JagActivity {
     private List<Input> inputs = new ArrayList<>();
 
     @OneToMany(
-            mappedBy = "jagActivity",
+            mappedBy = "activity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -45,7 +45,7 @@ public class JagActivity {
     private List<Output> outputs = new ArrayList<>();
 
     @OneToMany(
-            mappedBy = "jagActivity",
+            mappedBy = "activity",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

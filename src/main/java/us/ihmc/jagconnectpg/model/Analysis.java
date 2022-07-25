@@ -22,7 +22,7 @@ public class Analysis {
     @Column(name = "analysis_root", nullable = false)
     private String rootJagNodeId;
 
-    @Column(name = "analysis_rootUrn", nullable = false)
+    @Column(name = "analysis_root_urn", nullable = false)
     private String rootJagActivityUrn;
 
     @Column(name = "analysis_team", nullable = false)

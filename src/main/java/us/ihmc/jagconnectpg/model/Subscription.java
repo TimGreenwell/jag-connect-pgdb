@@ -22,7 +22,7 @@ public class Subscription {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="sub_node_fk", nullable=false)
     @JsonBackReference
-    private JagCell jagCell;
+    private Node node;
 
 //
 //    public Subscription(String name, Date lastReportTime, String lastReportData) {
