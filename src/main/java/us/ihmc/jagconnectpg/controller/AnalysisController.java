@@ -34,15 +34,16 @@ public class AnalysisController {
 
     @PostMapping("/analyses")
     public Analysis createAnalysis(@Valid @RequestBody Analysis analysisDetails) {
+        System.out.println("......................................................................................................");
+        System.out.println(analysisDetails);
 
         Analysis newAnalysis = new Analysis();
         newAnalysis.setId(analysisDetails.getId());
-        newAnalysis.setDescription(analysisDetails.getDescription());
         newAnalysis.setName(analysisDetails.getName());
-        newAnalysis.setRootJagNodeId(analysisDetails.getRootJagNodeId());
-        newAnalysis.setRootJagActivityUrn(analysisDetails.getRootJagActivityUrn());
+        newAnalysis.setDescription(analysisDetails.getDescription());
+        newAnalysis.setRootUrn(analysisDetails.getRootUrn());
         newAnalysis.setTeamId(analysisDetails.getTeamId());
-
+        newAnalysis.setIsLocked(analysisDetails.getIsLocked());
         return analysisRepository.save(newAnalysis);
     }
 
@@ -54,11 +55,11 @@ public class AnalysisController {
 
         Analysis newAnalysis = new Analysis();
         newAnalysis.setId(analysisDetails.getId());
-        newAnalysis.setDescription(analysisDetails.getDescription());
         newAnalysis.setName(analysisDetails.getName());
-        newAnalysis.setRootJagNodeId(analysisDetails.getRootJagNodeId());
-        newAnalysis.setRootJagActivityUrn(analysisDetails.getRootJagActivityUrn());
+        newAnalysis.setDescription(analysisDetails.getDescription());
+        newAnalysis.setRootUrn(analysisDetails.getRootUrn());
         newAnalysis.setTeamId(analysisDetails.getTeamId());
+        newAnalysis.setIsLocked(analysisDetails.getIsLocked());
 
         final Analysis updatedAnalysis = analysisRepository.save(analysis);
         return ResponseEntity.ok(updatedAnalysis);

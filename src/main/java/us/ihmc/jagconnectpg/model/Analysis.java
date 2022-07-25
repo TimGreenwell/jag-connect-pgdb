@@ -27,7 +27,27 @@ public class Analysis {
 
     @Column(name = "analysis_team", nullable = false)
     private String teamId;
+    @Column(name = "is_locked", nullable = false)
+    private String isLocked;
 
+    public Analysis(String id, String description, String name, String rootJagNodeId, String rootJagActivityUrn, String teamId) {
+        this.id = id;
+        this.description = description;
+        this.name = name;
+        this.rootJagNodeId = rootJagNodeId;
+        this.rootJagActivityUrn = rootJagActivityUrn;
+        this.teamId = teamId;
+    }
+
+    public Analysis() {    }
+
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
 
 //
 //    public Analysis(String id, String description, String name, String rootJagNodeId, String rootJagActivityUrn, String teamId) {

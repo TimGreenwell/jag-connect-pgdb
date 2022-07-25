@@ -3,6 +3,8 @@ package us.ihmc.jagconnectpg.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "Assessment")

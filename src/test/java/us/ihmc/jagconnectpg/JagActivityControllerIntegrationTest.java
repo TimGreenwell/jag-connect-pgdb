@@ -30,7 +30,7 @@ public class JagActivityControllerIntegrationTest {
     private int port;
 
     private String getRootUrl() {
-        return "http://localhost:" + port;
+        return "http://127.0.0.1:" + port;
     }
 
     @Test

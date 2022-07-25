@@ -3,6 +3,8 @@ package us.ihmc.jagconnectpg.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Performer")
 @Table(name = "Performer")
