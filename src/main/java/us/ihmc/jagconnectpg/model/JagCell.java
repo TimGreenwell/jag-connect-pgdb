@@ -3,6 +3,7 @@ package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,28 +16,33 @@ public class JagCell {
     @Column(name = "node_pk", nullable = false)
     private String id;
     @Column(name = "node_jag", nullable = true)
-    private String jagUrn;
+    private String urn;
 
     @Column(name = "node_childId", nullable = true)
     private String childId;
 
+    @Column(name = "node_parentId", nullable = true)
+    private String parentId;
+
     @Column(name = "node_projectId", nullable = true)
     private String projectId;
 
-    @Column(name = "node_expanded", nullable = true)
-    private Boolean expanded;
     @Column(name = "node_isLocked", nullable = true)
     private Boolean isLocked;
 
-    @Column(name = "node_conName", nullable = true)
-    private String contextualName;
-    @Column(name = "node_conDesc", nullable = true)
-    private String contextualDescription;
+    @Column(name = "node_isexpanded", nullable = true)
+    private Boolean isExpanded;
 
     @Column(name = "node_x", nullable = true)
     private int x;
     @Column(name = "node_y", nullable = true)
     private int y;
+
+
+    @Column(name = "node_conName", nullable = true)
+    private String contextualName;
+    @Column(name = "node_conDesc", nullable = true)
+    private String contextualDescription;
 
     @OneToMany(
             mappedBy = "jagCell",
@@ -70,11 +76,6 @@ public class JagCell {
     @JsonBackReference
     private JagCell jagCell;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="node_parent_fk", nullable = true)
-//    @JsonBackReference
-//    private JagCell jagCell;
-
 
 
 //    public JagCell(String id, String jagUrn, String linkStatus, String color, Boolean collapsed, Integer length, List<JagCell> children, JagCell jagCell) {
@@ -90,32 +91,35 @@ public class JagCell {
 
 
     public JagCell(String id,
-                   String jagUrn,
+                   String urn,
                    String childId,
+                   String parentId,
                    String projectId,
-                   Boolean expanded,
                    Boolean isLocked,
+                   Boolean isExpanded,
+                   int x, int y,
                    String contextualName,
                    String contextualDescription,
-                   int x, int y,
                    List<Subscription> subscriptions,
                    String returnValue,
                    String returnState,
                    String testReturnValue,
                    String testReturnState,
                    List<JagCell> children,
-                   JagCell jagCell) {
+                   JagCell jagCell
+    ) {
 
         this.id = id;
-        this.jagUrn = jagUrn;
+        this.urn = urn;
         this.childId = childId;
+        this.parentId = parentId;
         this.projectId = projectId;
-        this.expanded = expanded;
         this.isLocked = isLocked;
-        this.contextualName = contextualName;
-        this.contextualDescription = contextualDescription;
+        this.isExpanded = isExpanded;
         this.x = x;
         this.y = y;
+        this.contextualName = contextualName;
+        this.contextualDescription = contextualDescription;
         this.subscriptions = subscriptions;
         this.returnValue = returnValue;
         this.returnState = returnState;
@@ -137,13 +141,14 @@ public class JagCell {
         this.id = id;
     }
 
-    public String getJagUrn() {
-        return jagUrn;
+    public String getUrn() {
+        return urn;
     }
 
-    public void setJagUrn(String jagUrn) {
-        this.jagUrn = jagUrn;
+    public void setUrn(String urn) {
+        this.urn = urn;
     }
+
 
     public String getChildId() {
         return childId;
@@ -151,6 +156,15 @@ public class JagCell {
 
     public void setChildId(String childId) {
         this.childId = childId;
+    }
+
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public String getProjectId() {
@@ -161,18 +175,24 @@ public class JagCell {
         this.projectId = projectId;
     }
 
+    @JsonProperty("isExpanded")
     public Boolean getExpanded() {
-        return expanded;
+        return isExpanded;
     }
 
+    @JsonProperty("isExpanded")
     public void setExpanded(Boolean expanded) {
-        this.expanded = expanded;
+        this.isExpanded = expanded;
     }
 
+
+
+    @JsonProperty("isLocked")
     public Boolean getLocked() {
         return isLocked;
     }
 
+    @JsonProperty("isLocked")
     public void setLocked(Boolean locked) {
         isLocked = locked;
     }
@@ -269,10 +289,11 @@ public class JagCell {
     public String toString() {
         return "JagCell{" +
                 "id='" + id + '\'' +
-                ", jagUrn='" + jagUrn + '\'' +
+                ", urn='" + urn + '\'' +
                 ", childId='" + childId + '\'' +
                 ", projectId='" + projectId + '\'' +
-                ", expanded=" + expanded +
+                ", parentId='" + parentId + '\'' +
+                ", isExpanded=" + isExpanded +
                 ", isLocked=" + isLocked +
                 ", contextualName='" + contextualName + '\'' +
                 ", contextualDescription='" + contextualDescription + '\'' +

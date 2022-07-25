@@ -51,8 +51,11 @@ public class JagActivityController {
             newInput.setJagActivity(newJagActivity);
             newInput.setName(input.getName());
             newInput.setType(input.getType());
+            newInputList.add(newInput);
         }
         newJagActivity.setInputs(newInputList);
+
+
 
         List<Output> newOutputList = new ArrayList<>();
         for (Output output : createdJagActivity.getOutputs()) {
@@ -60,17 +63,23 @@ public class JagActivityController {
             newOutput.setJagActivity(newJagActivity);
             newOutput.setName(output.getName());
             newOutput.setType(output.getType());
+            newOutputList.add(newOutput);
         }
         newJagActivity.setOutputs(newOutputList);
 
+
+
         List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
         for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
-            String id = jagActivityChild.getId();
-            String urn = jagActivityChild.getUrn();
-            JagActivityChild newJagActivityChild = new JagActivityChild(id,urn,newJagActivity);
+            JagActivityChild newJagActivityChild = new JagActivityChild();
+            newJagActivityChild.setJagActivity(newJagActivity);
+            newJagActivityChild.setId(jagActivityChild.getId());
+            newJagActivityChild.setUrn(jagActivityChild.getUrn());
             newJagActivityChildList.add(newJagActivityChild);
         }
         newJagActivity.setChildren(newJagActivityChildList);
+
+
 
         List<Binding> newBindingList = new ArrayList<>();
         for (Binding binding : createdJagActivity.getBindings()) {
@@ -79,11 +88,9 @@ public class JagActivityController {
             newBinding.setId(binding.getId());
             newBinding.setIn(binding.getIn());
             newBinding.setOut(binding.getOut());
+            newBindingList.add(newBinding);
         }
         newJagActivity.setBindings(newBindingList);
-
-        newJagActivity.setLocked(createdJagActivity.getLocked());
-        newJagActivity.setCollapsed(createdJagActivity.getCollapsed());
 
         newJagActivity.setAuthor(createdJagActivity.getAuthor());
         newJagActivity.setLockedBy(createdJagActivity.getLockedBy());
@@ -91,17 +98,6 @@ public class JagActivityController {
         newJagActivity.setModifiedDate(createdJagActivity.getModifiedDate());
         newJagActivity.setLocked(createdJagActivity.getLocked());
         newJagActivity.setCollapsed(createdJagActivity.getCollapsed());
-
-//        List<JagActivityChild> newJagActivityChildList = new ArrayList<>();
-//        for (JagActivityChild jagActivityChild : createdJagActivity.getChildren()) {
-//            JagActivityChild newJagActivityChild = new JagActivityChild();
-//            newJagActivityChild.setJagActivity(newJagActivity);
-//            newJagActivityChild.setId(jagActivityChild.getId());
-//            newJagActivityChild.setUrn(jagActivityChild.getUrn());
-        //            newJagActivityChild.setUrn(jagActivityChild.getUrn());
-//            newJagActivityChildList.add(newJagActivityChild);
-//        }
-
 
         return jagActivityRepository.save(newJagActivity);
     }
@@ -113,8 +109,8 @@ public class JagActivityController {
         System.out.println("----UPDATE----------" + jagActivityId);
         // Note: updatedJagActivity and the findById(jagActivityId) should be exactly the same...
 
-//        JagActivity currentJagActivity = jagActivityRepository.findById(jagActivityId)
-//                .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
+        JagActivity currentJagActivity = jagActivityRepository.findById(jagActivityId)
+                .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
 
 
         JagActivity newJagActivity = new JagActivity();
