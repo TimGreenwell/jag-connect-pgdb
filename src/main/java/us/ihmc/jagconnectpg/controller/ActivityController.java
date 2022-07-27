@@ -1,5 +1,8 @@
 package us.ihmc.jagconnectpg.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,23 +31,21 @@ public class ActivityController {
         return ResponseEntity.ok().body(activity);
     }
 
-    @PostMapping(value = "/activities",
-            consumes = "application/json")
+    @PostMapping(value = "/activities", consumes = "application/json")
     public Activity createActivity(@Valid @RequestBody Activity createdActivity) {
+
         return activityRepository.save(createdActivity);
     }
 
-    @PutMapping(value = "/activities/{urn}",
-            consumes = "application/json")
+    @PutMapping(value = "/activities/{urn}", consumes = "application/json")
     public ResponseEntity<Activity> updateActivity(@PathVariable(value = "urn") String jagActivityId,
                                                    @Valid @RequestBody Activity updatedActivity)
-                                                   throws ResourceNotFoundException {
+            throws ResourceNotFoundException, JsonProcessingException {
 
         Activity activity = activityRepository.findById(jagActivityId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagActivity not found for this id :: " + jagActivityId));
 
-        final Activity finalActivity = activityRepository.save(activity);
-        return ResponseEntity.ok(finalActivity);
+        return ResponseEntity.ok(activityRepository.save(updatedActivity));
     }
 
     @DeleteMapping(value = "/activities/{urn}")

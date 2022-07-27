@@ -1,12 +1,14 @@
 package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity(name = "Assessment")
 @Table(name = "Assessment")
 @Data
+
 public class Assessment {
     @Id
     @Column(name = "assessment_pk", nullable = false)
@@ -20,9 +22,12 @@ public class Assessment {
     // collection rather than a bidirectional relationship...
     // @TODO The same goes for Input and Output and maybe Binding and Subscriptions
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="assessment_agent_fk", nullable = false)
-//    @JsonBackReference
-//    private Agent agent;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="assessment_agent_fk", nullable = false)
+    private Agent agent;
 
+    @JsonBackReference
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
 }

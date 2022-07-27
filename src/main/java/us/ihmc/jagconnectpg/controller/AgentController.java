@@ -76,9 +76,18 @@ public class AgentController {
                 .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
 
 
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(agentDetails.getAssessments().toString());
+        System.out.println(agentId);
+        System.out.println(agentDetails.getTeam());
+
+
+
         // ALTERNATIVE? IMPROVEMENT?
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println(agentDetails.getAssessments());
         String assessments = String.valueOf(agentDetails.getAssessments());
         Map<String, Integer> newAssessmentMap = mapper.readValue(assessments, Map.class);
         agent.setAssessments(newAssessmentMap);

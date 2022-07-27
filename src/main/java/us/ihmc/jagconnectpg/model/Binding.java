@@ -1,12 +1,14 @@
 package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity(name = "Binding")
 @Table(name = "Binding")
 @Data
+
 public class Binding {
     @Id
     @GeneratedValue
@@ -21,9 +23,12 @@ public class Binding {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="binding_activity_fk", nullable=false)
-    @JsonBackReference
     private Activity activity;
 
+    @JsonBackReference
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 }
 
 

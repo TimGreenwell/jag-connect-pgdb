@@ -1,11 +1,13 @@
 package us.ihmc.jagconnectpg.model;
 
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Embeddable
 @Table(name = "Connector")
 @Data
+
 public class Connector {
     @Column(name = "connector_exec", nullable = false)
     private String execution;

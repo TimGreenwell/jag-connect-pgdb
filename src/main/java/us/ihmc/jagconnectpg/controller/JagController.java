@@ -45,7 +45,7 @@ public class JagController {
         Node node = jagRepository.findById(jagCellId)
                 .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
 
-        final Node updatedNode = saveTree(node);
+        final Node updatedNode = saveTree(nodeDetails);
         return ResponseEntity.ok(updatedNode);
     }
 

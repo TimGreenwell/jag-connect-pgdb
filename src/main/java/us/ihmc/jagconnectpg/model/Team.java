@@ -1,7 +1,8 @@
 package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity(name = "Team")
 @Table(name = "Team")
 @Data
+
 public class Team {
     @Id
     @Column(name = "team_pk", nullable = false)
@@ -21,7 +23,6 @@ public class Team {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
     private List<Agent> agentIds = new ArrayList<>();
 
     @OneToMany(
@@ -29,8 +30,16 @@ public class Team {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
     private List<Performer> performers = new ArrayList<>();
 
+    @JsonManagedReference
+    public void setAgentIds(List<Agent> agentIds) {
+        this.agentIds = agentIds;
+    }
+
+    @JsonManagedReference
+    public void setPerformers(List<Performer> performers) {
+        this.performers = performers;
+    }
 }
 

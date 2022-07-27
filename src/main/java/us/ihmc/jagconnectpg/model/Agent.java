@@ -2,7 +2,8 @@ package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.*;
 @Entity(name = "Agent")
 @Table(name = "Agent")
 @Data
+
 public class Agent implements Serializable {
     @Id
     @Column(name = "agent_pk")
@@ -48,7 +50,10 @@ public class Agent implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="agent_team_fk", nullable=false)
-    @JsonBackReference
     private Team team;
 
+    @JsonBackReference
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }

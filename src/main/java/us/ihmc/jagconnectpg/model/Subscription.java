@@ -1,13 +1,15 @@
 package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.*;
 
 @Entity(name = "Subscription")
 @Table(name = "Subscription")
 @Data
+
 public class Subscription {
     @Id
     @Column(name = "subscription_pk", nullable = false)
@@ -21,7 +23,10 @@ public class Subscription {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="subscription_node_fk", nullable=false)
-    @JsonBackReference
     private Node node;
 
+    @JsonBackReference
+    public void setNode(Node node) {
+        this.node = node;
+    }
 }

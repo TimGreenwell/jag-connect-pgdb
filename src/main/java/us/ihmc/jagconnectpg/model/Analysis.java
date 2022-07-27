@@ -1,11 +1,13 @@
 package us.ihmc.jagconnectpg.model;
 
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity(name = "Analysis")
 @Table(name = "Analysis")
 @Data
+
 public class Analysis {
     @Id
     @Column(name = "analysis_pk", nullable = true)
