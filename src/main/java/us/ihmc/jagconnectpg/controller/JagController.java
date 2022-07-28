@@ -67,10 +67,19 @@ public class JagController {
     public Map<String, Boolean> deleteJag(@PathVariable(value = "id") String jagCellId)
             throws ResourceNotFoundException {
 
-        Node node = jagRepository.findById(jagCellId)
-                .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
 
-        jagRepository.delete(node);
+        Stack<String> workStack = new Stack<>();
+        workStack.push(jagCellId);
+        while (workStack.size() > 0 ) {
+            String currentNode = workStack.pop();
+            Node node = jagRepository.findById(currentNode)
+                    .orElseThrow(() -> new ResourceNotFoundException("Node not found for this id :: " + jagCellId));
+            for (Node child : node.children) {
+                workStack.push(child.getId());
+            }
+            jagRepository.delete(node);
+
+        }
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
