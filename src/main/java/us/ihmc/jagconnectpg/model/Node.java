@@ -12,6 +12,12 @@ import java.util.List;
 
 @Entity(name = "Node")
 @Table(name = "Node")
+//@ToString(includeFieldNames = true)
+//@EqualsAndHashCode
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Setter
+//@Getter
 
 public class Node {
 
@@ -87,9 +93,8 @@ public class Node {
     public List<Node> children = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="node_child_parent_fk", nullable=true)
+    @JoinColumn(name = "node_child_parent_fk", nullable = true)
     private Node node;
-
 
 
 
@@ -108,92 +113,111 @@ public class Node {
         this.node = node;
     }
 
-    public String getId() {
-        return id;
-    }
-
+///////////////
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUrn() {
-        return urn;
     }
 
     public void setUrn(String urn) {
         this.urn = urn;
     }
 
-    public String getChildId() {
-        return childId;
-    }
-
     public void setChildId(String childId) {
         this.childId = childId;
-    }
-
-    public String getParentId() {
-        return parentId;
     }
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
     public void setProjectId(String projectId) {
         this.projectId = projectId;
-    }
-
-    public Boolean getExpanded() {
-        return isExpanded;
     }
 
     public void setExpanded(Boolean expanded) {
         isExpanded = expanded;
     }
 
-    public Boolean getLocked() {
-        return isLocked;
-    }
-
     public void setLocked(Boolean locked) {
         isLocked = locked;
-    }
-
-    public String getContextualName() {
-        return contextualName;
     }
 
     public void setContextualName(String contextualName) {
         this.contextualName = contextualName;
     }
 
-    public String getContextualDescription() {
-        return contextualDescription;
-    }
-
     public void setContextualDescription(String contextualDescription) {
         this.contextualDescription = contextualDescription;
-    }
-
-    public int getX() {
-        return x;
     }
 
     public void setX(int x) {
         this.x = x;
     }
 
-    public int getY() {
-        return y;
-    }
-
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void setReturnValue(String returnValue) {
+        this.returnValue = returnValue;
+    }
+
+    public void setReturnState(String returnState) {
+        this.returnState = returnState;
+    }
+
+    public void setTestReturnValue(String testReturnValue) {
+        this.testReturnValue = testReturnValue;
+    }
+
+    public void setTestReturnState(String testReturnState) {
+        this.testReturnState = testReturnState;
+    }
+
+    /////////////////////////
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUrn() {
+        return urn;
+    }
+
+    public String getChildId() {
+        return childId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public Boolean getExpanded() {
+        return isExpanded;
+    }
+
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public String getContextualName() {
+        return contextualName;
+    }
+
+    public String getContextualDescription() {
+        return contextualDescription;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public List<Subscription> getSubscriptions() {
@@ -204,32 +228,16 @@ public class Node {
         return returnValue;
     }
 
-    public void setReturnValue(String returnValue) {
-        this.returnValue = returnValue;
-    }
-
     public String getReturnState() {
         return returnState;
-    }
-
-    public void setReturnState(String returnState) {
-        this.returnState = returnState;
     }
 
     public String getTestReturnValue() {
         return testReturnValue;
     }
 
-    public void setTestReturnValue(String testReturnValue) {
-        this.testReturnValue = testReturnValue;
-    }
-
     public String getTestReturnState() {
         return testReturnState;
-    }
-
-    public void setTestReturnState(String testReturnState) {
-        this.testReturnState = testReturnState;
     }
 
     public List<Node> getChildren() {
@@ -239,6 +247,7 @@ public class Node {
     public Node getNode() {
         return node;
     }
+
 
     public Node(String id, String urn, String childId, String parentId, String projectId, Boolean isExpanded, Boolean isLocked, String contextualName, String contextualDescription, int x, int y, List<Subscription> subscriptions, String returnValue, String returnState, String testReturnValue, String testReturnState, List<Node> children, Node node) {
         this.id = id;
@@ -260,6 +269,7 @@ public class Node {
         this.children = children;
         this.node = node;
     }
+
 
     public Node() {
     }
@@ -288,5 +298,7 @@ public class Node {
                 '}';
     }
 }
+
+
 
 
