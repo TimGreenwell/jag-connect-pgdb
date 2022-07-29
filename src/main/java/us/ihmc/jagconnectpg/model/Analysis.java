@@ -1,12 +1,17 @@
 package us.ihmc.jagconnectpg.model;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity(name = "Analysis")
 @Table(name = "Analysis")
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
+@EqualsAndHashCode
+@Builder
 
 public class Analysis {
     @Id

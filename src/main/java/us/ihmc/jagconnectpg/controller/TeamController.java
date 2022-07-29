@@ -2,7 +2,14 @@ package us.ihmc.jagconnectpg.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.Agent;
 import us.ihmc.jagconnectpg.model.Performer;
@@ -13,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -40,66 +46,14 @@ public class TeamController {
             consumes = "application/json")
     public Team createTeam(@Valid @RequestBody Team teamDetails) {
 
-
-        Team newTeam = new Team();
-
-        newTeam.setId(teamDetails.getId());
-        newTeam.setName(teamDetails.getName());
-        List<Agent> agentList = new ArrayList<>();
-        for (Agent agent: teamDetails.getAgentIds()) {
-            Agent newAgent = new Agent();
-            newAgent.setId(agent.getId());
-            newAgent.setName(agent.getName());
-            newAgent.setAssessments(agent.getAssessments());
-            newAgent.setTeam(agent.getTeam());
-            agentList.add(newAgent);
-        }
-        List<Performer> performerList = new ArrayList<>();
-        for (Performer agent: teamDetails.getPerformers()) {
-            Performer newPerformer = new Performer();
-            newPerformer.setId(agent.getId());
-            newPerformer.setName(agent.getName());
-            performerList.add(newPerformer);
-        }
-
-        newTeam.setAgentIds(agentList);
-        newTeam.setPerformers(performerList);
-
-        return teamRepository.save(newTeam);
+        return teamRepository.save(teamDetails);
     }
 
-    @PutMapping(value = "/teams/{id}",
-            consumes = "application/json")
+    @PutMapping(value = "/teams/{id}",  consumes = "application/json")
     public ResponseEntity<Team> updateTeam(@PathVariable(value = "id") String teamId,
                                                    @Valid @RequestBody Team teamDetails) throws ResourceNotFoundException {
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new ResourceNotFoundException("Team not found for this id :: " + teamId));
 
-        Team newTeam = new Team();
-
-        newTeam.setId(teamDetails.getId());
-        newTeam.setName(teamDetails.getName());
-        List<Agent> agentList = new ArrayList<>();
-        for (Agent agent: teamDetails.getAgentIds()) {
-            Agent newAgent = new Agent();
-            newAgent.setId(agent.getId());
-            newAgent.setName(agent.getName());
-            newAgent.setAssessments(agent.getAssessments());
-            newAgent.setTeam(agent.getTeam());
-            agentList.add(newAgent);
-        }
-        List<Performer> performerList = new ArrayList<>();
-        for (Performer agent: teamDetails.getPerformers()) {
-            Performer newPerformer = new Performer();
-            newPerformer.setId(agent.getId());
-            newPerformer.setName(agent.getName());
-            performerList.add(newPerformer);
-        }
-
-        newTeam.setAgentIds(agentList);
-        newTeam.setPerformers(performerList);
-        final Team updatedTeam = teamRepository.save(newTeam);
-        return ResponseEntity.ok(updatedTeam);
+        return ResponseEntity.ok(teamRepository.save(teamDetails));
     }
 
     @DeleteMapping(value = "/teams/{id}")

@@ -33,17 +33,15 @@ public class JagController {
     @PostMapping(value = "/jags",
             consumes = "application/json")
     public Node createJag(@Valid @RequestBody Node nodeDetails) {
+
         return saveTree(nodeDetails);
     }
 
 
 
-    @PutMapping(value = "/jags/{id}",
-            consumes = "application/json")
+    @PutMapping(value = "/jags/{id}", consumes = "application/json")
     public ResponseEntity<Node> updateJag(@PathVariable(value = "id") String jagCellId,
-                                              @Valid @RequestBody Node nodeDetails) throws ResourceNotFoundException {
-        Node node = jagRepository.findById(jagCellId)
-                .orElseThrow(() -> new ResourceNotFoundException("JagCell not found for this id :: " + jagCellId));
+                                              @Valid @RequestBody Node nodeDetails) {
 
         final Node updatedNode = saveTree(nodeDetails);
         return ResponseEntity.ok(updatedNode);

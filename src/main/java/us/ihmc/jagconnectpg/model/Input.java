@@ -2,12 +2,17 @@ package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity(name = "Consume")
 @Table(name = "Consume")
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
+@EqualsAndHashCode
+@Builder
 
 public class Input {
     @Id
@@ -19,10 +24,7 @@ public class Input {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="consume_activity_fk", nullable=false)
+    @JsonBackReference
     private Activity activity;
 
-    @JsonBackReference
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
 }

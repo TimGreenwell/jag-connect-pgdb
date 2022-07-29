@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import us.ihmc.jagconnectpg.exception.ResourceNotFoundException;
 import us.ihmc.jagconnectpg.model.Agent;
-import us.ihmc.jagconnectpg.model.Assessment;
 import us.ihmc.jagconnectpg.repository.AgentRepository;
 
 import javax.validation.Valid;
@@ -36,72 +35,30 @@ public class AgentController {
             consumes = "application/json")
     public Agent createAgent(@Valid @RequestBody Agent agentDetails)  {
 
-//        Agent newAgent = new Agent();
-//        newAgent.setId(agentDetails.getId());
-//        newAgent.setName(agentDetails.getName());
-
-//        List<Assessment> newAssessmentList = new ArrayList<>();
-//        for (Assessment assessment : agentDetails.getAssessments()) {
-//            Assessment newAssessment = new Assessment();
-//            newAssessment.setAgent(newAgent);
-//            newAssessment.setId(assessment.getId());
-//            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
-//            newAssessmentList.add(newAssessment);
-//        }
-
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(agentDetails.getAssessments());
         String assessments = String.valueOf(agentDetails.getAssessments());
-        Map<String, Integer> newAssessmentMap = null;
+        Map<String, Integer> newAssessmentMap;
         try {
             newAssessmentMap = mapper.readValue(assessments, Map.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         agentDetails.setAssessments(newAssessmentMap);
-
-
-//        newAgent.setAssessments(newAssessmentList);
-
         return agentRepository.save(agentDetails);
     }
 
     @PutMapping(value = "/agents/{id}",
             consumes = "application/json")
     public ResponseEntity<Agent> updateAgent(@PathVariable(value = "id") String agentId,
-                                             @Valid @RequestBody Agent agentDetails) throws ResourceNotFoundException, JsonProcessingException {
+                                             @Valid @RequestBody Agent agentDetails) throws JsonProcessingException {
 
-        // Note: updatedJagActivity and the findById(jagActivityId) should be exactly the same...
-        Agent agent = agentRepository.findById(agentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Agent not found for this id :: " + agentId));
-
-
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(agentDetails.getAssessments().toString());
-        System.out.println(agentId);
-        System.out.println(agentDetails.getTeam());
-
-
-
-        // ALTERNATIVE? IMPROVEMENT?
         ObjectMapper mapper = new ObjectMapper();
         String assessments = String.valueOf(agentDetails.getAssessments());
         Map<String, Integer> newAssessmentMap = mapper.readValue(assessments, Map.class);
-        agent.setAssessments(newAssessmentMap);
-//        List<Assessment> newAssessmentList = new ArrayList<>();
-//        for (Assessment assessment : agentDetails.getAssessments()) {
-//            Assessment newAssessment = new Assessment();
-//            newAssessment.setAgent(newAgent);
-//            newAssessment.setId(assessment.getId());
-//            newAssessment.setAssessmentScore(assessment.getAssessmentScore());
-//            newAssessmentList.add(newAssessment);
-//        }
+        agentDetails.setAssessments(newAssessmentMap);
 
-        final Agent updatedAgent = agentRepository.save(agent);
-        return ResponseEntity.ok(updatedAgent);
+        return ResponseEntity.ok(agentRepository.save(agentDetails));
     }
 
     @DeleteMapping(value = "/agents/{id}")

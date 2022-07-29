@@ -2,14 +2,17 @@ package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "Performer")
 @Table(name = "Performer")
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
+@EqualsAndHashCode
+@Builder
 
 public class Performer {
     @Id
@@ -21,10 +24,7 @@ public class Performer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="performer_team_fk", nullable=false)
+    @JsonBackReference
     private Team team;
 
-    @JsonBackReference
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 }

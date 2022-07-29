@@ -2,12 +2,17 @@ package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity(name = "Assessment")
 @Table(name = "Assessment")
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
+@EqualsAndHashCode
+@Builder
 
 public class Assessment {
     @Id
@@ -24,10 +29,7 @@ public class Assessment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="assessment_agent_fk", nullable = false)
+    @JsonBackReference
     private Agent agent;
 
-    @JsonBackReference
-    public void setAgent(Agent agent) {
-        this.agent = agent;
-    }
 }

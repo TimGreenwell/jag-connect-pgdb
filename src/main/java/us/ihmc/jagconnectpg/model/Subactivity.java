@@ -2,11 +2,17 @@ package us.ihmc.jagconnectpg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity(name = "Subactivity")
 @Table(name = "Subactivity")
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
+@EqualsAndHashCode
+@Builder
 
 
 public class Subactivity {
@@ -19,49 +25,7 @@ public class Subactivity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="subactivity_parent_fk")
+    @JsonBackReference
     private Activity activity;
 
-    @JsonBackReference
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUrn() {
-        return urn;
-    }
-
-    public void setUrn(String urn) {
-        this.urn = urn;
-    }
-
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public Subactivity() {
-    }
-
-    public Subactivity(String id, String urn, Activity activity) {
-        this.id = id;
-        this.urn = urn;
-        this.activity = activity;
-    }
-
-    @Override
-    public String toString() {
-        return "Subactivity{" +
-                "id='" + id + '\'' +
-                ", urn='" + urn + '\'' +
-                ", activity=" + activity +
-                '}';
-    }
 }
